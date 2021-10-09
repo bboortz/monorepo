@@ -3,7 +3,17 @@ my private-monorepo
 
 # structure
 
-each sub directory contains one dedicated project.
+each sub directory represents one dedicated project.
+
+
+# how to
+
+## create new projects
+
+```
+cp -r _NEW PROJECTNAME
+```
+
 
 
 # projects
