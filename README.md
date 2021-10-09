@@ -9,6 +9,6 @@ each sub directory contains one dedicated project.
 # projects
 
 
-* [rustgrep](./rustgrep)
+* [rusterella](./rusterella)
 
 
