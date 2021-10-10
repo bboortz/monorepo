@@ -1,15 +1,15 @@
 use structopt::StructOpt;
+mod commands;
 mod grep;
 mod logger;
-mod opts;
 
 static LOGGA: logger::Logga = logger::Logga {};
 
 fn main() {
     println!("\n*** Program Start ***\n");
-    let opt = opts::Opts::from_args();
-    if let Err(e) = opt.run() {
-        opt.print();
+    let cmd = commands::CommandsFassade::from_args();
+    if let Err(e) = cmd.run() {
+        cmd.print();
         LOGGA.panic(&e);
     }
 
@@ -43,7 +43,7 @@ fn main() {
     //
     // let args: Vec<String> = env::args().collect();
 
-    // let config = grep::Config::new(opt.pattern, opt.filename, opt.insensitive);
+    // let config = grep::Config::new(cmd.pattern, cmd.filename, cmd.insensitive);
     /*
             &args).unwrap_or_else(|err| {
             eprintln!(

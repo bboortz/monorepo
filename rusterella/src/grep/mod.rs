@@ -80,7 +80,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn one_result() {
+    fn test_one_result() {
         let pattern = "duct";
         let contents = "\
 Rust:
@@ -91,7 +91,7 @@ Pick three.";
     }
 
     #[test]
-    fn no_result() {
+    fn test_no_result() {
         let pattern = "FOO";
         let contents = "\
 Rust:
@@ -104,7 +104,7 @@ Pick three.";
     }
 
     #[test]
-    fn no_result2() {
+    fn test_no_result2() {
         let pattern = "";
         let contents = "\
 Rust:
@@ -118,7 +118,7 @@ Duct tape";
     }
 
     #[test]
-    fn case_insensitive() {
+    fn test_case_insensitive() {
         let pattern = "duct";
         let contents = "\
 Rust:
@@ -130,7 +130,7 @@ Duct tape";
     }
 
     #[test]
-    fn case_insensitive() {
+    fn test_case_insensitive2() {
         let pattern = "rUsT";
         let contents = "\
 Rust:

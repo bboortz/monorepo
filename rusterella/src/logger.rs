@@ -9,7 +9,7 @@ impl Logga {
     }
 
     #[allow(dead_code)]
-    fn info(&self, str: &str) {
+    pub fn info(&self, str: &str) {
         println!("INFO: {}", str);
     }
 
@@ -17,6 +17,7 @@ impl Logga {
         eprintln!("ERROR: {}", str);
     }
 
+    #[allow(dead_code)]
     pub fn panic(&self, str: &Box<dyn Error>) {
         self.error(str);
         process::exit(1);
@@ -49,7 +50,6 @@ impl TestError {
     }
 }
 */
-/*
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -61,9 +61,14 @@ mod tests {
     }
 
     #[test]
-    fn test_error() {
-        let contents = fs::read_to_string(config.filename)?;
-        LOGGA.error(TestError::new("borked"));
+    fn test_print_type_of() {
+        LOGGA.print_type_of(&"foobar");
     }
+    /*
+        #[test]
+        fn test_error() {
+            let contents = fs::read_to_string(config.filename)?;
+            LOGGA.error(TestError::new("borked"));
+        }
+    */
 }
-*/
