@@ -26,13 +26,8 @@ impl CommandsFassade {
     pub fn run(&self) -> Result<(), Box<dyn Error>> {
         use crate::commands::CommandsFassade::GrepCommand;
         match self {
-            GrepCommand(grep_struct) => {
-                let config = grep::Config {
-                    pattern: grep_struct.pattern.clone(),
-                    filename: grep_struct.filename.clone(),
-                    case_insensitive: grep_struct.case_insensitive,
-                };
-                grep::run(config)?;
+            GrepCommand(grep_command) => {
+                grep_command.run()?;
             }
         }
         Ok(())

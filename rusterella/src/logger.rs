@@ -17,7 +17,6 @@ impl Logga {
         eprintln!("ERROR: {}", str);
     }
 
-    #[allow(dead_code)]
     pub fn panic(&self, str: &Box<dyn Error>) {
         self.error(str);
         process::exit(1);
