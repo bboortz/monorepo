@@ -26,6 +26,9 @@ build: clean fmt    ## build the software
 	~/Downloads/upx-3.96-amd64_linux/upx target/release/rusterella
 	du -sh target/release/rusterella
 
+doc: build          ## create the documentation
+	cargo doc
+
 
 init:               ##
 	rustup update
