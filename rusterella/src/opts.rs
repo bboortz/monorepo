@@ -1,24 +1,7 @@
 use crate::grep;
 use std::error::Error;
 use std::fmt::Debug;
-use std::path::PathBuf;
 use structopt::StructOpt;
-
-#[derive(Debug, StructOpt)]
-#[structopt(name = "grep", version = "0.1.0", about = "grep clone")]
-pub struct GrepStruct {
-    /// activate case case_insensitive grep
-    #[structopt(short = "i", long = "case_insensitive")]
-    case_insensitive: bool,
-
-    /// Specifies the pattern to search for
-    #[structopt(name = "PATTERN")]
-    pattern: String,
-
-    /// Specifies the input file to use
-    #[structopt(name = "FILE", parse(from_os_str))]
-    filename: PathBuf,
-}
 
 #[derive(Debug, StructOpt)]
 #[structopt(
@@ -29,22 +12,7 @@ pub struct GrepStruct {
 )]
 pub enum Opts {
     #[structopt(name = "grep", version = "0.1.0", about = "grep clone")]
-    GrepCommand(GrepStruct),
-    /*
-    Grep {
-        /// activate case case_insensitive grep
-        #[structopt(short = "i", long = "case_insensitive")]
-        case_insensitive: bool,
-
-        /// Specifies the pattern to search for
-        #[structopt(name = "PATTERN", required_if("out_type", "file"))]
-        pattern: String,
-
-        /// Specifies the input file to use
-        #[structopt(name = "FILE", parse(from_os_str))]
-        filename: PathBuf,
-    },
-    */
+    GrepCommand(grep::GrepCommand),
 }
 
 impl Opts {
