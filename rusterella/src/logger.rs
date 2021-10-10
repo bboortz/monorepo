@@ -21,6 +21,12 @@ impl Logga {
         self.error(str);
         process::exit(1);
     }
+
+    // usage:    LOGGA.print_type_of(&opt);
+    #[allow(dead_code)]
+    pub fn print_type_of<T>(&self, _: &T) {
+        println!("{}", std::any::type_name::<T>())
+    }
 }
 
 impl Default for Logga {

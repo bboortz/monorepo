@@ -13,5 +13,6 @@ codegen-units = 1       # Set this to 1 in Cargo.toml to allow for maximum size 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
+structopt = "0.3.15"
+clap = "2.3.33"
 
