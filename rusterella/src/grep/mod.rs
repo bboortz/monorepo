@@ -1,9 +1,10 @@
-use std::error::Error;
+// use std::error::Error;
 use std::fmt::Debug;
 use std::fs;
 use std::path::PathBuf;
 use structopt::StructOpt;
-mod search;
+pub mod search;
+use crate::error;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "grep", version = "0.1.0", about = "grep clone")]
@@ -22,7 +23,11 @@ pub struct GrepCommand {
 }
 
 impl GrepCommand {
-    pub fn run(&self) -> Result<(), Box<dyn Error>> {
+    pub fn run(&self) -> Result<(), error::ErrorType> {
+        if !self.filename.exists() {
+            return Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound));
+        }
+
         let contents = fs::read_to_string(&self.filename)?;
 
         let results = if self.case_insensitive {

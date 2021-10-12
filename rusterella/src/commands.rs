@@ -1,5 +1,5 @@
+use crate::error;
 use crate::grep;
-use std::error::Error;
 use std::fmt::Debug;
 use structopt::StructOpt;
 
@@ -23,7 +23,10 @@ impl CommandsFassade {
         }
     }
 
-    pub fn run(&self) -> Result<(), Box<dyn Error>> {
+    /*
+    pub fn run(&self) -> Result<(), Box<error::ErrorType>> {
+    */
+    pub fn run(&self) -> Result<(), error::ErrorType> {
         use crate::commands::CommandsFassade::GrepCommand;
         match self {
             GrepCommand(grep_command) => {

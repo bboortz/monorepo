@@ -1,4 +1,4 @@
-use std::error::Error;
+use crate::error;
 use std::process;
 
 pub struct Logga {}
@@ -13,11 +13,11 @@ impl Logga {
         println!("INFO: {}", str);
     }
 
-    pub fn error(&self, str: &Box<dyn Error>) {
+    pub fn error(&self, str: &error::ErrorType) {
         eprintln!("ERROR: {}", str);
     }
 
-    pub fn panic(&self, str: &Box<dyn Error>) {
+    pub fn panic(&self, str: &error::ErrorType) {
         self.error(str);
         process::exit(1);
     }
@@ -35,20 +35,6 @@ impl Default for Logga {
     }
 }
 
-/*
-#[derive(Debug)]
-struct TestError {
-    details: String,
-}
-
-impl TestError {
-    fn new(msg: &str) -> Self {
-        TestError {
-            details: msg.to_string(),
-        }
-    }
-}
-*/
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -63,11 +49,10 @@ mod tests {
     fn test_print_type_of() {
         LOGGA.print_type_of(&"foobar");
     }
-    /*
-        #[test]
-        fn test_error() {
-            let contents = fs::read_to_string(config.filename)?;
-            LOGGA.error(TestError::new("borked"));
-        }
-    */
+
+    #[test]
+    fn test_error() {
+        let err = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
+        LOGGA.error(&err);
+    }
 }

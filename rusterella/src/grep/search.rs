@@ -1,3 +1,45 @@
+/*
+extern crate walkdir;
+
+use std::fs::File;
+use std::io;
+use std::io::Read;
+use walkdir::WalkDir;
+
+fn main() -> Result<(), io::Error> {
+    let nul: u8 = 0;
+    let mut bytes_count: i32;
+    let mut buffer = Vec::new();
+
+    for entry in WalkDir::new("./").into_iter().filter_map(|e| e.ok()) {
+        if !entry.file_type().is_file() {
+            continue;
+        }
+
+        let path = entry.path();
+        let mut file = File::open(path)?;
+
+        bytes_count = 0;
+        buffer.clear();
+        file.read_to_end(&mut buffer)?;
+
+        for b in buffer.iter() {
+            if b == &nul {
+                println!("{} bytes: {} binary file", bytes_count, path.display());
+                break;
+            }
+
+            bytes_count += 1;
+        }
+
+        println!("{} bytes: {}", bytes_count, path.display())
+    }
+    Ok(())
+}
+*/
+
+////////////
+
 pub fn search<'a>(pattern: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
 
