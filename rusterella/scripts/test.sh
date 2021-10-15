@@ -7,9 +7,14 @@ export LLVM_PROFILE_FILE="target/prof/rusterella-%p-%m.profraw"
 export RUSTFLAGS="-Zinstrument-coverage"
 
 
+mkdir -p temp
+cd temp
+curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
+cd -
+
 cargo build
 cargo test
 
 zip target/prof/rusterella.zip target/prof/*.profraw
-grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
+./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
 
