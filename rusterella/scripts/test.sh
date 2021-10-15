@@ -23,5 +23,7 @@ zip target/prof/rusterella.zip target/prof/*.profraw
 du -shc target/prof/rusterella.zip
 du -shc target/debug
 
-echo ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
+# ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
+./temp/grcov . -s ./ --binary-path target/debug -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage
+./temp/grcov . -s ./ --binary-path target/debug -t coveralls --token tkbt -o target/coveralls.json
 
