@@ -8,14 +8,7 @@
 
 name: Codacy Security Scan
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ main ]
-  schedule:
-    - cron: '24 22 * * 5'
+on: [push, pull_request]
 
 jobs:
   codacy-security-scan:
