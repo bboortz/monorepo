@@ -16,7 +16,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: show dir
-      working-directory: ./rusterella
       run: ls -la
 
     - name: Stable with rustfmt and clippy
@@ -27,7 +26,6 @@ jobs:
         components: rustfmt, clippy
 
     - name: Release build
-      working-directory: ./rusterella
       uses: actions-rs/cargo@v1
       with:
         command: build
