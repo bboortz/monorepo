@@ -28,7 +28,7 @@ du -shc target/debug
 
 # ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
 ./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" -t html -o target/coverage
-./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" --token ${CODECOV_TOKEN} -t coveralls -o target/coveralls.json
+./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" --token "${CODECOV_TOKEN}" -t coveralls -o target/coveralls.json
 
 ls -la target/coverage
 ls -la target/coveralls.json
