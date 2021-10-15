@@ -1,0 +1,23 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: show dir
+      working-directory: ./rusterella
+      run: ls -la
+      
+    - name: Install dependencies
+      working-directory: ./rusterella
+      run: make 
