@@ -21,10 +21,7 @@ test: fmt           ## test the software
 	./scripts/test.sh
 
 build: clean fmt    ## build the software
-	cargo build --release
-	strip target/release/rusterella
-	~/Downloads/upx-3.96-amd64_linux/upx target/release/rusterella
-	du -sh target/release/rusterella
+	./scripts/build.sh
 
 doc: build          ## create the documentation
 	cargo doc

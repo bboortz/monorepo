@@ -25,3 +25,7 @@ jobs:
     - name: verification
       working-directory: ./rusterella
       run: make test
+      
+    - name: build
+      working-directory: ./rusterella
+      run: make build
