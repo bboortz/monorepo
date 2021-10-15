@@ -1,7 +1,6 @@
 name: Rusterella CI
 
-on:
-  [ push ]
+on: [ push ]
   pull_request:
     branches: [ main ]
 
