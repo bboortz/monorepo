@@ -1,4 +1,4 @@
-name: Rusterella CI
+name: rusterella CI
 
 on: [push, pull_request]
 
