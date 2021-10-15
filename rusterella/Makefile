@@ -33,6 +33,7 @@ doc: build          ## create the documentation
 init:               ##
 	rustup update
 	rustup component add clippy
+	rustup component add rustfmt
 	rustup default nightly-x86_64-unknown-linux-gnu
 
 
