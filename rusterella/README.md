@@ -9,7 +9,7 @@ A single binary written in rust than combines several unix utilities.
 The goal for this project is to learn rust and build some software using rust paradigms.
 
 
-# software dependencies
+## software dependencies
 
 You must install this software first.
 
@@ -17,15 +17,15 @@ You must install this software first.
 * make
 
 
-# how to ...
+## how to ...
 
-## initialize the software
+### initialize the software
 
 ```
 make init
 ```
 
-## building the software
+### building the software
 
 ```
 make help
@@ -33,7 +33,7 @@ make test
 make build
 ```
 
-## usage
+### usage
 
 ```
 ./target/release/rusterella --help
