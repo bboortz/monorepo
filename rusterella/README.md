@@ -1,4 +1,4 @@
-# rusterella
+# `rusterella`
 
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![rusterella CI](https://github.com/bboortz/monorepo/workflows/rusterella%20CI/badge.svg)
@@ -12,8 +12,8 @@ The goal for this project is to learn rust and build some software using rust pa
 
 You must install this software first.
 
-  * rust
-  * make
+* rust
+* make
 
 ## how to
 
