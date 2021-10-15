@@ -1,6 +1,4 @@
-# monorepo
-
-One repo to rule them al.
+# monorepo - one repo to rule them all
 
 ## structure
 
@@ -15,7 +13,4 @@ cp -r _NEW PROJECTNAME
 ```
 
 ## projects
-
 * [rusterella](./rusterella)
-
-
