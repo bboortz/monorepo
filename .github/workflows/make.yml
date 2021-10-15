@@ -14,8 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: configure
-      run: cd rusterella; ls -la
+    - name: show dir
+      working-directory: ./rusterella
+      run: ls -la
       
     - name: Install dependencies
+      working-directory: ./rusterella
       run: make 
