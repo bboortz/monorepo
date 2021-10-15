@@ -48,7 +48,7 @@ mod tests {
     fn test_commandsfassade_grep_ok() {
         let grep_command = grep::GrepCommand {
             pattern: String::from("foobar"),
-            filename: PathBuf::from(r"./test.file"),
+            filename: PathBuf::from(r"./tests/test.file"),
             case_insensitive: true,
         };
         let cmd_fassade = commands::CommandsFassade::GrepCommand(grep_command);

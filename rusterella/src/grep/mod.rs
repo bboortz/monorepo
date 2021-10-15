@@ -70,7 +70,7 @@ mod tests {
         use std::path::PathBuf;
         let grep_command = grep::GrepCommand {
             pattern: String::from("Hello, world!"),
-            filename: PathBuf::from(r"./test.file"),
+            filename: PathBuf::from(r"./tests/test.file"),
             case_insensitive: false,
         };
         let result = grep_command.run().unwrap();
