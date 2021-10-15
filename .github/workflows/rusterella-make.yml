@@ -1,32 +1,31 @@
-name: Rusterella CI
+name: rusterella CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./rusterella
+
     steps:
-    - uses: actions/checkout@v2
-    
+    - name: checkout code
+      uses: actions/checkout@v2
+
     - name: show dir
-      working-directory: ./rusterella
       run: ls -la
-      
+
     - name: initilization
-      working-directory: ./rusterella
       run: make init
       
     - name: verification
-      working-directory: ./rusterella
       run: make test
-      
-    - name: build
-      working-directory: ./rusterella
-      run: make build
+      env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+    - name: build
+      run: make build
