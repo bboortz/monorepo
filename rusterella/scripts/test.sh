@@ -13,6 +13,7 @@ cd temp
 curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
 cd -
 
+cargo version
 cargo build
 cargo test
 
