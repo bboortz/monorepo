@@ -2,12 +2,12 @@
 
 One repo to rule them al.
 
-# structure
+## structure
 
 each sub directory represents one dedicated project.
 
 
-# how to
+## how to
 
 ## create new projects
 
@@ -17,7 +17,7 @@ cp -r _NEW PROJECTNAME
 
 
 
-# projects
+## projects
 
 
 * [rusterella](./rusterella)
