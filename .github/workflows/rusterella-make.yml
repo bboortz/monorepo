@@ -9,10 +9,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: show dir
       working-directory: ./rusterella
       run: ls -la
+
+    - name: Stable with rustfmt and clippy
+      working-directory: ./rusterella
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        components: rustfmt, clippy
+
       
     - name: initilization
       working-directory: ./rusterella
@@ -21,12 +30,12 @@ jobs:
     - name: verification
       working-directory: ./rusterella
       run: make test
-      
-    - name: build
-      working-directory: ./rusterella
-      run: make build
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: build
+      working-directory: ./rusterella
+      run: make build
