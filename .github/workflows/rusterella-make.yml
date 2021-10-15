@@ -15,12 +15,12 @@ jobs:
       run: ls -la
 
     - name: Stable with rustfmt and clippy
-      working-directory: ./rusterella
       uses: actions-rs/toolchain@v1
       with:
         profile: minimal
         toolchain: stable
         components: rustfmt, clippy
+      working-directory: ./rusterella
 
       
     - name: initilization
