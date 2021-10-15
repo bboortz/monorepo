@@ -8,7 +8,7 @@ each sub directory represents one dedicated project.
 
 This projects are part of this repository:
 
-  * [rusterella](./rusterella)
+* [rusterella](./rusterella)
 
 ## how to create new projects
 
