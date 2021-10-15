@@ -5,17 +5,17 @@ goals.
 purpose.
 
 
-# how to
+## how to
 
-## install
+### install
 
 ```
 ls -la
 ```
 
-## init
+### init
 
-## use
+### usage
 
 
 
