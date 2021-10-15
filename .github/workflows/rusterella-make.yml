@@ -24,6 +24,8 @@ jobs:
       
     - name: verification
       run: make test
+      env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     - name: build
       run: make build
