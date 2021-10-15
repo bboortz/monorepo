@@ -1,5 +1,6 @@
-# monorepo-priv
-my private-monorepo
+# monorepo
+
+One repo to rule them al.
 
 # structure
 
