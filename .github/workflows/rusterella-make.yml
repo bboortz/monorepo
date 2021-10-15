@@ -18,6 +18,10 @@ jobs:
       working-directory: ./rusterella
       run: ls -la
       
+    - name: initilization
+      working-directory: ./rusterella
+      run: make init
+      
     - name: verification
       working-directory: ./rusterella
       run: make test
