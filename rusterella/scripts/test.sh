@@ -16,5 +16,9 @@ cargo build
 cargo test
 
 zip target/prof/rusterella.zip target/prof/*.profraw
+
+du -shc target/prof/rusterella.zip
+du -shc target/debug
+
 ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
 
