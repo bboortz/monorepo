@@ -41,6 +41,7 @@ jobs:
           override: true
       - uses: actions-rs/cargo@v1
         with:
+          working-directory: ./rusterella
           command: test
           args: --all-features --no-fail-fast
         env:
