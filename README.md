@@ -13,4 +13,4 @@ cp -r _NEW PROJECTNAME
 ```
 
 ## projects
-* [rusterella](./rusterella)
+  * [rusterella](./rusterella)
