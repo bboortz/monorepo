@@ -15,7 +15,7 @@ You must install this software first.
 * rust
 * make
 
-## how to ...
+## how to
 
 ### initialize the software
 
@@ -36,5 +36,3 @@ make build
 ```shell
 ./target/release/rusterella --help
 ```
-
-
