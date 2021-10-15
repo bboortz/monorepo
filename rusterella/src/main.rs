@@ -12,29 +12,13 @@ fn unbox<T>(value: Box<T>) -> T {
 }
 */
 
-fn main() -> Result<(), error::ErrorType> {
+fn main() -> Result<(), error::Error> {
     let cmd = commands::CommandsFassade::from_args();
     match cmd.run() {
-        Ok(()) => return Ok(()),
+        Ok(()) => Ok(()),
         Err(e) => {
-            // cmd.print();
             LOGGA.panic(&e);
-            return Err(e);
+            Err(e)
         }
-    };
-
-    // Ok(())
-
-    /*
-    if let Err(e) = cmd.run() {
-        cmd.print();
-        LOGGA.print_type_of(&e);
-        // LOGGA.panic(e);
     }
-    */
-
-    //let b = Box::new(5);
-    //LOGGA.print_type_of(&b);
-    //let v = unbox(b);
-    //LOGGA.print_type_of(&v);
 }

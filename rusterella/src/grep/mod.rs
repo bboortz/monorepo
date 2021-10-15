@@ -1,10 +1,10 @@
 // use std::error::Error;
+use crate::error;
 use std::fmt::Debug;
 use std::fs;
 use std::path::PathBuf;
 use structopt::StructOpt;
 pub mod search;
-use crate::error;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "grep", version = "0.1.0", about = "grep clone")]
@@ -23,12 +23,28 @@ pub struct GrepCommand {
 }
 
 impl GrepCommand {
-    pub fn run(&self) -> Result<(), error::ErrorType> {
+    pub fn run(&self) -> Result<(), error::Error> {
         if !self.filename.exists() {
-            return Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound));
+            // return Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound));
+            let error_affected = self.filename.to_str().unwrap_or("unknown file").to_string();
+            let err = error::Error {
+                error_type: error::ErrorType::Regular(error::ErrorKind::FileNotFound),
+                affected: error_affected,
+                suggestion: String::from(
+                    "Verify if the file exists and you have specified the filename correct.",
+                ),
+            };
+            return Err(err);
         }
 
         let contents = fs::read_to_string(&self.filename)?;
+        /*
+        let contents = fs::read_to_string(&self.filename);
+        let mut contents = match contents {
+            Ok(contents) => contents,
+            Err(e) => return error::ErrorType::Io(e),
+        };
+        */
 
         let results = if self.case_insensitive {
             search::search_case_insensitive(&self.pattern, &contents)
@@ -46,12 +62,12 @@ impl GrepCommand {
 
 #[cfg(test)]
 mod tests {
+    use crate::error;
+    use crate::grep;
+
     #[test]
     fn test_run_grep_command() {
-        use crate::grep;
-        // use crate::logger;
         use std::path::PathBuf;
-        // let logga = logger::Logga {};
         let grep_command = grep::GrepCommand {
             pattern: String::from("Hello, world!"),
             filename: PathBuf::from(r"./test.file"),
@@ -61,81 +77,17 @@ mod tests {
         assert_eq!((), result);
     }
 
-    /*
     #[test]
     fn test_run_grep_command_file_not_found() {
         use crate::grep;
-        use assert_str::assert_str_eq;
-        use std::io;
-        // use crate::logger;
-        // use std::fs;
         use std::path::PathBuf;
-        // let logga = logger::Logga {};
         let grep_command = grep::GrepCommand {
             pattern: String::from("Hello, world!"),
-            filename: PathBuf::from(r"./unknown.file"),
+            filename: PathBuf::from(r"/file/does/not/exist/foobar"),
             case_insensitive: false,
         };
-
-        /*
-        let result = grep_command.run().unwrap_err();
-        assert_str_eq!("entity_not_found", result.description());
-        */
-        if let Err(e) = grep_command.run() {
-            let expected = Err(io::ErrorKind::InvalidData);
-            // let val: dyn std::error::Error = *e;
-            // let val = (*e).clone();
-            assert_eq!(expected, (&e).kind());
-        }
-        /*
-                let result = grep_command.run().unwrap_err();
-              let expected = Err(io::ErrorKind::InvalidData);
-                assert_eq!(expected, result.kind());
-        */
-        /*
-        let result = grep_command.run().unwrap_or_else(|err| {
-            eprintln!("{}", err);
-            assert_eq!(Err(e), err.kind());
-        });
-        */
-        /*
-        let Err(e) = fs::read_to_string(&"./unknown.file");
-        */
-        //        assert_eq!(Err(e), result.backtrace());
-        //       assert_eq!(Err(e), result);
+        let _result = grep_command.run().unwrap_err();
+        let err = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
+        assert!(matches!(err, _result));
     }
-    */
-
-    /*
-    if let Err(e) = grep::run(config) {
-        println!("{}", e);
-    }
-
-
-    use crate::commands::CommandsFassade::GrepCommand;
-
-    let cmd = GrepCommand { pattern: "foobar" };
-    let arg_vec = vec!["my_prog", "grep", "pattern", "file"];
-    let matches = App::new("myprog");
-    eprintln!("{}", matches);
-
-    let cmd = commands::CommandsFassade::from_args();
-    if let Err(e) = cmd.run() {
-        cmd.print();
-    }
-    */
-
-    /*
-    let mut out = Vec::new();
-    let mut logger = Logger::new(&mut out);
-    logger.log("Some warning");
-    logger.flush();
-    */
-    /*
-            eprintln!("{}", matches);
-            matches.get_matches_from(arg_vec);
-    */
-    // Args and options go here...
-    // let cmd = CommandsFassade::from_args();
-    //        assert_eq!(vec!["safe, fast, productive."], search(pattern, contents));
 }

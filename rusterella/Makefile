@@ -18,7 +18,7 @@ fmt:                ## format the sources
 	cargo clippy
 
 test: fmt           ## test the software
-	cargo test
+	./scripts/test.sh
 
 build: clean fmt    ## build the software
 	cargo build --release
