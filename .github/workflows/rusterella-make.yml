@@ -22,9 +22,9 @@ jobs:
         components: rustfmt, clippy
 
     - name: Release build
+      working-directory: ./rusterella
       uses: actions-rs/cargo@v1
       with:
-        working-directory: ./rusterella
         command: build
         args: --release --all-features
       
