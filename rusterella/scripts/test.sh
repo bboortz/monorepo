@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -u
+
 # export RUSTDOCFLAGS="-Cpanic=abort"
 export CARGO_INCREMENTAL=0
 export LLVM_PROFILE_FILE="target/prof/rusterella-%p-%m.profraw"
@@ -26,4 +29,7 @@ du -shc target/debug
 # ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
 ./temp/grcov . -s ./ --binary-path target/debug -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage
 ./temp/grcov . -s ./ --binary-path target/debug -t coveralls --token tkbt -o target/coveralls.json
+
+ls -la target/coverage
+ls -la target/coveralls.json
 
