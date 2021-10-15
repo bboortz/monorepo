@@ -11,21 +11,33 @@ The goal for this project is to learn rust and build some software using rust pa
 
 # software dependencies
 
+You must install this software first.
+
 * rust
-* kcov
+* make
 
 
-# how to
+# how to ...
 
-## install
+## initialize the software
 
 ```
-ls -la
+make init
 ```
 
-## init
+## building the software
 
-## use
+```
+make help
+make test
+make build
+```
+
+## usage
+
+```
+./target/release/rusterella --help
+```
 
 
 
