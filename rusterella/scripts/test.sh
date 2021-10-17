@@ -28,10 +28,12 @@ du -shc target/debug
 
 # ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
 ./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" -t html -o target/coverage
-./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" --token "${CODECOV_TOKEN}" -t coveralls -o target/coveralls.json
+./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" --token "${CODECOV_TOKEN}" -t coveralls -o target/codecov.json
+# ./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" --token "${CODACY_TOKEN}" -t lcov -o target/codacy.json
 
 ls -la target/coverage
-ls -la target/coveralls.json
+ls -la target/codecov.json
 
-bash <(curl -s https://codecov.io/bash) -f target/coveralls.json 
+bash <(curl -s https://codecov.io/bash) -f target/codecov.json 
+# bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/codacy.json
 
