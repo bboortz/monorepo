@@ -12,6 +12,7 @@ help:               ## printing out the help
 
 clean:              ## clean up this project
 	cargo clean
+	rm -rf ./temp
 
 fmt:                ## format the sources
 	cargo fmt
