@@ -1,4 +1,4 @@
-# `rusterella`
+# `devproxy`
 
 ![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)
 ![devproxy CI](https://github.com/bboortz/monorepo/workflows/devproxy%20CI/badge.svg)
@@ -32,5 +32,5 @@ make build
 ### usage
 
 ```shell
-./target/release/rusterella --help
+./target/release/devproxy --help
 ```
