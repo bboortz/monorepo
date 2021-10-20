@@ -14,6 +14,7 @@ if [ ! -f ./temp/grcov ]; then
 fi
 
 cargo build --release
+du -sh target/release/${PROJECT_NAME}
 strip target/release/${PROJECT_NAME}
 ./temp/upx target/release/${PROJECT_NAME}
 du -sh target/release/${PROJECT_NAME}

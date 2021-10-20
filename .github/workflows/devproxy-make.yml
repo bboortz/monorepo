@@ -1,4 +1,4 @@
-name: rusterella CI
+name: devproxy CI
 
 on: [push, pull_request]
 
