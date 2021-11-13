@@ -1,0 +1,314 @@
+---
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "cron" settings
+#
+cron_daemon: cronie
+elao_cron_files:
+  - file: rsnapshot
+    user: root
+    jobs:
+      - name:     rsnapshot-alpha
+        job:      "rsnapshot -c /etc/rsnapshot.conf alpha"
+        minute:   0
+        hour:     "*"
+      - name:     rsnapshot-beta
+        job:      "rsnapshot -c /etc/rsnapshot.conf beta"
+        minute:   45
+        hour:     23
+      - name:     rsnapshot-gamma
+        job:      "rsnapshot -c /etc/rsnapshot.conf gamma"
+        minute:   30 
+        hour:     22
+        weekday:  0
+      - name:     rsnapshot-delta
+        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
+        minute:   15
+        hour:     21
+        day:      1
+  - file: os-update
+    user: root
+    jobs:
+      - name:     os-update-download-only
+        job:      "/usr/bin/pacman -Syyuwq --noconfirm"
+        minute:   10 
+        hour:     "*/6"
+      - name:     os-update
+        job:      "/usr/bin/pacman -Syuq --noconfirm"
+        minute:   40
+        hour:     "*/12"
+  - file: disk-cleanup
+    user: root
+    jobs:
+      - name:     disk-cleanup
+        job:      "/usr/bin/pacman -Scc --noconfirm"
+        minute:   55
+        hour:     0
+      - name:     docker-prune
+        job:      "docker system prune -a -f"
+        minute:   55
+        hour:     1
+  - file: webmon
+    user: mainuser
+    jobs:
+      - name:     update-information
+        job:      "/home/mainuser/files/webmon/update.sh"
+        minute:   "*"
+        hour:     "*"
+  - file: nextcloud
+    user: mainuser
+    jobs:
+      - name:     nextcloud-full-scan
+        job:      "docker exec --user=www-data -it nextcloud_app_1 /usr/local/bin/php /var/www/html/console.php files:scan --all"
+        minute:   "20"
+        hour:     "3"
+        weekday:  "1"
+      - name:     nextcloud-can
+        job:      "docker exec --user=www-data -it nextcloud_app_1 /usr/local/bin/php /var/www/html/console.php files:scan --unscanned --all"
+        minute:   "20"
+        hour:     "5"
+      - name:     nextcloud-cron-run
+        job:      "docker exec --user=www-data -it nextcloud_app_1 /usr/local/bin/php /var/www/html/cron.php"
+        minute:   "20"
+        hour:     "*/2"
+  - file: zfs-scrub
+    user: root
+    jobs:
+      - name:     zfs-pool-backup-scrub-daily
+        job:      "/usr/bin/zpool scrub zfs-pool-backup"
+        minute:   45
+        hour:     4
+      - name:     zfs-pool-shares-scrub-daily
+        job:      "/usr/bin/zpool scrub zfs-pool-shares"
+        minute:   45
+        hour:     2
+  - file: zfs-pool-shares-snapshot
+    user: root
+    jobs:
+      - name:     zfs-pool-shares-data-benni-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-shares/data/benni"
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-shares-data-benni-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-shares/data/benni"
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-shares-data-benni-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-shares/data/benni"
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-shares-data-benni-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-shares/data/benni"
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-shares-data-benni-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-shares/data/benni"
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-shares-data-anna-benni-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-shares/data/anna_benni"
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-shares-data-anna-benni-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-shares/data/anna_benni"
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-shares-data-anna-benni-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-shares/data/anna_benni"
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-shares-data-anna-benni-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-shares/data/anna_benni"
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-shares-data-anna-benni-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-shares/data/anna_benni"
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-shares-media-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-shares/media"
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-shares-media-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-shares/media"
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-shares-media-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-shares/media"
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-shares-media-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-shares/media"
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-shares-media-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-shares/media"
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-shares-nextcloud-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-shares/nextcloud"
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-shares-nexcloud-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-shares/nextcloud"
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-shares-nextcloud-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-shares/nextcloud"
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-shares-nextcloud-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-shares/nextcloud"
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-shares-nextcloud-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-shares/nextcloud"
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+  - file: zfs-pool-backup-snapshot
+    user: root
+    jobs:
+      - name:     zfs-pool-backup-computer
+        job:      "/home/deploy/files/computer-backup.sh"
+        minute:   "30"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-benni-zxfer
+        job:      "/home/deploy/files/zxfer/zxfer -dFkPv -g 375 -N  zfs-pool-shares/data/benni zfs-pool-backup/shares/data"
+        minute:   "*/30"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-anna-benni-zxfer
+        job:      "/home/deploy/files/zxfer/zxfer -dFkPv -g 375 -N  zfs-pool-shares/data/anna_benni zfs-pool-backup/shares/data"
+        minute:   "*/30"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-media-zxfer
+        job:      "/home/deploy/files/zxfer/zxfer -dFkPv -g 375 -N  zfs-pool-shares/media zfs-pool-backup/shares"
+        minute:   "*/30"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-nextcloud-zxfer
+        job:      "/home/deploy/files/zxfer/zxfer -dFkPv -g 375 -N  zfs-pool-shares/nextcloud zfs-pool-backup/shares"
+        minute:   "*/30"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-benni-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-backup/shares/data/benni --destroy-only "
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-benni-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-backup/shares/data/benni --destroy-only "
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-benni-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-backup/shares/data/benni --destroy-only "
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-backup-shares-data-benni-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-backup/shares/data/benni --destroy-only "
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-backup-shares-data-benni-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-backup/shares/data/benni --destroy-only "
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-backup-shares-data-anna-benni-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-backup/shares/data/anna_benni --destroy-only "
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-anna-benni-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-backup/shares/data/anna_benni --destroy-only "
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-data-anna-benni-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-backup/shares/data/anna_benni --destroy-only "
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-backup-shares-data-anna-benni-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-backup/shares/data/anna_benni --destroy-only "
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-backup-shares-data-anna-benni-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-backup/shares/data/anna_benni --destroy-only "
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-backup-shares-media-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-backup/shares/media --destroy-only "
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-media-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-backup/shares/media --destroy-only "
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-media-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-backup/shares/media --destroy-only "
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-backup-shares-media-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-backup/shares/media --destroy-only "
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-backup-shares-media-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-backup/shares/media --destroy-only "
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-backup-shares-nextcloud-backup-frequent
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=frequent --keep=12 -r zfs-pool-backup/shares/nextcloud --destroy-only "
+        minute:   "*/15"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-nextcloud-backup-hourly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=hourly --keep=48 -r zfs-pool-backup/shares/nextcloud --destroy-only "
+        minute:   "10"
+        hour:     "*"
+      - name:     zfs-pool-backup-shares-nextcloud-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=21 -r zfs-pool-backup/shares/nextcloud --destroy-only "
+        minute:   "20"
+        hour:     "0"
+      - name:     zfs-pool-backup-shares-nextcloud-backup-weekly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=weekly --keep=16 -r zfs-pool-backup/shares/nextcloud --destroy-only "
+        minute:   "20"
+        hour:     "1"
+        weekday:  "0"
+      - name:     zfs-pool-backup-shares-nextcloud-backup-monthly
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=monthly --keep=12 -r zfs-pool-backup/shares/nextcloud --destroy-only "
+        minute:   "20"
+        hour:     "2"
+        day:      "1"
+
+      - name:     zfs-pool-backup-computer-cloudkey-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=31 -r zfs-pool-backup/computer/cloudkey.home"
+        minute:   "40"
+        hour:     "0"
+      - name:     zfs-pool-backup-computer-server1-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=31 -r zfs-pool-backup/computer/server1.home"
+        minute:   "40"
+        hour:     "0"
+      - name:     zfs-pool-backup-computer-server2-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=31 -r zfs-pool-backup/computer/server2.home"
+        minute:   "40"
+        hour:     "0"
+      - name:     zfs-pool-backup-computer-t540p-backup-daily
+        job:      "/home/deploy/files/zfs-auto-snapshot/src/zfs-auto-snapshot.sh --label=daily --keep=31 -r zfs-pool-backup/computer/t540.home"
+        minute:   "40"
+        hour:     "0"

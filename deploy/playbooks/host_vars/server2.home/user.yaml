@@ -1,0 +1,75 @@
+---
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "ansible-role-management-user" settings
+#
+user_shell: "/usr/bin/zsh"
+ssh_pub_key_home: "{{ lookup('file', '~/.ssh/id_ed25519_home.pub') }}"
+
+management_user_list_group:
+  - name: cloud
+    uid: 82
+  - name: benni
+    uid: 1000
+  - name: anna
+    uid: 1001
+  - name: deploy
+    uid: 2000
+  - name: mainuser
+    uid: 2001
+  - name: sshduser
+    uid: 2002
+  - name: sambauser
+    uid: 2003
+
+management_user_settings:
+  - name: root
+    uid: 0
+    groups:
+      - root
+    shell: "/usr/bin/zsh"
+  - name: benni
+    uid: 1000
+    groups:
+      - benni
+      - sys
+      - network
+      - power
+      - lp
+      - wheel
+      - sambauser
+    shell: "/usr/bin/zsh"
+  - name: anna
+    uid: 1001
+    groups:
+      - anna
+      - sambauser
+    shell: "/usr/bin/nologin"
+  - name: mainuser
+    uid: 2001
+    groups:
+      - mainuser
+      - sambauser
+      - cloud
+      - docker
+    shell: "/usr/bin/zsh"
+  - name: deploy
+    comment: Deployment User
+    uid: 2000
+    groups:
+      - deploy
+      - wheel
+      - sshduser
+    shell: "/usr/bin/zsh"
+    authorized_keys:
+      - key: "{{ ssh_pub_key_home }}"
+        exclusive: yes
+    sudo:
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: yes

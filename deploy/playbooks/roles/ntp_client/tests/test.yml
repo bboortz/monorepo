@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+  - role: ntp_client
+    ntp_server: "{{ ntp_client.ntp_server }}"

@@ -1,0 +1,16 @@
+---
+# tasks file for os---
+#
+- name: Role - backup
+  debug:
+    msg: "backup"
+    verbosity: 1
+
+- name: Creates directory
+  file:
+    path: /home/backup/snapshots
+    state: directory
+
+- name: backup | Configure 
+  template: src=rsnapshot.conf.j2 dest=/etc/rsnapshot.conf
+  tags: rsnapshot

@@ -1,0 +1,16 @@
+- name: Create decrypted directory (even if encfs isn't used)
+  file: state=directory path=/decrypted
+
+- name: Ensure locale en_US.UTF-8 locale is present
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- import_tasks: users.yml
+  tags: users
+- import_tasks: ssl.yml
+  tags: ssl
+- import_tasks: security.yml
+  tags: security
+- import_tasks: ntp.yml
+  tags: ntp

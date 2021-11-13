@@ -1,0 +1,79 @@
+---
+# tasks file for dotfiles
+#
+- name: Role - dotfiles
+  debug:
+    msg: "dotfiles"
+    verbosity: 1
+
+- name: Creates Documents directory
+  file:
+    path: "~/Documents"
+    state: directory
+- name: link files
+  file:
+    src: "~/Documents"
+    dest: "~/files"
+    state: link
+    force: "yes"
+- name: Creates zsh directory
+  file:
+    path: "~/.config/zsh"
+    state: directory
+- name: Creates shellrc directory
+  file:
+    path: "~/.config/shellrc"
+    state: directory
+- name: Creates git directory
+  file:
+    path: "~/.config/git"
+    state: directory
+
+- name: dotfiles | clone dotfiles git repository
+  git:
+    repo: "{{ dotfiles_git_repo }}"
+    dest: "{{ dotfiles_dest }}"
+    version: "{{ dotfiles_version }}"
+
+- name: dotfiles | clone oh-my-zsh git repository
+  git:
+    repo: "{{ ohmyzsh_git_repo }}"
+    dest: "~/.config/ohmyzsh"
+
+- name: dotfiles | link zsh dotfiles
+  file:
+    src: "{{ dotfiles_dest }}/{{ item }}"
+    dest: "~/.config/zsh/{{ item }}"
+    state: link
+    force: "yes"
+  with_items: "{{ dotfiles_zsh_files }}"
+  tags:
+    - skip_ansible_lint
+- name: dotfiles | link shellrc dotfiles
+  file:
+    src: "{{ dotfiles_dest }}/{{ item }}"
+    dest: "~/.config/shellrc/{{ item }}"
+    state: link
+    force: "yes"
+  with_items: "{{ dotfiles_shellrc_files }}"
+  tags:
+    - skip_ansible_lint
+- name: dotfiles | link git dotfiles
+  file:
+    src: "{{ dotfiles_dest }}/git/{{ item }}"
+    dest: "~/.config/git/{{ item }}"
+    state: link
+    force: "yes"
+  with_items: "{{ dotfiles_git_files }}"
+  tags:
+    - skip_ansible_lint
+
+- name: dotfiles | link dotfiles directly to HOME
+  file:
+    src: "{{ dotfiles_dest }}/{{ item }}"
+    dest: "~/{{ item }}"
+    state: link
+    force: "yes"
+  with_items: "{{ dotfiles_files }}"
+  tags:
+    - skip_ansible_lint

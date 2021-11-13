@@ -1,0 +1,7 @@
+---
+- name: ArchLinux | run role
+  debug:
+    msg: "ArchLinux"
+- name: ArchLinux | Set ntp_service Variable
+  set_fact:
+    ntp_service: "ntpd"

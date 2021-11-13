@@ -1,0 +1,6 @@
+---
+- name: Debian | run role
+  debug:
+    msg: "Debian"
+- name: Debian | Install list of packages
+  apt: state=present pkg="{{ package_list }}"

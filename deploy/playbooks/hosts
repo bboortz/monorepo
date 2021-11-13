@@ -1,0 +1,24 @@
+[local]
+localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
+
+[t540p_home]
+t540p.home ansible_connection=local ansible_python_interpreter=/usr/bin/python3
+
+[server_home]
+server1.home ansible_host=192.168.1.2 ansible_python_interpreter=/usr/bin/python3
+server2.home ansible_host=192.168.1.3 ansible_python_interpreter=/usr/bin/python3
+
+[home]
+t540p.home ansible_connection=local ansible_python_interpreter=/usr/bin/python3
+server1.home ansible_host=192.168.1.2 ansible_python_interpreter=/usr/bin/python3
+server2.home ansible_host=192.168.1.3 ansible_python_interpreter=/usr/bin/python3
+
+[test_benni_tech]
+test.benni.tech ansible_host=168.119.172.213 ansible_python_interpreter=/usr/bin/python3
+
+[prod_benni_tech]
+prod.benni.tech ansible_host=188.34.192.62 ansible_python_interpreter=/usr/bin/python3
+
+[benni_tech]
+test.benni.tech ansible_host=168.119.172.213 ansible_python_interpreter=/usr/bin/python3
+prod.benni.tech ansible_host=188.34.192.62 ansible_python_interpreter=/usr/bin/python3

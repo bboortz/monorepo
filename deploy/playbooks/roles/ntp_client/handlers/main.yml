@@ -1,0 +1,4 @@
+---
+- name: Restart ntp
+  service: name={{ ntp_service }} state=restarted
+  become_method: sudo

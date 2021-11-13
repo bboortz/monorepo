@@ -1,0 +1,40 @@
+arch_samba_services:
+  - smb
+  - nmb
+
+samba_server_min_protocol: SMB3
+
+samba_mitigate_cve_2017_7494: false
+
+samba_shares:
+  - name: AnnaBenni
+    comment: 'Data share for Anna+Benni'
+    path: /samba/anna_benni
+    read_only: no
+    guest_ok: no
+    valid_users: "@sambauser"
+    write_list: anna benni
+    group: cloud
+  - name: Benni
+    comment: 'Data share for Benni'
+    path: /samba/benni
+    read_only: no
+    guest_ok: no
+    valid_users: "@sambauser"
+    write_list: benni
+    group: cloud
+  - name: Media
+    comment: 'Media share'
+    path: /samba/media
+    read_only: no
+    guest_ok: yes
+    valid_users: "@sambauser"
+    write_list: anna benni
+    group: cloud
+  - name: Backup
+    comment: 'Backup share'
+    path: /zfs-pool-backup
+    read_only: yes
+    guest_ok: no
+    valid_users: "@sambauser"
+    group: cloud

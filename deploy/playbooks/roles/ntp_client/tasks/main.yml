@@ -1,0 +1,25 @@
+---
+# tasks file for os---
+#
+- name: Role - package_install
+  debug:
+    msg: "package_install"
+    verbosity: 1
+- name: show parameter ntp_server
+  debug:
+    msg: "{{ ntp_server }}"
+
+- import_tasks: Debian.yml
+  when: ansible_os_family == 'Debian'
+  tags: ["ntp"]
+- import_tasks: Archlinux.yml
+  when: ansible_os_family == 'Archlinux'
+  tags: ["ntp"]
+
+- name: ntp | Configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  tags: ntp
+  notify: Restart ntp
+- name: ntp | Start the ntp service
+  service: name={{ ntp_service }} state=started enabled=true
+  tags: ntp

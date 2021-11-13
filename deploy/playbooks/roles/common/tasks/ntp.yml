@@ -1,0 +1,14 @@
+---
+# Defines tasks applicable for NTP (Network Time Protocol)
+- name: Configure ntp
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntp
+
+- name: Debian | Ensure ntpd is running
+  service: name=ntp state=started
+  when: ansible_os_family == 'Debian'
+
+- name: ArchLinux | Ensure ntpd is running
+  service: name=ntpd state=started
+  when: ansible_os_family == 'Archlinux' or ansible_os_family == 'Arch Linux'

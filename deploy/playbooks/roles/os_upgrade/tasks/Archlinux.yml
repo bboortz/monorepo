@@ -1,0 +1,23 @@
+---
+- name: Archlinux | run role
+  debug:
+    msg: "ArchLinux"
+- name: ArchLinux | gather lockfile
+  stat:
+    path: /var/lib/pacman/db.lck
+  register: stat_result
+
+- name: ArchLinux | check - if lockfile exists?
+  meta: end_play
+  when: stat_result.stat.exists
+
+- name: ArchLinux | update cache
+  pacman:
+    update_cache: "yes"
+    force: "yes"
+
+- name: ArchLinux | upgrade system
+  pacman:
+    upgrade: "yes"
+    force: "yes"
+    state: present

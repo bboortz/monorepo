@@ -1,0 +1,12 @@
+---
+# tasks file for os---
+#
+- name: Role - os_upgrade
+  debug:
+    msg: "os_upgrade"
+    verbosity: 1
+
+- import_tasks: Debian.yml
+  when: ansible_os_family == 'Debian'
+- import_tasks: Archlinux.yml
+  when: ansible_os_family == 'Archlinux'

@@ -1,0 +1,67 @@
+---
+# This is the top-level playbook that defines our entire infrastructure.
+
+
+- hosts: all
+  user: deploy
+  become: True
+  gather_facts: True
+
+  roles:
+    - grog.management-user
+    - role: dotfiles
+      dotfiles_files: "{{ dotfiles.dotfiles_files }}"
+      dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
+      dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
+      dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+    - os_upgrade    # up-to-date operating system
+    - role: package_install
+      package_list: "{{ package_install.package_list }}"
+    - ansible-role-timezone
+    - common
+    - role: backup
+      files: "{{ backup.files }}"
+      cp_bin: "{{ backup.cp_bin }}"
+      rm_bin: "{{ backup.rm_bin }}"
+    - role: ansible-role-cron
+      cron_daemon: "{{ cron_daemon }}"
+    - ansible-role-systemd-service
+
+
+- hosts: all
+  gather_facts: False
+
+  roles:
+    - role: dotfiles
+      dotfiles_files: "{{ dotfiles.dotfiles_files }}"
+      dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
+      dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
+      dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+
+
+- hosts: all
+  become: True
+  become_user: deploy
+  gather_facts: False
+
+  roles:
+    - role: dotfiles
+      dotfiles_files: "{{ dotfiles.dotfiles_files }}"
+      dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
+      dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
+      dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+
+
+- hosts: all
+  become: True
+  become_user: mainuser
+  gather_facts: False
+
+  roles:
+    - role: dotfiles
+      dotfiles_files: "{{ dotfiles.dotfiles_files }}"
+      dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
+      dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
+      dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+    - role: webmon
+

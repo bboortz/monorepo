@@ -1,0 +1,30 @@
+---
+# tasks file for webmon
+#
+- name: Role - webmon
+  debug:
+    msg: "dotfiles"
+    verbosity: 1
+
+- name: Creates Documents directory
+  file:
+    path: "~/Documents"
+    state: directory
+- name: link files
+  file:
+    src: "~/Documents"
+    dest: "~/files"
+    state: link
+    force: "yes"
+
+- name: clone webmon git repository
+  git:
+    repo: "{{ webmon_git_repo }}"
+    dest: "{{ webmon_dest }}"
+    version: "{{ webmon_version }}"
+
+- name: Install webmon dependencies
+  command: "{{ webmon_dest }}/scripts/install.sh"
+
+- name: Update webmon measures
+  command: "{{ webmon_dest }}/update.sh"

@@ -1,0 +1,30 @@
+---
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "dotfiles" settings
+#
+dotfiles:
+  dotfiles_files:
+    - .noserc
+    - .screenrc
+    - .vimrc
+  dotfiles_zsh_files:
+    - .zshrc
+  dotfiles_shellrc_files:
+    - .shellrc.aliases
+    - .shellrc.env
+    - .shellrc.functions
+    - .shellrc.golang
+    - .shellrc.load
+    - .shellrc.prompt
+    - .shellrc.rust
+    - .shellrc.ssh
+    - .shellrc.xdg
+  dotfiles_git_files:
+    - config
+    - excludes
+    - ignore

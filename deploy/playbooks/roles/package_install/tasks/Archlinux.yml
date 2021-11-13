@@ -1,0 +1,15 @@
+---
+- name: Archlinux | run role
+  debug:
+    msg: "ArchLinux"
+- name: ArchLinux | gather lockfile
+  stat:
+    path: /var/lib/pacman/db.lck
+  register: stat_result
+
+- name: ArchLinux | check - if lockfile exists?
+  meta: end_play
+  when: stat_result.stat.exists
+
+- name: ArchLinux | Install list of packages
+  pacman: state=present pkg="{{ package_list }}"

@@ -1,0 +1,50 @@
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "package_install" settings
+#
+
+# packages to install
+package_install:
+  package_list:
+    - bash-completion
+    - bzip2
+    - curl
+    - fail2ban
+    - git
+    - gnupg
+    - gzip
+    - htop
+    - iftop
+    - iotop
+    - lsof
+    - lynis
+    - ntp
+    - python3
+    - python3-venv
+    - rkhunter
+    - rsync
+    - screen
+    - strace
+    - sudo
+    - tar
+    - tree
+    - tmux
+    - unzip
+    - vim
+    - wget
+    - whois
+    - xdotool
+    - zip
+    - zsh
+    - apticron
+    - build-essential
+    - debian-goodies
+    - molly-guard
+    - python3-software-properties
+    - unattended-upgrades
+    - rsnapshot
+    - mutt

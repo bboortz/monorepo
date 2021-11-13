@@ -1,0 +1,24 @@
+#- name: Debian | Create main user account
+#  user: name={{ main_user_name }} state=present shell={{ main_user_shell }} groups=sudo
+#  when: ansible_os_family == 'Debian'
+
+#- name: ArchLinux | Create main user account
+#  user: name={{ main_user_name }} state=present shell={{ main_user_shell }} groups=wheel
+#  when: ansible_os_family == 'Archlinux' or ansible_os_family == 'Arch Linux'
+
+#- name: Give deploy account sudo power
+#  template: >-
+#    src=roles/common/templates/sudoers.j2
+#    dest=/etc/sudoers.d/deploy
+#    owner=root
+#    group=root
+#    mode=0440
+#    validate='visudo -cf %s'
+
+- name: Setup zshenv
+  template: >-
+    src=roles/common/templates/zshenv.j2
+    dest=/etc/zsh/zshenv
+    owner=root
+    group=root
+    mode=0664

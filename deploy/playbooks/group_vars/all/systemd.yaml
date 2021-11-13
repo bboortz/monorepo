@@ -1,0 +1,28 @@
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "ansible-role-systemd-service" settings
+#
+systemd_service:
+  # Service name
+  webmon:
+    # Start the service on boot
+    enabled: Yes
+    # Execute the command with specified arguments when the service is started
+    exec_start: "/bin/bash '/home/mainuser/files/webmon/webmon.sh'"
+    # Stop command
+    exec_stop: "/bin/kill -TERM $MAINPID"
+    # Use the specified directory as current
+    working_directory: "/home/mainuser/files/webmon"
+    # Run the processes under this user and group
+    user: "mainuser"
+    group: "mainuser"
+    # Restart always
+    restart: "always"
+    # Try to activate 'redis' if possible
+    after: "network.service"
+    # multi-user.target unit prefers the service to be run
+    wanted_by: "multi-user.target"

@@ -1,0 +1,60 @@
+---
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "package_install" settings
+#
+
+# packages to install
+package_install:
+  package_list:
+    - bash-completion
+    - bzip2
+    - curl
+    - fail2ban
+    - git
+    - gnupg
+    - gzip
+    - htop
+    - iftop
+    - iotop
+    - lsof
+    - lynis
+    - ntp
+    - python3
+    - rkhunter
+    - rsync
+    - screen
+    - strace
+    - sudo
+    - tar
+    - tree
+    - tmux
+    - unzip
+    - wget
+    - whois
+    - xdotool
+    - zip
+    - zsh
+    - keepassxc
+    - dolphin
+    - python-pip
+    - cronie
+    - testdisk
+    - davfs2
+    - rsnapshot
+    - gcc
+    - go
+    - jq
+    - mutt
+    - unrar
+    - docker
+    - smbclient
+    - powerline
+    - powerline-vim
+    - dnsutils
+    - openbsd-netcat
+#    - vim

@@ -1,0 +1,5 @@
+---
+# vars file for os
+webmon_git_repo: "https://github.com/bboortz/webmon.git"
+webmon_dest: "~/files/webmon"
+webmon_version: "cb2360ea204e3d66a40b961800f8e924a30aa914"

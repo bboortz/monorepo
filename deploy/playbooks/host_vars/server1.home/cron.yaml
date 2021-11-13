@@ -1,0 +1,49 @@
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "cron" settings
+#
+cron_daemon: cron
+elao_cron_files:
+  - file: rsnapshot
+    user: root
+    jobs:
+      - name:     rsnapshot-alpha
+        job:      "rsnapshot -c /etc/rsnapshot.conf alpha"
+        minute:   0
+        hour:     "*"
+      - name:     rsnapshot-beta
+        job:      "rsnapshot -c /etc/rsnapshot.conf beta"
+        minute:   45
+        hour:     23
+      - name:     rsnapshot-gamma
+        job:      "rsnapshot -c /etc/rsnapshot.conf gamma"
+        minute:   30 
+        hour:     22
+        weekday:  0
+      - name:     rsnapshot-delta
+        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
+        minute:   15
+        hour:     21
+        day:      1
+  - file: disk-cleanup
+    user: root
+    jobs:
+      - name:     disk-cleanup
+        job:      sh -c 'apt-get autoremove -y; apt-get autoclean -y'
+        minute:   55
+        hour:     0
+      - name:     docker-prune
+        job:      "docker system prune -a -f"
+        minute:   55
+        hour:     1
+  - file: webmon
+    user: mainuser
+    jobs:
+      - name:     update-information
+        job:      "/home/mainuser/files/webmon/update.sh"
+        minute:   "*"
+        hour:     "*"

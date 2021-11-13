@@ -1,0 +1,46 @@
+################################################################################
+# Set your variables here.
+################################################################################
+
+
+#
+# role "ansible-role-management-user" settings
+#
+user_shell: "/usr/bin/zsh"
+ssh_pub_key_hetzner: "{{ lookup('file', '~/.ssh/id_ed25519_hetzner.pub') }}"
+
+management_user_list_group:
+  - name: deploy
+    uid: 2000
+  - name: mainuser
+    uid: 2001
+  - name: sshduser
+    uid: 2002
+
+management_user_settings:
+  - name: root
+    uid: 0
+    groups:
+      - root
+    shell: "/usr/bin/zsh"
+  - name: mainuser
+    uid: 2001
+    groups:
+      - mainuser
+    shell: "/usr/bin/zsh"
+  - name: deploy
+    comment: Deployment User
+    uid: 2000
+    groups:
+      - deploy
+      - sudo
+      - sshduser
+    shell: "/usr/bin/zsh"
+    authorized_keys:
+      - key: "{{ ssh_pub_key_hetzner }}"
+        exclusive: yes
+    sudo:
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: yes
