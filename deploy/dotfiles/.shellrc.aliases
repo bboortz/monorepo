@@ -1,0 +1,20 @@
+# ls aliases
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ls -lA'
+
+# tree aliaces
+alias tree='tree --dirsfirst'
+
+# git aliaces
+alias gtree='git log --graph --full-history --all --color --pretty=format:"%x1b[33m%h%x09%x09%x1b[32m%d%x1b[0m %x1b[34m%an%x1b[0m   %s" "$@"'
+
+# pwd and cd aliases
+alias .='pwd'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# private config management aliases
+alias pcm_mount='gocryptfs ~/encrypted/config_management.cipher ~/encrypted/config_management.plain'
+alias pcm_umount='sudo umount ~/encrypted/config_management.plain'
+
