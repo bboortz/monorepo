@@ -1,0 +1,4 @@
+---
+# vars file for os
+monorepo_git_repo: "https://github.com/bboortz/monorepo.git"
+monorepo_dest: "~/files/monorepo"

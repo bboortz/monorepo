@@ -1,0 +1,11 @@
+---
+# tasks file for vim
+#
+- name: Role - vim
+  debug:
+    msg: "deploy dotfiles from {{ dotfiles_dest }}"
+    verbosity: 1
+
+- name: vim | install spacevim
+  shell: >
+    curl -sLf https://spacevim.org/install.sh | bash

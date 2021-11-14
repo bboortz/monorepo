@@ -10,7 +10,7 @@ dotfiles:
   dotfiles_files:
     - .noserc
     - .screenrc
-    - .vimrc
+    - .SpaceVim.d
   dotfiles_zsh_files:
     - .zshrc
   dotfiles_shellrc_files:

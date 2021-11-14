@@ -3,19 +3,9 @@
 #
 - name: Role - dotfiles
   debug:
-    msg: "dotfiles"
-    verbosity: 1
+    msg: "deploy dotfiles from {{ dotfiles_dest }}"
+    verbosity: 3
 
-- name: Creates Documents directory
-  file:
-    path: "~/Documents"
-    state: directory
-- name: link files
-  file:
-    src: "~/Documents"
-    dest: "~/files"
-    state: link
-    force: "yes"
 - name: Creates zsh directory
   file:
     path: "~/.config/zsh"
@@ -28,12 +18,6 @@
   file:
     path: "~/.config/git"
     state: directory
-
-- name: dotfiles | clone dotfiles git repository
-  git:
-    repo: "{{ dotfiles_git_repo }}"
-    dest: "{{ dotfiles_dest }}"
-    version: "{{ dotfiles_version }}"
 
 - name: dotfiles | clone oh-my-zsh git repository
   git:

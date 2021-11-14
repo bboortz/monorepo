@@ -32,7 +32,7 @@ benni.tech.deploy:        ## benni.tech deployment using ansible playbooks
 test.benni.tech.deploy:   ## test deployment using ansible playbooks
 	ansible-playbook -i ./hosts -l test_benni_tech site.yml
 
-prod.benni.techdeploy:    ## prod deployment using ansible playbooks
+prod.benni.tech.deploy:    ## prod deployment using ansible playbooks
 	ansible-playbook -i ./hosts -l prod_benni_tech site.yml
 
 deploy:                   ## deployment using ansible playbooks

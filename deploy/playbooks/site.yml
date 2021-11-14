@@ -19,11 +19,13 @@
 
   roles:
     - grog.management-user
+    - monorepo
     - role: dotfiles
       dotfiles_files: "{{ dotfiles.dotfiles_files }}"
       dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
       dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
       dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+    - vim
     - os_upgrade    # up-to-date operating system
     - role: package_install
       package_list: "{{ package_install.package_list }}"
@@ -43,11 +45,13 @@
   gather_facts: False
 
   roles:
+    - monorepo
     - role: dotfiles
       dotfiles_files: "{{ dotfiles.dotfiles_files }}"
       dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
       dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
       dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+    - vim
 
 
 - hosts: all
@@ -57,9 +61,11 @@
   gather_facts: False
 
   roles:
+    - monorepo
     - role: dotfiles
       dotfiles_files: "{{ dotfiles.dotfiles_files }}"
       dotfiles_zsh_files: "{{ dotfiles.dotfiles_zsh_files }}"
       dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
       dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
+    - vim
     - role: webmon

@@ -1,6 +1,4 @@
 ---
 # vars file for os
-dotfiles_git_repo: "https://github.com/bboortz/dotfiles.git"
-dotfiles_dest: "~/files/dotfiles"
-dotfiles_version: "83d1a00caf70ea78c583ac87cb613a752b3a25d9"
+dotfiles_dest: "~/files/monorepo/deploy/dotfiles"
 ohmyzsh_git_repo: "https://github.com/ohmyzsh/ohmyzsh.git"
