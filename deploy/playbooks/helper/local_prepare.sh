@@ -18,4 +18,5 @@ fi
 source .venv/bin/activate
 python3 -m pip install --upgrade pip
 pip install -r requirements.txt
+ansible-galaxy install GROG.management-user
 deactivate

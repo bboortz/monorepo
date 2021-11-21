@@ -7,6 +7,7 @@ The playbooks for MISChaufen. Compatible with Arch Linux and Debian Linux.
 ```
 apt-get install make
 make bootstrap
+cp public-ssh-key ~/.ssh/public-ssh-key
 ```
 
 ## Preparation on Server

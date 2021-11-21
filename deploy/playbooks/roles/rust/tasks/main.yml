@@ -1,0 +1,11 @@
+---
+# tasks file for rust
+#
+- name: Role - rust
+  debug:
+    msg: "install rust"
+    verbosity: 1
+
+- name: rust | install rust and cargo
+  shell: >
+    curl https://sh.rustup.rs -sSf | sh -s -- -y

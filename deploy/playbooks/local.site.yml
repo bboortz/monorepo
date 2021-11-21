@@ -8,7 +8,7 @@
   gather_facts: True
 
   roles:
-    - grog.management-user
+    - GROG.management-user
     - monorepo
     - role: dotfiles
       dotfiles_files: "{{ dotfiles.dotfiles_files }}"
@@ -19,15 +19,15 @@
     - os_upgrade    # up-to-date operating system
     - role: package_install
       package_list: "{{ package_install.package_list }}"
-    - ansible-role-timezone
+    # - ansible-role-timezone
     - common
     - role: backup
       files: "{{ backup.files }}"
       cp_bin: "{{ backup.cp_bin }}"
       rm_bin: "{{ backup.rm_bin }}"
-    - role: ansible-role-cron
-      cron_daemon: "{{ cron_daemon }}"
-    - ansible-role-systemd-service
+    # - role: ansible-role-cron
+    #   cron_daemon: "{{ cron_daemon }}"
+    # - ansible-role-systemd-service
 
 
 - hosts: all
@@ -41,6 +41,7 @@
       dotfiles_shellrc_files: "{{ dotfiles.dotfiles_shellrc_files }}"
       dotfiles_git_files: "{{ dotfiles.dotfiles_git_files }}"
     - vim
+    - rust
 
 
 - hosts: all
