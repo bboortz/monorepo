@@ -21,14 +21,13 @@ impl ServerCommand {
     #[tokio::main]
     async fn async_run(&self) -> Result<(), Box<dyn std::error::Error>> {
         let listener = TcpListener::bind(&self.addr).await?;
-
         info!("Listening on {}.", self.addr);
 
         let mut thread_id = 0;
         // let tcp_server = TcpServer {};
         loop {
             let (stream, client_addr) = listener.accept().await?;
-            info!("t{} - Connect: {}", thread_id, client_addr);
+            info!("t{} - Connect from: {}", thread_id, client_addr);
 
             /*
             match listener.accept().await {
@@ -52,7 +51,6 @@ impl ServerCommand {
         stream: TcpStream,
         addr: SocketAddr,
     ) -> Result<(), Box<dyn Error>> {
-        info!("real main!");
         let mut framed = BytesCodec::new().framed(stream);
 
         let mut frame_id = 0;

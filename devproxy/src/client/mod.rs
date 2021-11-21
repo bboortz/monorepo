@@ -7,7 +7,7 @@ use tokio::io::AsyncWriteExt;
 use tokio::net::TcpStream;
 
 #[derive(Debug, Snafu)]
-enum Error {
+pub enum Error {
     #[snafu(display("Unable to connect to {}: {}", addr, source))]
     Connect { source: io::Error, addr: String },
 
@@ -52,6 +52,7 @@ impl ClientCommand {
         let mut stream = TcpStream::connect(&self.addr)
             .await
             .context(Connect { addr: &self.addr })?;
+        info!("Connected to addr {}!", self.addr);
 
         // connect with timeout but poor error handling
         /*
@@ -77,11 +78,9 @@ impl ClientCommand {
         .expect("Error while connecting to server");
         */
 
-        info!("Connected to addr {}!", self.addr);
-
         let rand_string: String = thread_rng()
             .sample_iter(&Alphanumeric)
-            .take(90)
+            .take(900000)
             .map(char::from)
             .collect();
         let rand_bytes = rand_string.as_bytes();

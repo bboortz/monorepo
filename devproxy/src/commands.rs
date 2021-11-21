@@ -21,7 +21,17 @@ pub enum CommandsFassade {
 }
 
 impl CommandsFassade {
-    pub fn run(&self) -> Result<(), Box<dyn std::error::Error>> {
+    /*
+      pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
+          let command = client::ClientCommand {
+              addr: String::from("127.0.0.1:8090"),
+          };
+          let cmd_fassade = CommandsFassade::ClientCommand(command);
+          Ok(cmd_fassade)
+      }
+    */
+
+    pub fn run(self) -> Result<(), Box<dyn std::error::Error>> {
         use crate::commands::CommandsFassade::ClientCommand;
         use crate::commands::CommandsFassade::ProxyCommand;
         use crate::commands::CommandsFassade::ServerCommand;
@@ -43,17 +53,15 @@ impl CommandsFassade {
     }
 }
 
-/*
 #[cfg(test)]
 mod tests {
+    use crate::client;
     use crate::commands;
-    use crate::error;
-    use crate::grep;
-    use std::path::PathBuf;
 
+    /*
     #[test]
     fn test_commandsfassade_grep_ok() {
-        let grep_command = grep::GrepCommand {
+        let grep_command = grep::ClientCommand {
             pattern: String::from("foobar"),
             filename: PathBuf::from(r"./tests/test.file"),
             case_insensitive: true,
@@ -63,20 +71,17 @@ mod tests {
         let _result = cmd_fassade.run().unwrap();
         assert_eq!((), _result);
     }
+    */
 
     #[test]
     fn test_commandsfassade_grep_file_not_found() {
-        let grep_command = grep::GrepCommand {
-            pattern: String::from("Hello, world!"),
-            filename: PathBuf::from(r"/file/does/not/exist/foobar"),
-            case_insensitive: true,
+        let command = client::ClientCommand {
+            addr: String::from("127.0.0.1:8090"),
         };
-        let cmd_fassade = commands::CommandsFassade::GrepCommand(grep_command);
+        let cmd_fassade = commands::CommandsFassade::ClientCommand(command);
 
-        cmd_fassade.print();
         let _result = cmd_fassade.run().unwrap_err();
-        let err = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
+        let err = 8;
         assert!(matches!(err, _result));
     }
 }
-*/
