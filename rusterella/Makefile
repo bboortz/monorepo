@@ -12,6 +12,7 @@ help:               ## printing out the help
 
 clean:              ## clean up this project
 	cargo clean
+	rm -rf ./temp
 
 fmt:                ## format the sources
 	cargo fmt
@@ -33,5 +34,4 @@ init:               ##
 	rustup update
 	rustup component add clippy
 	rustup component add rustfmt
-
-
+	rustup component add rls rust-analysis rust-src
