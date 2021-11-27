@@ -42,7 +42,7 @@ void loop() {
   }
   if ( button2.pressed() ) {
     DigiKeyboard.print("2P");
-    DigiKeyboard.sendKeyStroke(KEY_PrintScreen); 
+    // DigiKeyboard.sendKeyStroke(KEY_PrintScreen); 
   }
   if ( button3.pressed() ) {
     DigiKeyboard.sendKeyStroke(KEY_M , MOD_CONTROL_LEFT | MOD_SHIFT_LEFT); 
