@@ -58,3 +58,4 @@ package_install:
     - dnsutils
     - openbsd-netcat
     - vim
+    - dia
