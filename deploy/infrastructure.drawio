@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-28T11:10:40.214Z" agent="5.0 (X11)" etag="2ACEJEDxBP7xX41mlT23" version="15.8.6" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-28T11:12:07.417Z" agent="5.0 (X11)" etag="7fVF4ji9ePgOG1hdTG1s" version="15.8.6" type="github">
   <diagram name="Page-1" id="e3a06f82-3646-2815-327d-82caf3d4e204">
     <mxGraphModel dx="2062" dy="1078" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
       <root>
@@ -134,6 +134,9 @@
         </mxCell>
         <mxCell id="mDbLlLf00zMc5VI1A1oP-24" value="Backup Server" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.file_server;" vertex="1" parent="1">
           <mxGeometry x="340" y="439" width="71" height="97" as="geometry" />
+        </mxCell>
+        <mxCell id="mDbLlLf00zMc5VI1A1oP-25" value="Jumpbox" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.command_center;" vertex="1" parent="1">
+          <mxGeometry x="1460" y="158.5" width="75.5" height="96" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
