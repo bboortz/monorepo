@@ -29,6 +29,6 @@ if [ ! -d ~/.ssh ]; then
 fi
 
 if [ -n "${GH_SSH_HOME_PUB}" ]; then
-  echo "INFO: writingn ${GH_SSH_HOME_PUB} ..."
+  echo "INFO: writing ~/.ssh/id_ed25519_home.pub ..."
   echo "${GH_SSH_HOME_PUB}" > ~/.ssh/id_ed25519_home.pub
 fi
