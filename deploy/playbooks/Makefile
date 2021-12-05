@@ -11,8 +11,8 @@ clean:                    ## cleanup all temporary/work data
 	rm -rf .venv
 
 bootstrap:                ## prepare local environment
-	sudo ./helper/local_prepare.sh
-	./helper/bootstrap.sh
+	sudo ./helper/local_prepare_root.sh
+	./helper/local_prepare_nonroot.sh
 
 local.deploy:             ## local deployment using ansible playbooks
 	ansible-playbook -i ./hosts -l local local.site.yml

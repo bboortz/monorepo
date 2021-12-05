@@ -3,3 +3,4 @@ ansible-base
 hcloud
 requests
 pyyaml
+pykeepass>=4.0.1
