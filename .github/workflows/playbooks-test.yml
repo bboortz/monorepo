@@ -1,0 +1,23 @@
+name: playbooks CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./deploy/playbooks
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+
+    - name: show dir
+      run: ls -la
+
+    - name: initilization
+      run: make bootstrap
