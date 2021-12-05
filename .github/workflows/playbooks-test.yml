@@ -21,7 +21,7 @@ jobs:
       run: ls -la
 
     - name: initilization
-      with: # Set the secret as an input
+      env: # Set the secret as an input
         GH_SSH_HOME_PUB: ${{ secrets.SSH_HOME_PUB}}
       run: make bootstrap
 
