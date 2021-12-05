@@ -1,0 +1,37 @@
+{
+  "builders": [{
+    "type": "azure-arm",
+    "client_id": "6e210adb-1b1e-439e-9168-654700fdd82d",
+    "client_secret": "VE1jVC5kRCCtCiKxa3n.klfjwOHEWw3smH",
+    "tenant_id": "a569a978-9099-413b-80f9-341420ca07d7",
+    "subscription_id": "6bf0b5af-a875-4c8e-a901-1013620903d7",
+
+    "managed_image_resource_group_name": "howto-dev-blue-westus2-packer-rg",
+    "managed_image_name": "myPackerImage",
+
+    "os_type": "Linux",
+    "image_publisher": "Canonical",
+    "image_offer": "UbuntuServer",
+    "image_sku": "18.04-LTS",
+
+    "azure_tags": {
+        "dept": "Engineering",
+        "task": "Image deployment"
+    },
+
+    "location": "West US 2",
+    "vm_size": "Standard_DS2_v2"
+  }],
+  "provisioners": [{
+    "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+    "inline": [
+      "apt-get update",
+      "apt-get upgrade -y",
+      "apt-get -y install nginx",
+
+      "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
+    ],
+    "inline_shebang": "/bin/sh -x",
+    "type": "shell"
+  }]
+}

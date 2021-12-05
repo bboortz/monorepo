@@ -1,0 +1,8 @@
+# blue-green-azure-terraform
+
+# deployment
+
+```
+make apply VAR_FILE=dev-green.tfvars
+make apply VAR_FILE=dev-blue.tfvars
+```

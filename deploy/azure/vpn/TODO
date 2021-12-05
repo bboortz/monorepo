@@ -1,0 +1,22 @@
+*blue-green*
+
+Normal State: blue
+
+1.a. Verify Blue & Green & Central
+1.b. Deploy Blue
+1.c. Verify Blue & Green & Central
+
+2.a. Deploy New Version on Green
+2.b. Verify Blue & Green & Central
+
+3.a Deploy Green
+3.b. Verify Blue & Green & Central
+
+4.a. Deploy New Version on Blue
+4.b. Verify Blue & Green & Central
+
+5.a Deploy Blue
+5.b. Verify Blue & Green & Central
+
+
+
