@@ -23,5 +23,6 @@ cd -
 
 
 if [ -n "${GH_SSH_HOME_PUB}" ]; then
+  echo "INFO: writingn ${GH_SSH_HOME_PUB} ..."
   echo "${GH_SSH_HOME_PUB}" > ~/.ssh/id_ed25519_home.pub
 fi
