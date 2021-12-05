@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo "*** INFO ***"
+id
+pwd
+env
+
 if [ ! -d ".venv" ]; then
     echo "INFO: creating .venv ..."
     python3 -m venv .venv
