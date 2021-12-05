@@ -10,6 +10,7 @@ source .venv/bin/activate
 pip3 install -U pip
 pip3 install -U -r requirements.txt
 ansible-galaxy install GROG.management-user
+ansible-galaxy install Akman.timezone
 deactivate
 
 

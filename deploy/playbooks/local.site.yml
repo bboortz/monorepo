@@ -19,7 +19,7 @@
     - os_upgrade    # up-to-date operating system
     - role: package_install
       package_list: "{{ package_install.package_list }}"
-    # - ansible-role-timezone
+    - Akman.timezone
     - common
     - role: backup
       files: "{{ backup.files }}"
@@ -27,7 +27,7 @@
       rm_bin: "{{ backup.rm_bin }}"
     # - role: ansible-role-cron
     #   cron_daemon: "{{ cron_daemon }}"
-    # - ansible-role-systemd-service
+    - ansible-role-systemd-service
 
 
 - hosts: all
