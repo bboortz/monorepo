@@ -8,7 +8,7 @@
   gather_facts: True
 
   roles:
-    - role: ansible-role-samba
+    - role: bertvv.samba
       samba_services: "{{ arch_samba_services }}"
 
 
@@ -18,7 +18,7 @@
   gather_facts: True
 
   roles:
-    - grog.management-user
+    - GROG.management-user
     - monorepo
     - role: dotfiles
       dotfiles_files: "{{ dotfiles.dotfiles_files }}"
@@ -29,15 +29,15 @@
     - os_upgrade    # up-to-date operating system
     - role: package_install
       package_list: "{{ package_install.package_list }}"
-    # - ansible-role-timezone
+    - Akman.timezone
     - common
     - role: backup
       files: "{{ backup.files }}"
       cp_bin: "{{ backup.cp_bin }}"
       rm_bin: "{{ backup.rm_bin }}"
-    # - role: ansible-role-cron
-    #   cron_daemon: "{{ cron_daemon }}"
-    # - ansible-role-systemd-service
+    - role: elao.cron
+      cron_daemon: "{{ cron_daemon }}"
+    - ansible-role-systemd-service
 
 
 - hosts: all

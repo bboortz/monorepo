@@ -11,6 +11,8 @@ pip3 install -U pip
 pip3 install -U -r requirements.txt
 ansible-galaxy install GROG.management-user
 ansible-galaxy install Akman.timezone
+ansible-galaxy install elao.cron,2.0
+ansible-galaxy install bertvv.samba
 deactivate
 
 
