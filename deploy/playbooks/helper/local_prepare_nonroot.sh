@@ -23,6 +23,7 @@ cd -
 
 
 if [ ! -d ~/.ssh ]; then
+  echo "INFO: creating ~/.ssh ..."
   mkdir -p ~/.ssh
   chmod 700 ~/.ssh
 fi
