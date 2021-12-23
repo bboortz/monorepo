@@ -249,14 +249,14 @@ impl GameState for State {
             ctx.print_color(c.pos.x, c.pos.y, fg, bg, "@");
         }
 
-/*
+        /*
         for x in 0..self.world.size.width {
             ctx.print_color(x, 0, fg, bg, x);
         }
         for y in 0..self.world.size.height {
             ctx.print_color(0, y, fg, bg, y);
         }
-				*/
+                */
         /*
                 ctx.printer(
                     40,
@@ -325,9 +325,7 @@ fn main() -> BError {
         .with_fps_cap(120.0)
         .build()?;
 
-    let gs: State = State {
-        world: w,
-    };
+    let gs: State = State { world: w };
 
     /*
         register_palette_color("blue", RGB::named(BLUE));
