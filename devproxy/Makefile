@@ -34,4 +34,4 @@ init:               ##
 	rustup update
 	rustup component add clippy
 	rustup component add rustfmt
-	rustup component add rls rust-analysis rust-src
+	rustup component add rust-analysis rust-src
