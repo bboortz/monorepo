@@ -21,8 +21,13 @@ fmt:                ## format the sources
 test: fmt           ## test the software
 	./scripts/test.sh
 
-build: clean fmt    ## build the software
+build: fmt          ## build the software
 	./scripts/build.sh
+
+b: build
+
+run: fmt
+	cargo run
 
 doc: build          ## create the documentation
 	cargo doc
