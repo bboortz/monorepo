@@ -25,5 +25,5 @@ jobs:
         GH_SSH_HOME_PUB: ${{ secrets.SSH_HOME_PUB}}
       run: make bootstrap
 
-    - name: local.deploy
-      run: make local.deploy
+#    - name: local.deploy
+#      run: make local.deploy
