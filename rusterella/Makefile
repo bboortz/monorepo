@@ -16,7 +16,7 @@ c: clean
 
 fmt:                ## format the sources
 	cargo fmt
-	cargo clippy
+	cargo clippy --release
 
 test: fmt           ## test the software
 	./scripts/test.sh
