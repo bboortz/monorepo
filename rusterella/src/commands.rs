@@ -1,3 +1,6 @@
+use crate::commands::CommandsFassade::EGrepCommand;
+use crate::commands::CommandsFassade::GrepCommand;
+use crate::egrep;
 use crate::error;
 use crate::grep;
 use std::fmt::Debug;
@@ -6,20 +9,23 @@ use structopt::StructOpt;
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "rusterella",
-    version = "0.1.0",
+    version = "0.2.0",
     about = "A single binary written in rust than combines several unix utilities. A busybox clone in rust.",
     author = "Benjamin Boortz <benjamn dot boortz at mailbox dot org>"
 )]
 pub enum CommandsFassade {
     #[structopt(name = "grep", version = "0.1.0", about = "grep clone")]
     GrepCommand(grep::GrepCommand),
+    #[structopt(name = "egrep", version = "0.2.0", about = "egrep clone")]
+    EGrepCommand(egrep::EGrepCommand),
 }
 
 impl CommandsFassade {
+    #[allow(dead_code)]
     pub fn print(&self) {
-        use crate::commands::CommandsFassade::GrepCommand;
         match self {
             GrepCommand(grep_struct) => println!("GrepCommand: {:?}", grep_struct),
+            EGrepCommand(grep_struct) => println!("EGrepCommand: {:?}", grep_struct),
         }
     }
 
@@ -27,10 +33,12 @@ impl CommandsFassade {
     pub fn run(&self) -> Result<(), Box<error::ErrorType>> {
     */
     pub fn run(&self) -> Result<(), error::Error> {
-        use crate::commands::CommandsFassade::GrepCommand;
         match self {
             GrepCommand(grep_command) => {
                 grep_command.run()?;
+            }
+            EGrepCommand(egrep_command) => {
+                egrep_command.run()?;
             }
         }
         Ok(())

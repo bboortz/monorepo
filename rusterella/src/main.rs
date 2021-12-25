@@ -1,5 +1,6 @@
 use structopt::StructOpt;
 mod commands;
+mod egrep;
 pub mod error;
 mod grep;
 mod logger;
