@@ -14,6 +14,7 @@ if [ -n "${CODECOV_TOKEN}" ]; then
   export LLVM_PROFILE_FILE="target/${OUTPUT_PROFILE}/prof/rusterella-%p-%m.profraw"
   export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Zinstrument-coverage "
   export RUSTDOCFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Zinstrument-coverage"
+  PROFILE=test
 fi
 
 

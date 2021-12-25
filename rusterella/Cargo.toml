@@ -7,6 +7,10 @@ edition = "2018"
 opt-level = 0
 incremental = true
 
+[profile.test]
+opt-level = 0
+incremental = false
+
 [profile.release]
 opt-level = "z"         # Optimize for binary size
 lto = true              # LTO instructs the linker to optimize at the link stage. 
