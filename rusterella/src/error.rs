@@ -7,7 +7,7 @@ pub enum ErrorType {
     Io(std::io::Error),
     // Errors raised by us...
     Regular(ErrorKind),
-    Custom(String),
+    Custom(CustomError),
 }
 
 impl From<std::io::Error> for ErrorType {
@@ -179,7 +179,8 @@ mod tests {
         let error_string = String::from("Line not found");
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
-        let error_type = error::ErrorType::Custom(error_string);
+        let custom_error = error::CustomError { error_string };
+        let error_type = error::ErrorType::Custom(custom_error);
         let err = error::Error {
             error_type: error_type,
             affected: error_affected,
