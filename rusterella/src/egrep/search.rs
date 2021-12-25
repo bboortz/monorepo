@@ -123,4 +123,19 @@ Trust me.";
             search_case_insensitive(pattern, contents)
         );
     }
+
+    #[test]
+    fn test_case_insensitive3() {
+        let pattern = "^P.+\\W+e\\.$";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Trust me.";
+
+        assert_eq!(
+            vec!["Pick three."],
+            search_case_insensitive(pattern, contents)
+        );
+    }
 }
