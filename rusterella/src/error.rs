@@ -123,6 +123,7 @@ mod tests {
                 println!("{}", e);
                 println!("{:?}", e);
                 println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
@@ -148,6 +149,7 @@ mod tests {
                 println!("{}", e);
                 println!("{:?}", e);
                 println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
@@ -173,6 +175,7 @@ mod tests {
                 println!("{}", e);
                 println!("{:?}", e);
                 println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
@@ -182,7 +185,7 @@ mod tests {
         let error_string = String::from("Line not found");
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
-        let custom_error = error::CustomError{error_string};
+        let custom_error = error::CustomError { error_string };
         let error_type = error::ErrorType::Custom(custom_error);
         let err = error::Error {
             error_type: error_type,
@@ -200,8 +203,21 @@ mod tests {
                 println!("{}", e);
                 println!("{:?}", e);
                 println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
+    }
+
+    #[test]
+    fn test_error_from_std_io_error() {
+        let io_error = std::io::Error::new(std::io::ErrorKind::Other, "oh no!");
+        let _error = error::Error::from(io_error);
+    }
+
+    #[test]
+    fn test_errortype_from_std_io_error() {
+        let io_error = std::io::Error::new(std::io::ErrorKind::Other, "oh no!");
+        let _error = error::ErrorType::from(io_error);
     }
 }
