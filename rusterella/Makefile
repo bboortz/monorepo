@@ -27,7 +27,7 @@ build: test         ## build the software
 b: build
 
 release: private PROFILE = release
-release: build
+release: clean build
 r: release
 
 run: fmt

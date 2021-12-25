@@ -23,7 +23,7 @@ pub struct EGrepCommand {
 }
 
 impl EGrepCommand {
-    pub fn run(&self) -> Result<(), error::Error> {
+    pub fn run(&self) -> Result<u32, error::Error> {
         if !self.filename.exists() {
             // return Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound));
             let error_affected = self.filename.to_str().unwrap_or("unknown file").to_string();
@@ -38,14 +38,7 @@ impl EGrepCommand {
         }
 
         let contents = fs::read_to_string(&self.filename)?;
-        /*
-        let contents = fs::read_to_string(&self.filename);
-        let mut contents = match contents {
-            Ok(contents) => contents,
-            Err(e) => return error::ErrorType::Io(e),
-        };
-        */
-
+        let mut ret = 0;
         let results = if self.case_insensitive {
             search::search_case_insensitive(&self.pattern, &contents)
         } else {
@@ -53,10 +46,11 @@ impl EGrepCommand {
         };
 
         for line in results {
+            ret += 1;
             println!("{}", line);
         }
 
-        Ok(())
+        Ok(ret)
     }
 }
 
@@ -66,7 +60,7 @@ mod tests {
     use crate::error;
 
     #[test]
-    fn test_run_grep_command() {
+    fn test_run_grep_command1() {
         use std::path::PathBuf;
         let grep_command = egrep::EGrepCommand {
             pattern: String::from("Hello, world!"),
@@ -74,7 +68,43 @@ mod tests {
             case_insensitive: false,
         };
         let result = grep_command.run().unwrap();
-        assert_eq!((), result);
+        assert_eq!((0), result);
+    }
+
+    #[test]
+    fn test_run_grep_command2() {
+        use std::path::PathBuf;
+        let grep_command = egrep::EGrepCommand {
+            pattern: String::from("local"),
+            filename: PathBuf::from(r"./tests/test.file"),
+            case_insensitive: false,
+        };
+        let result = grep_command.run().unwrap();
+        assert_eq!((1), result);
+    }
+
+    #[test]
+    fn test_run_grep_command3() {
+        use std::path::PathBuf;
+        let grep_command = egrep::EGrepCommand {
+            pattern: String::from("f..bar"),
+            filename: PathBuf::from(r"./tests/test.file"),
+            case_insensitive: false,
+        };
+        let result = grep_command.run().unwrap();
+        assert_eq!((1), result);
+    }
+
+    #[test]
+    fn test_run_grep_command4() {
+        use std::path::PathBuf;
+        let grep_command = egrep::EGrepCommand {
+            pattern: String::from("[fF]..bar"),
+            filename: PathBuf::from(r"./tests/test.file"),
+            case_insensitive: false,
+        };
+        let result = grep_command.run().unwrap();
+        assert_eq!((2), result);
     }
 
     #[test]

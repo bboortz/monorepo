@@ -1,62 +1,6 @@
-/*
-extern crate walkdir;
-
-use std::fs::File;
-use std::io;
-use std::io::Read;
-use walkdir::WalkDir;
-
-fn main() -> Result<(), io::Error> {
-    let nul: u8 = 0;
-    let mut bytes_count: i32;
-    let mut buffer = Vec::new();
-
-    for entry in WalkDir::new("./").into_iter().filter_map(|e| e.ok()) {
-        if !entry.file_type().is_file() {
-            continue;
-        }
-
-        let path = entry.path();
-        let mut file = File::open(path)?;
-
-        bytes_count = 0;
-        buffer.clear();
-        file.read_to_end(&mut buffer)?;
-
-        for b in buffer.iter() {
-            if b == &nul {
-                println!("{} bytes: {} binary file", bytes_count, path.display());
-                break;
-            }
-
-            bytes_count += 1;
-        }
-
-        println!("{} bytes: {}", bytes_count, path.display())
-    }
-    Ok(())
-}
-*/
-
-////////////
-
 use regex::Regex;
 
 pub fn search<'a>(pattern: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-
-    if !pattern.is_empty() {
-        for line in contents.lines() {
-            if line.contains(pattern) {
-                results.push(line);
-            }
-        }
-    }
-
-    results
-}
-
-pub fn search_regex<'a>(pattern: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
 
     if !pattern.is_empty() {
@@ -76,8 +20,9 @@ pub fn search_case_insensitive<'a>(pattern: &str, contents: &'a str) -> Vec<&'a 
     let pattern = pattern.to_lowercase();
 
     if !pattern.is_empty() {
+        let re = Regex::new(&pattern).unwrap();
         for line in contents.lines() {
-            if line.to_lowercase().contains(&pattern) {
+            if re.is_match(&line.to_lowercase()) {
                 results.push(line);
             }
         }
@@ -100,6 +45,7 @@ Pick three.";
 
         assert_eq!(vec!["safe, fast, productive."], search(pattern, contents));
     }
+
     #[test]
     fn test_no_result() {
         let pattern = "FOO";
@@ -129,35 +75,18 @@ Duct tape";
 
     #[test]
     fn test_one_result_regex() {
-        let pattern = "duct";
-        let contents = "\
-Rust:
-safe, fast, productive.
-Pick three.";
-
-        assert_eq!(
-            vec!["safe, fast, productive."],
-            search_regex(pattern, contents)
-        );
-    }
-
-    #[test]
-    fn test_one_result2_regex() {
         let pattern = "d..t";
         let contents = "\
 Rust:
 safe, fast, productive.
 Pick three.";
 
-        assert_eq!(
-            vec!["safe, fast, productive."],
-            search_regex(pattern, contents)
-        );
+        assert_eq!(vec!["safe, fast, productive."], search(pattern, contents));
     }
 
     #[test]
     fn test_no_result_regex() {
-        let pattern = "FOO";
+        let pattern = "F..";
         let contents = "\
 Rust:
 safe, fast, productive.
@@ -165,21 +94,7 @@ Pick three.";
         let mut results = vec![""];
         results.pop();
 
-        assert_eq!(results, search_regex(pattern, contents));
-    }
-
-    #[test]
-    fn test_no_result2_regex() {
-        let pattern = "";
-        let contents = "\
-Rust:
-safe, fast, productive.
-Pick three.
-Duct tape";
-        let mut results = vec![""];
-        results.pop();
-
-        assert_eq!(results, search_regex(pattern, contents));
+        assert_eq!(results, search(pattern, contents));
     }
 
     #[test]
