@@ -18,6 +18,8 @@ fmt:                ## format the sources
 	cargo fmt
 	cargo clippy --release
 
+f: fmt
+
 test: fmt           ## test the software
 	./scripts/test.sh
 
