@@ -5,6 +5,7 @@ pub mod error;
 mod grep;
 mod lib;
 mod logger;
+mod secfind;
 mod secgrep;
 
 static LOGGA: logger::Logga = logger::Logga {};

@@ -65,6 +65,12 @@ pub struct Error {
     pub suggestion: String,
 }
 
+impl Error {
+    pub fn set_affected(&mut self, affected: String) {
+        self.affected = affected;
+    }
+}
+
 impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         write!(
@@ -77,7 +83,7 @@ impl std::fmt::Display for Error {
 
 impl From<std::io::Error> for Error {
     fn from(err: std::io::Error) -> Error {
-        let error_affected = String::from("unknown");
+        let error_affected = String::from("unknown1");
         let error_suggestion = String::from("-");
         Error {
             error_type: ErrorType::Io(err),

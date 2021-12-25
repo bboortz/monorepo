@@ -1,9 +1,11 @@
 use crate::commands::CommandsFassade::EGrepCommand;
 use crate::commands::CommandsFassade::GrepCommand;
+use crate::commands::CommandsFassade::SecFindCommand;
 use crate::commands::CommandsFassade::SecGrepCommand;
 use crate::egrep;
 use crate::error;
 use crate::grep;
+use crate::secfind;
 use crate::secgrep;
 use std::fmt::Debug;
 use structopt::StructOpt;
@@ -11,11 +13,11 @@ use structopt::StructOpt;
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "rusterella",
-    version = "0.3.0",
+    version = "0.4.0",
     about = "A single binary written in rust than combines several unix utilities. A busybox clone in rust.",
     author = "Benjamin Boortz <benjamn dot boortz at mailbox dot org>"
 )]
-
+#[allow(clippy::enum_variant_names)]
 pub enum CommandsFassade {
     #[structopt(name = "grep", version = "0.1.0", about = "grep clone")]
     GrepCommand(grep::GrepCommand),
@@ -27,6 +29,12 @@ pub enum CommandsFassade {
         about = "grep for security-aware patterns like passphrases"
     )]
     SecGrepCommand(secgrep::SecGrepCommand),
+    #[structopt(
+        name = "secfind",
+        version = "0.4.0",
+        about = "find for security-aware patterns like passphrases"
+    )]
+    SecFindCommand(secfind::SecFindCommand),
 }
 
 impl CommandsFassade {
@@ -36,6 +44,7 @@ impl CommandsFassade {
             GrepCommand(grep_struct) => println!("GrepCommand: {:?}", grep_struct),
             EGrepCommand(grep_struct) => println!("EGrepCommand: {:?}", grep_struct),
             SecGrepCommand(grep_struct) => println!("SecGrepCommand: {:?}", grep_struct),
+            SecFindCommand(grep_struct) => println!("SecFindCommand: {:?}", grep_struct),
         }
     }
 
@@ -53,6 +62,7 @@ impl CommandsFassade {
                 0
             }
             SecGrepCommand(secgrep_command) => secgrep_command.run()?,
+            SecFindCommand(secfind_command) => secfind_command.run()?,
         })
     }
 }

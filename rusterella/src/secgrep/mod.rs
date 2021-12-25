@@ -1,11 +1,9 @@
-// use std::error::Error;
 use crate::error;
 use crate::lib::search_regex;
 use std::fmt::Debug;
 use std::fs;
 use std::path::PathBuf;
 use structopt::StructOpt;
-// pub mod search;
 
 #[derive(Debug, StructOpt)]
 #[structopt(
@@ -35,13 +33,24 @@ impl SecGrepCommand {
             return Err(err);
         }
 
-        let contents = fs::read_to_string(&self.filename)?;
+        //let contents = fs::read_to_string(&self.filename)?;
+        let contents = match fs::read_to_string(&self.filename) {
+            Ok(c) => c,
+            Err(_) => {
+                let buf = fs::read(self.filename.as_path())?;
+                String::from_utf8_lossy(&buf).to_string()
+            }
+        };
+        //
         let mut ret = 0;
         let results = search_regex::search_case_insensitive(pattern, &contents);
 
-        for line in results {
-            ret += 1;
-            println!("{}", line);
+        if !results.is_empty() {
+            println!("*** {:?}", self.filename);
+            for line in results {
+                ret += 1;
+                println!("{}", line);
+            }
         }
 
         Ok(ret)

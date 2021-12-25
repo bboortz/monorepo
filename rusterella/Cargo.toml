@@ -21,4 +21,5 @@ lto = true              # LTO instructs the linker to optimize at the link stage
 [dependencies]
 structopt = "0.3.25"
 regex = "1.5.4"
+walkdir = "2"
 # clap = "2.3.33"
