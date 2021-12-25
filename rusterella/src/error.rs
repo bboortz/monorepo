@@ -105,7 +105,8 @@ mod tests {
     fn raise_err_trait_std_io_error() -> std::result::Result<usize, error::Error> {
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
-        let error_type = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
+        let io_error = std::io::Error::new(std::io::ErrorKind::Other, "oh no!");
+        let error_type = error::ErrorType::Io(io_error);
         let err = error::Error {
             error_type: error_type,
             affected: error_affected,
@@ -120,12 +121,13 @@ mod tests {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
                 println!("{:?}", e);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
     }
 
-    fn raise_err_regular() -> Result<usize, error::Error> {
+    fn raise_err_regular_filenotfound() -> Result<usize, error::Error> {
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
         let error_type = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
@@ -138,11 +140,36 @@ mod tests {
     }
 
     #[test]
-    fn test_err_regular() {
-        match raise_err_regular() {
+    fn test_err_regular_filenotfound() {
+        match raise_err_regular_filenotfound() {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
                 println!("{:?}", e);
+                println!("{:?}", e.error_type);
+                assert!(true);
+            }
+        }
+    }
+
+    fn raise_err_regular_insufficientpermissions() -> Result<usize, error::Error> {
+        let error_affected = String::from("file test.file");
+        let error_suggestion = String::from("testcase");
+        let error_type = error::ErrorType::Regular(error::ErrorKind::InsufficientPermissions);
+        let err = error::Error {
+            error_type: error_type,
+            affected: error_affected,
+            suggestion: error_suggestion,
+        };
+        Err(err)
+    }
+
+    #[test]
+    fn test_err_regular_insufficientpermissions() {
+        match raise_err_regular_insufficientpermissions() {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{:?}", e);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
@@ -167,6 +194,7 @@ mod tests {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
                 println!("{:?}", e);
+                println!("{:?}", e.error_type);
                 assert!(true);
             }
         }
