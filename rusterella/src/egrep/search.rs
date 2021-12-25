@@ -40,12 +40,29 @@ fn main() -> Result<(), io::Error> {
 
 ////////////
 
+use regex::Regex;
+
 pub fn search<'a>(pattern: &str, contents: &'a str) -> Vec<&'a str> {
     let mut results = Vec::new();
 
     if !pattern.is_empty() {
         for line in contents.lines() {
             if line.contains(pattern) {
+                results.push(line);
+            }
+        }
+    }
+
+    results
+}
+
+pub fn search_regex<'a>(pattern: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    if !pattern.is_empty() {
+        let re = Regex::new(pattern).unwrap();
+        for line in contents.lines() {
+            if re.is_match(line) {
                 results.push(line);
             }
         }
@@ -83,7 +100,6 @@ Pick three.";
 
         assert_eq!(vec!["safe, fast, productive."], search(pattern, contents));
     }
-
     #[test]
     fn test_no_result() {
         let pattern = "FOO";
@@ -109,6 +125,61 @@ Duct tape";
         results.pop();
 
         assert_eq!(results, search(pattern, contents));
+    }
+
+    #[test]
+    fn test_one_result_regex() {
+        let pattern = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(
+            vec!["safe, fast, productive."],
+            search_regex(pattern, contents)
+        );
+    }
+
+    #[test]
+    fn test_one_result2_regex() {
+        let pattern = "d..t";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(
+            vec!["safe, fast, productive."],
+            search_regex(pattern, contents)
+        );
+    }
+
+    #[test]
+    fn test_no_result_regex() {
+        let pattern = "FOO";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+        let mut results = vec![""];
+        results.pop();
+
+        assert_eq!(results, search_regex(pattern, contents));
+    }
+
+    #[test]
+    fn test_no_result2_regex() {
+        let pattern = "";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Duct tape";
+        let mut results = vec![""];
+        results.pop();
+
+        assert_eq!(results, search_regex(pattern, contents));
     }
 
     #[test]
