@@ -2,3 +2,7 @@
 localhost
 grep foobar
 grep FOObar
+secret
+passphrase
+apikey
+password

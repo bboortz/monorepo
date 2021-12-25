@@ -24,7 +24,7 @@ pub struct EGrepCommand {
 }
 
 impl EGrepCommand {
-    pub fn run(&self) -> Result<u32, error::Error> {
+    pub fn run(&self) -> Result<i32, error::Error> {
         if !self.filename.exists() {
             // return Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound));
             let error_affected = self.filename.to_str().unwrap_or("unknown file").to_string();
