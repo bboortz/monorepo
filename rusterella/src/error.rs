@@ -120,8 +120,8 @@ mod tests {
         match raise_err_trait_std_io_error() {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
-                println!("{:?}", e);
-                println!("{:?}", e.error_type);
+                println!("{}", e);
+                println!("{}", e.error_type);
                 assert!(true);
             }
         }
@@ -144,8 +144,8 @@ mod tests {
         match raise_err_regular_filenotfound() {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
-                println!("{:?}", e);
-                println!("{:?}", e.error_type);
+                println!("{}", e);
+                println!("{}", e.error_type);
                 assert!(true);
             }
         }
@@ -168,8 +168,8 @@ mod tests {
         match raise_err_regular_insufficientpermissions() {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
-                println!("{:?}", e);
-                println!("{:?}", e.error_type);
+                println!("{}", e);
+                println!("{}", e.error_type);
                 assert!(true);
             }
         }
@@ -194,8 +194,8 @@ mod tests {
         match raise_err_custom() {
             Ok(_) => assert!(false, "Need to return an Error!"),
             Err(e) => {
-                println!("{:?}", e);
-                println!("{:?}", e.error_type);
+                println!("{}", e);
+                println!("{}", e.error_type);
                 assert!(true);
             }
         }
