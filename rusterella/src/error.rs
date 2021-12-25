@@ -118,7 +118,10 @@ mod tests {
     fn test_raise_err_trait_std_io_error() {
         match raise_err_trait_std_io_error() {
             Ok(_) => assert!(false, "Need to return an Error!"),
-            Err(_) => assert!(true),
+            Err(e) => {
+                println!("{:?}", e);
+                assert!(true);
+            }
         }
     }
 
@@ -138,7 +141,10 @@ mod tests {
     fn test_err_regular() {
         match raise_err_regular() {
             Ok(_) => assert!(false, "Need to return an Error!"),
-            Err(_) => assert!(true),
+            Err(e) => {
+                println!("{:?}", e);
+                assert!(true);
+            }
         }
     }
 
@@ -159,7 +165,10 @@ mod tests {
     fn test_raise_err_custom() {
         match raise_err_custom() {
             Ok(_) => assert!(false, "Need to return an Error!"),
-            Err(_) => assert!(true),
+            Err(e) => {
+                println!("{:?}", e);
+                assert!(true);
+            }
         }
     }
     /*
