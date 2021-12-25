@@ -102,7 +102,7 @@ impl std::fmt::Display for CustomError {
 mod tests {
     use crate::error;
 
-    fn raise_err_trait_std_io_error_new() -> std::result::Result<usize, error::Error> {
+    fn raise_err_trait_std_io_error() -> std::result::Result<usize, error::Error> {
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
         let error_type = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
@@ -114,7 +114,15 @@ mod tests {
         Err(err)
     }
 
-    fn raise_err_regular_new() -> Result<usize, error::Error> {
+    #[test]
+    fn test_raise_err_trait_std_io_error() {
+        match raise_err_trait_std_io_error() {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(_) => assert!(true),
+        }
+    }
+
+    fn raise_err_regular() -> Result<usize, error::Error> {
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
         let error_type = error::ErrorType::Regular(error::ErrorKind::FileNotFound);
@@ -126,7 +134,15 @@ mod tests {
         Err(err)
     }
 
-    fn raise_err_custom_new() -> Result<usize, error::Error> {
+    #[test]
+    fn test_err_regular() {
+        match raise_err_regular() {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(_) => assert!(true),
+        }
+    }
+
+    fn raise_err_custom() -> Result<usize, error::Error> {
         let error_string = String::from("Line not found");
         let error_affected = String::from("file test.file");
         let error_suggestion = String::from("testcase");
@@ -140,31 +156,33 @@ mod tests {
     }
 
     #[test]
-    fn test_error_new() {
-        raise_err_trait_std_io_error_new();
-        raise_err_regular_new();
-        raise_err_custom_new();
+    fn test_raise_err_custom() {
+        match raise_err_custom() {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(_) => assert!(true),
+        }
     }
+    /*
+        fn raise_err_trait_std_io_error() -> std::result::Result<usize, error::ErrorType> {
+            let _f = std::fs::File::create("/file/not/found/foobar")?;
+            Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound))
+        }
 
-    fn raise_err_trait_std_io_error() -> std::result::Result<usize, error::ErrorType> {
-        let _f = std::fs::File::create("/file/not/found/foobar")?;
-        Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound))
-    }
+        fn raise_err_regular() -> Result<usize, error::ErrorType> {
+            Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound))
+        }
 
-    fn raise_err_regular() -> Result<usize, error::ErrorType> {
-        Err(error::ErrorType::Regular(error::ErrorKind::FileNotFound))
-    }
+        fn raise_err_custom() -> Result<usize, error::ErrorType> {
+            let custom_string = String::from("Custom Error String");
+            let custom_error = error::ErrorType::Custom(custom_string);
+            Err(custom_error)
+        }
 
-    fn raise_err_custom() -> Result<usize, error::ErrorType> {
-        let custom_string = String::from("Custom Error String");
-        let custom_error = error::ErrorType::Custom(custom_string);
-        Err(custom_error)
-    }
-
-    #[test]
-    fn test_error_type() {
-        raise_err_trait_std_io_error();
-        raise_err_regular();
-        raise_err_custom();
-    }
+        #[test]
+        fn test_error_type() {
+            raise_err_trait_std_io_error();
+            raise_err_regular();
+            raise_err_custom();
+        }
+    */
 }
