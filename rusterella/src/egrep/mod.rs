@@ -100,6 +100,30 @@ mod tests {
     fn test_run_grep_command4() {
         use std::path::PathBuf;
         let grep_command = egrep::EGrepCommand {
+            pattern: String::from("f..bar"),
+            filename: PathBuf::from(r"./tests/test.file"),
+            case_insensitive: true,
+        };
+        let result = grep_command.run().unwrap();
+        assert_eq!((2), result);
+    }
+
+    #[test]
+    fn test_run_grep_command5() {
+        use std::path::PathBuf;
+        let grep_command = egrep::EGrepCommand {
+            pattern: String::from("f..bar$"),
+            filename: PathBuf::from(r"./tests/test.file"),
+            case_insensitive: true,
+        };
+        let result = grep_command.run().unwrap();
+        assert_eq!((2), result);
+    }
+
+    #[test]
+    fn test_run_grep_command6() {
+        use std::path::PathBuf;
+        let grep_command = egrep::EGrepCommand {
             pattern: String::from("[fF]..bar"),
             filename: PathBuf::from(r"./tests/test.file"),
             case_insensitive: false,
