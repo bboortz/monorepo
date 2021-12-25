@@ -1,10 +1,10 @@
 // use std::error::Error;
 use crate::error;
+use crate::lib::search;
 use std::fmt::Debug;
 use std::fs;
 use std::path::PathBuf;
 use structopt::StructOpt;
-pub mod search;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "grep", version = "0.1.0", about = "grep clone")]

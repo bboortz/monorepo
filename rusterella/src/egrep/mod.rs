@@ -1,10 +1,11 @@
 // use std::error::Error;
 use crate::error;
+use crate::lib::search_regex;
 use std::fmt::Debug;
 use std::fs;
 use std::path::PathBuf;
 use structopt::StructOpt;
-pub mod search;
+// pub mod search;
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "egrep", version = "0.2.0", about = "egrep clone")]
@@ -40,9 +41,9 @@ impl EGrepCommand {
         let contents = fs::read_to_string(&self.filename)?;
         let mut ret = 0;
         let results = if self.case_insensitive {
-            search::search_case_insensitive(&self.pattern, &contents)
+            search_regex::search_case_insensitive(&self.pattern, &contents)
         } else {
-            search::search(&self.pattern, &contents)
+            search_regex::search(&self.pattern, &contents)
         };
 
         for line in results {

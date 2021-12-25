@@ -3,6 +3,7 @@ mod commands;
 mod egrep;
 pub mod error;
 mod grep;
+mod lib;
 mod logger;
 
 static LOGGA: logger::Logga = logger::Logga {};
