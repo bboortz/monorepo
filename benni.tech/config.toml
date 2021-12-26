@@ -1,0 +1,80 @@
+baseurl = "/"
+languageCode = "en-us"
+theme = "terminal"
+paginate = 5
+relativeUrls = true
+
+[params]
+  # dir name of your blog content (default is `content/posts`)
+  contentTypeName = "articles"
+
+  # ["orange", "blue", "red", "green", "pink"]
+  themeColor = "blue"
+
+  # if you set this to 0, only submenu trigger will be visible
+  showMenuItems = 3
+
+  # show selector to switch language
+  showLanguageSelector = false
+
+  # set theme to full screen width
+  fullWidthTheme = false
+
+  # center theme with default width
+  centerTheme = false
+
+  # set a custom favicon (default is a `themeColor` square)
+  # favicon = "favicon.ico"
+
+  # set all headings to their default size (depending on browser settings)
+  # it's set to `true` by default
+  # oneHeadingSize = false
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    title = "Benni's Blog"
+    subtitle = ""
+    keywords = ""
+    copyright = "<br>:: bennis point blog at mailbox dot org ::"
+    menuMore = "Show more Resources"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoText = "Benni's Blog"
+      logoHomeLink = "/"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "home"
+        name = " Home"
+        url = "/"
+      [[languages.en.menu.main]]
+        identifier = "about"
+        name = " About"
+        url = "/About"
+      [[languages.en.menu.main]]
+        identifier = "bookmarks"
+        name = " Bookmarks"
+        url = "/Bookmarks"
+      [[languages.en.menu.main]]
+        identifier = "GitHub"
+        name = "-> GitHub"
+        url = "https://github.com/bboortz"
+      [[languages.en.menu.main]]
+        identifier = "Mastodon"
+        name = "-> Mastodon"
+        url = "https://chaos.social/@bboortz"
+      [[languages.en.menu.main]]
+        identifier = "Twitter"
+        name = "-> Twitter"
+        url = "https://twitter.com/benboortz"
+      [[languages.en.menu.main]]
+        identifier = "LinkedIn"
+        name = "-> LinkedIn"
+        url = "https://www.linkedin.com/in/benjamin-boortz-178924173"
+      [[languages.en.menu.main]]
+        identifier = "Strava"
+        name = "-> Strava"
+        url = "https://www.strava.com/athletes/47187017"
