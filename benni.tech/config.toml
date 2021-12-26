@@ -63,6 +63,10 @@ relativeUrls = true
         name = "-> GitHub"
         url = "https://github.com/bboortz"
       [[languages.en.menu.main]]
+        identifier = "StackOverflow"
+        name = "-> StackOverflow"
+        url = "https://stackoverflow.com/users/17168960/benjamin-boortz"
+      [[languages.en.menu.main]]
         identifier = "Mastodon"
         name = "-> Mastodon"
         url = "https://chaos.social/@bboortz"
