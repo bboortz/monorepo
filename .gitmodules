@@ -1,0 +1,3 @@
+[submodule "benni.tech/themes/terminal"]
+	path = benni.tech/themes/terminal
+	url = https://github.com/panr/hugo-theme-terminal.git
