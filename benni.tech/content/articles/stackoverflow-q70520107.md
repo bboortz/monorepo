@@ -1,6 +1,6 @@
 +++
 title = "Fallback DHCP server -- is it possible?"
-date = "2021-12-29T20:34:30+02:00"
+date = "2021-12-29T19:34:30+02:00"
 author = ""
 authorTwitter = "" #do not include @
 cover = ""
