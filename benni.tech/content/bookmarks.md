@@ -22,6 +22,7 @@ showFullContent = true
 *Linux*
 
 * [FloppyLinux](https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/)
+* [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
 
 *Rust*
 
