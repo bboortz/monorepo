@@ -9,7 +9,7 @@ help:               ## printing out the help
 	@echo
 
 clean:              ## clean up this project
-	rm -f *.o hello small1 small2 small3
+	rm -f *.o hello small1 small2 small3 small4 small5 small6 small7 small8
 c: clean
 
 hello: hello.o
@@ -28,5 +28,20 @@ small2:
 small3:
 	nasm -o small3 small3.asm
 
-build: hello small1 small2 small3             ## build the software
+small4:
+	nasm -o small4 small4.asm
+
+small5:
+	nasm -o small5 small5.asm
+
+small6:
+	nasm -o small6 small6.asm
+
+small7:
+	nasm -o small7 small7.asm
+
+small8:
+	nasm -o small8 small8.asm
+
+build: hello small1 small2 small3 small4 small5 small6 small7 small8             ## build the software
 b: build
