@@ -4,15 +4,16 @@ use std::fmt;
 
 #[derive(Debug, PartialEq, DekuRead, DekuWrite)]
 // #[deku(endian = "little")]
+// #[deku(magic = b"\x7fELF")]
 #[deku()]
 pub struct HeaderMagic {
-    #[deku(bytes = "1")]
+    #[deku(bytes = "1", assert_eq = "0x7F")]
     ei_mag0: u8,
-    #[deku(bytes = "1")]
+    #[deku(bytes = "1", assert_eq = "0x45")]
     ei_mag1: u8,
-    #[deku(bytes = "1")]
+    #[deku(bytes = "1", assert_eq = "0x4C")]
     ei_mag2: u8,
-    #[deku(bytes = "1")]
+    #[deku(bytes = "1", assert_eq = "0x46")]
     ei_mag3: u8,
 }
 
@@ -45,15 +46,40 @@ impl fmt::Display for HeaderClass {
 }
 
 #[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+#[deku(type = "u8")]
+pub enum HeaderEndian {
+    #[deku(id = "0x01")]
+    Little,
+    #[deku(id = "0x02")]
+    Big,
+}
+
+impl fmt::Display for HeaderEndian {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            HeaderEndian::Little => {
+                write!(f, "{:<10}: {:>12} - 0x{:>02}", "ENDIAN", "Little", 0x01)
+            }
+            HeaderEndian::Big => write!(f, "{:<10}: {:>12} - 0x{:>02}", "ENDIAN", "Big", 0x02),
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
 #[deku()]
 pub struct FileHeader {
     magic: HeaderMagic,
     class: HeaderClass,
+    endian: HeaderEndian,
 }
 
 impl fmt::Display for FileHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "** HEADER\n{}\n{}", self.magic, self.class)
+        write!(
+            f,
+            "** HEADER\n{}\n{}\n{}",
+            self.magic, self.class, self.endian
+        )
     }
 }
 
@@ -120,8 +146,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_parse_file_header() {
-        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01];
+    fn test_parse_bytes() {
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01];
         let val = parse_bytes(&data).unwrap();
 
         let header_magic = HeaderMagic {
@@ -130,10 +156,12 @@ mod tests {
             ei_mag2: 0x4C,
             ei_mag3: 0x46,
         };
-        let headerclass = HeaderClass::Bit32;
+        let header_class = HeaderClass::Bit32;
+        let header_endian = HeaderEndian::Little;
         let header = FileHeader {
             magic: header_magic,
-            class: headerclass,
+            class: header_class,
+            endian: header_endian,
         };
         let expected = ElfFile {
             file_header: header,
@@ -142,6 +170,60 @@ mod tests {
 
         let data_out = val.to_bytes().unwrap();
         assert_eq!(data, data_out);
+    }
+
+    #[test]
+    fn test_parse_bytes_invalid_magic() {
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x45];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Assertion(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_bytes_incomplete() {
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Incomplete(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
     }
 
     /*

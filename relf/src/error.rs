@@ -21,12 +21,12 @@ impl std::fmt::Display for ErrorType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match *self {
             ErrorType::Io(ref err) => {
-                write!(f, "An IO error occurred:\n    type:     {}", err)
+                write!(f, "An IO error occurred:\n    type:        {}", err)
             }
             ErrorType::Deku(ref err) => {
                 write!(
                     f,
-                    "An error during parsing occurred:\n    type:     {}",
+                    "An error during parsing occurred:\n    type:        {}",
                     err
                 )
             }

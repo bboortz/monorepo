@@ -1,8 +1,8 @@
 use crate::elf;
 use crate::error;
-use std::path::PathBuf;
+use std::path::Path;
 
-pub fn get_file_as_byte_vec(filename: PathBuf) -> Result<Vec<u8>, error::Error> {
+pub fn get_file_as_byte_vec(filename: &Path) -> Result<Vec<u8>, error::Error> {
     match std::fs::read(&filename) {
         Ok(bytes) => Ok(bytes),
         Err(e) => {
@@ -33,7 +33,7 @@ pub fn get_file_as_byte_vec(filename: PathBuf) -> Result<Vec<u8>, error::Error> 
     }
 }
 
-pub fn parse_file(filename: PathBuf) -> Result<elf::ElfFile, error::Error> {
+pub fn parse_file(filename: &Path) -> Result<elf::ElfFile, error::Error> {
     let error_affected = filename.to_str().unwrap_or("unknown file").to_string();
     if !filename.exists() {
         let err = error::Error {
