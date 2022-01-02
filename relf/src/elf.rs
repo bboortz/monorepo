@@ -21,7 +21,7 @@ impl fmt::Display for HeaderMagic {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{:<10}: {:>12} - 0x{:02x}{:02x}{:02x}{:02x}",
+            "{:<14}: {:>14} - 0x{:02x}{:02x}{:02x}{:02x}",
             "MAGIC", "ELF", self.ei_mag0, self.ei_mag1, self.ei_mag2, self.ei_mag3
         )
     }
@@ -39,8 +39,8 @@ pub enum HeaderClass {
 impl fmt::Display for HeaderClass {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            HeaderClass::Bit32 => write!(f, "{:<10}: {:>12} - 0x{:>02}", "CLASS", "32bit", 0x01),
-            HeaderClass::Bit64 => write!(f, "{:<10}: {:>12} - 0x{:>02}", "CLASS", "64bit", 0x02),
+            HeaderClass::Bit32 => write!(f, "{:<14}: {:>14} - 0x{:>02}", "CLASS", "32bit", 0x01),
+            HeaderClass::Bit64 => write!(f, "{:<14}: {:>14} - 0x{:>02}", "CLASS", "64bit", 0x02),
         }
     }
 }
@@ -58,10 +58,167 @@ impl fmt::Display for HeaderEndian {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             HeaderEndian::Little => {
-                write!(f, "{:<10}: {:>12} - 0x{:>02}", "ENDIAN", "Little", 0x01)
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "ENDIAN", "Little", 0x01)
             }
-            HeaderEndian::Big => write!(f, "{:<10}: {:>12} - 0x{:>02}", "ENDIAN", "Big", 0x02),
+            HeaderEndian::Big => write!(f, "{:<14}: {:>14} - 0x{:>02}", "ENDIAN", "Big", 0x02),
         }
+    }
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+#[deku()]
+pub struct HeaderVersion {
+    #[deku(bytes = "1", assert_eq = "0x01")]
+    ei_version: u8,
+}
+
+impl fmt::Display for HeaderVersion {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{:<14}: {:>14} - 0x{:02x}",
+            "Version", self.ei_version, self.ei_version
+        )
+    }
+}
+
+// list copied from https://en.wikipedia.org/wiki/Executable_and_Linkable_Format
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+#[deku(type = "u8")]
+pub enum HeaderOsAbi {
+    #[deku(id = "0x00")]
+    SystemV,
+    #[deku(id = "0x01")]
+    HpUx,
+    #[deku(id = "0x02")]
+    NetBSD,
+    #[deku(id = "0x03")]
+    Linux,
+    #[deku(id = "0x04")]
+    GnuHurd,
+    #[deku(id = "0x06")]
+    Solaris,
+    #[deku(id = "0x07")]
+    Aix,
+    #[deku(id = "0x08")]
+    Irix,
+    #[deku(id = "0x09")]
+    FreeBSD,
+    #[deku(id = "0x0A")]
+    Tru64,
+    #[deku(id = "0x0B")]
+    NovelModesto,
+    #[deku(id = "0x0C")]
+    OpenBSD,
+    #[deku(id = "0x0D")]
+    OpenVMS,
+    #[deku(id = "0x0E")]
+    HPNonStop,
+    #[deku(id = "0x0F")]
+    Aros,
+    #[deku(id = "0x10")]
+    FenixOS,
+    #[deku(id = "0x11")]
+    CloudABI,
+    #[deku(id = "0x12")]
+    StratusVOS,
+}
+
+impl fmt::Display for HeaderOsAbi {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            HeaderOsAbi::SystemV => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "SystemV", 0x00)
+            }
+            HeaderOsAbi::HpUx => {
+                write!(
+                    f,
+                    "{:<14}: {:>14} - 0x{:>02}",
+                    "OS ABI", "HP-UX", 0x01
+                )
+            }
+            HeaderOsAbi::NetBSD => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "NetBSD", 0x02)
+            }
+            HeaderOsAbi::Linux => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "Linux", 0x03)
+            }
+            HeaderOsAbi::GnuHurd => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "GNU Hurd", 0x04)
+            }
+            HeaderOsAbi::Solaris => {
+                write!(
+                    f,
+                    "{:<14}: {:>14} - 0x{:>02}",
+                    "OS ABI", "Sun Solaris", 0x06
+                )
+            }
+            HeaderOsAbi::Aix => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "IBM AIX", 0x07)
+            }
+            HeaderOsAbi::Irix => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "IRIX", 0x08)
+            }
+            HeaderOsAbi::FreeBSD => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "FreeBSD", 0x09)
+            }
+            HeaderOsAbi::Tru64 => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "Tru64 UNIX", 0x0A)
+            }
+            HeaderOsAbi::NovelModesto => {
+                write!(
+                    f,
+                    "{:<14}: {:>14} - 0x{:>02}",
+                    "OS ABI", "Novel Modesto", 0x0B
+                )
+            }
+            HeaderOsAbi::OpenBSD => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "OpenBSD", 0x0C)
+            }
+            HeaderOsAbi::OpenVMS => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "OpenVMS", 0x0D)
+            }
+            HeaderOsAbi::HPNonStop => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "HP NonStop", 0x0E)
+            }
+            HeaderOsAbi::Aros => {
+                write!(
+                    f,
+                    "{:<14}: {:>14} - 0x{:>02}",
+                    "OS ABI", "AROS Research Operating System", 0x0F
+                )
+            }
+            HeaderOsAbi::FenixOS => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "Fenix OX", 0x10)
+            }
+            HeaderOsAbi::CloudABI => {
+                write!(f, "{:<14}: {:>14} - 0x{:>02}", "OS ABI", "CloudABI", 0x11)
+            }
+            HeaderOsAbi::StratusVOS => {
+                write!(
+                    f,
+                    "{:<14}: {:>14} - 0x{:>02}",
+                    "OS ABI", "Stratus VOS", 0x12
+                )
+            }
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+#[deku()]
+pub struct HeaderAbiVersion{
+    #[deku(bytes = "1")]
+    ei_abiversion: u8,
+}
+
+impl fmt::Display for HeaderAbiVersion {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{:<14}: {:>14} - 0x{:02x}",
+            "ABI Version", self.ei_abiversion, self.ei_abiversion
+        )
     }
 }
 
@@ -71,14 +228,17 @@ pub struct FileHeader {
     magic: HeaderMagic,
     class: HeaderClass,
     endian: HeaderEndian,
+    version: HeaderVersion,
+    osabi: HeaderOsAbi,
+    abiversion: HeaderAbiVersion,
 }
 
 impl fmt::Display for FileHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "** HEADER\n{}\n{}\n{}",
-            self.magic, self.class, self.endian
+            "** HEADER\n{}\n{}\n{}\n{}\n{}\n{}",
+            self.magic, self.class, self.endian, self.version, self.osabi, self.abiversion,
         )
     }
 }
@@ -147,7 +307,7 @@ mod tests {
 
     #[test]
     fn test_parse_bytes() {
-        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01];
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01];
         let val = parse_bytes(&data).unwrap();
 
         let header_magic = HeaderMagic {
@@ -158,10 +318,16 @@ mod tests {
         };
         let header_class = HeaderClass::Bit32;
         let header_endian = HeaderEndian::Little;
+        let header_version = HeaderVersion { ei_version: 0x01 };
+        let header_osabi = HeaderOsAbi::Linux;
+        let header_abiversion = HeaderAbiVersion { ei_abiversion: 0x01 };
         let header = FileHeader {
             magic: header_magic,
             class: header_class,
             endian: header_endian,
+            version: header_version,
+            osabi: header_osabi,
+            abiversion: header_abiversion,
         };
         let expected = ElfFile {
             file_header: header,
@@ -200,8 +366,89 @@ mod tests {
     }
 
     #[test]
-    fn test_parse_bytes_incomplete() {
+    fn test_parse_bytes_incomplete_endian() {
         let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Incomplete(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_bytes_incomplete_version() {
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Incomplete(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_bytes_incomplete_osabi() {
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Incomplete(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_bytes_incomplete_abiversion() {
+        let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03];
         let val = parse_bytes(&data);
 
         match val {
