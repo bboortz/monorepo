@@ -122,6 +122,8 @@ pub enum HeaderOsAbi {
     CloudABI,
     #[deku(id = "0x12")]
     StratusVOS,
+    #[deku(id = "0xFF")]
+    Standalone,
 }
 
 impl fmt::Display for HeaderOsAbi {
@@ -145,6 +147,7 @@ impl fmt::Display for HeaderOsAbi {
             HeaderOsAbi::FenixOS => ("Fenix OX", 0x10),
             HeaderOsAbi::CloudABI => ("CloudABI", 0x11),
             HeaderOsAbi::StratusVOS => ("Stratus VOS", 0x12),
+            HeaderOsAbi::Standalone => ("Standalone application", 0x12),
         };
 
         let data_vec: Vec<u8> = byte.to_ne_bytes().to_vec();
@@ -209,6 +212,48 @@ impl fmt::Display for HeaderType {
     }
 }
 
+// TODO: extend num list of all possible machines
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+#[deku(type = "u8")]
+pub enum HeaderMachine {
+    #[deku(id = "0x00")]
+    None,
+    #[deku(id = "0x01")]
+    WE32100,
+    #[deku(id = "0x02")]
+    Sparc,
+    #[deku(id = "0x03")]
+    X86,
+    #[deku(id = "0x04")]
+    Motorola68000,
+    #[deku(id = "0x05")]
+    Motorola88000,
+    #[deku(id = "0x06")]
+    IntelMCU,
+    #[deku(id = "0x07")]
+    Intel80860,
+    #[deku(id = "0x3E")]
+    X86_64,
+}
+
+impl fmt::Display for HeaderMachine {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let (data_str, byte): (&str, u8) = match *self {
+            HeaderMachine::None => ("No file type", 0x00),
+            HeaderMachine::WE32100 => ("AT&T WE 32100", 0x01),
+            HeaderMachine::Sparc => ("SUN Sparc", 0x02),
+            HeaderMachine::X86 => ("x86", 0x03),
+            HeaderMachine::Motorola68000 => ("Motorola 68000 (m68k)", 0x04),
+            HeaderMachine::Motorola88000 => ("Motorola 88000 (m88k)", 0x05),
+            HeaderMachine::IntelMCU => ("Intel MCU", 0x06),
+            HeaderMachine::Intel80860 => ("Intel 80860", 0x07),
+            HeaderMachine::X86_64 => ("AMD x86-64", 0x3E),
+        };
+        let data_vec: Vec<u8> = byte.to_ne_bytes().to_vec();
+        display::print_field(f, "MACHINE", data_str, &data_vec)
+    }
+}
+
 #[derive(Debug, PartialEq, DekuRead, DekuWrite)]
 #[deku()]
 pub struct FileHeader {
@@ -220,13 +265,14 @@ pub struct FileHeader {
     abiversion: HeaderAbiVersion,
     padding: HeaderPadding,
     r#type: HeaderType,
+    machine: HeaderMachine,
 }
 
 impl fmt::Display for FileHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "** HEADER\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
+            "** HEADER\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
             self.magic,
             self.class,
             self.endian,
@@ -234,7 +280,8 @@ impl fmt::Display for FileHeader {
             self.osabi,
             self.abiversion,
             self.padding,
-            self.r#type
+            self.r#type,
+            self.machine,
         )
     }
 }
@@ -305,7 +352,7 @@ mod tests {
     fn test_parse_bytes() {
         let data: Vec<u8> = vec![
             0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
-            0x06, 0x07, 0x03,
+            0x06, 0x07, 0x03, 0x3E,
         ];
         let val = parse_bytes(&data).unwrap();
 
@@ -326,6 +373,8 @@ mod tests {
             ei_pad: vec![0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07],
         };
         let header_type = HeaderType::Dyn;
+        let header_machine = HeaderMachine::X86_64;
+
         let header = FileHeader {
             magic: header_magic,
             class: header_class,
@@ -335,6 +384,7 @@ mod tests {
             abiversion: header_abiversion,
             padding: header_padding,
             r#type: header_type,
+            machine: header_machine,
         };
         let expected = ElfFile {
             file_header: header,
@@ -512,6 +562,36 @@ mod tests {
         let data: Vec<u8> = vec![
             0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
             0x06, 0x07,
+        ];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Incomplete(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_bytes_incomplete_machine() {
+        let data: Vec<u8> = vec![
+            0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
+            0x06, 0x07, 0x03,
         ];
         let val = parse_bytes(&data);
 
