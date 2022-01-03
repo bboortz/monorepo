@@ -21,11 +21,7 @@ pub struct HeaderMagic {
 
 impl fmt::Display for HeaderMagic {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut data_vec: Vec<u8> = vec![];
-        data_vec.push(self.ei_mag0);
-        data_vec.push(self.ei_mag1);
-        data_vec.push(self.ei_mag2);
-        data_vec.push(self.ei_mag3);
+        let data_vec: Vec<u8> = vec![self.ei_mag0, self.ei_mag1, self.ei_mag2, self.ei_mag3];
         let data_str: &str = "ELF";
         display::print_field(f, "MAGIC", data_str, &data_vec)
     }
@@ -152,7 +148,7 @@ impl fmt::Display for HeaderOsAbi {
         };
 
         let data_vec: Vec<u8> = byte.to_ne_bytes().to_vec();
-        display::print_field(f, "ENDIAN", data_str, &data_vec)
+        display::print_field(f, "OS ABI", data_str, &data_vec)
     }
 }
 
@@ -185,6 +181,35 @@ impl fmt::Display for HeaderPadding {
 }
 
 #[derive(Debug, PartialEq, DekuRead, DekuWrite)]
+#[deku(type = "u8")]
+pub enum HeaderType {
+    #[deku(id = "0x00")]
+    None,
+    #[deku(id = "0x01")]
+    Rel,
+    #[deku(id = "0x02")]
+    Exec,
+    #[deku(id = "0x03")]
+    Dyn,
+    #[deku(id = "0x04")]
+    Core,
+}
+
+impl fmt::Display for HeaderType {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let (data_str, byte): (&str, u8) = match *self {
+            HeaderType::None => ("No file type", 0x00),
+            HeaderType::Rel => ("Relocatable file", 0x01),
+            HeaderType::Exec => ("Executable file", 0x02),
+            HeaderType::Dyn => ("Shared object file", 0x03),
+            HeaderType::Core => ("Core file", 0x04),
+        };
+        let data_vec: Vec<u8> = byte.to_ne_bytes().to_vec();
+        display::print_field(f, "TYPE", data_str, &data_vec)
+    }
+}
+
+#[derive(Debug, PartialEq, DekuRead, DekuWrite)]
 #[deku()]
 pub struct FileHeader {
     magic: HeaderMagic,
@@ -194,13 +219,14 @@ pub struct FileHeader {
     osabi: HeaderOsAbi,
     abiversion: HeaderAbiVersion,
     padding: HeaderPadding,
+    r#type: HeaderType,
 }
 
 impl fmt::Display for FileHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "** HEADER\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
+            "** HEADER\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}",
             self.magic,
             self.class,
             self.endian,
@@ -208,6 +234,7 @@ impl fmt::Display for FileHeader {
             self.osabi,
             self.abiversion,
             self.padding,
+            self.r#type
         )
     }
 }
@@ -278,7 +305,7 @@ mod tests {
     fn test_parse_bytes() {
         let data: Vec<u8> = vec![
             0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
-            0x06, 0x07,
+            0x06, 0x07, 0x03,
         ];
         let val = parse_bytes(&data).unwrap();
 
@@ -298,6 +325,7 @@ mod tests {
         let header_padding = HeaderPadding {
             ei_pad: vec![0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07],
         };
+        let header_type = HeaderType::Dyn;
         let header = FileHeader {
             magic: header_magic,
             class: header_class,
@@ -306,6 +334,7 @@ mod tests {
             osabi: header_osabi,
             abiversion: header_abiversion,
             padding: header_padding,
+            r#type: header_type,
         };
         let expected = ElfFile {
             file_header: header,
@@ -454,6 +483,36 @@ mod tests {
     #[test]
     fn test_parse_bytes_incomplete_padding() {
         let data: Vec<u8> = vec![0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01];
+        let val = parse_bytes(&data);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                match e.error_type {
+                    error::ErrorType::Deku(d) => match d {
+                        deku::error::DekuError::Incomplete(_s) => {
+                            assert!(true);
+                        }
+                        _ => {
+                            assert!(false);
+                        }
+                    },
+                    _ => {
+                        assert!(false);
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_parse_bytes_incomplete_type() {
+        let data: Vec<u8> = vec![
+            0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
+            0x06, 0x07,
+        ];
         let val = parse_bytes(&data);
 
         match val {
