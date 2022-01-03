@@ -86,4 +86,38 @@ mod tests {
         let data_out = val.to_bytes().unwrap();
         assert_eq!(data, data_out);
     }
+
+    #[test]
+    fn test_parse_nonexisting_file() {
+        let path = std::path::PathBuf::from(r"/path/to/nonexisting/file");
+        let val = parse_file(&path);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e);
+                println!("{:?}", e);
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                assert!(true);
+            }
+        };
+    }
+
+    #[test]
+    fn test_parse_nopermissions_file() {
+        let path = std::path::PathBuf::from(r"/proc/kcore");
+        let val = parse_file(&path);
+
+        match val {
+            Ok(_) => assert!(false, "Need to return an Error!"),
+            Err(e) => {
+                println!("{}", e);
+                println!("{:?}", e);
+                println!("{}", e.error_type);
+                println!("{:?}", e.error_type);
+                assert!(true);
+            }
+        };
+    }
 }
