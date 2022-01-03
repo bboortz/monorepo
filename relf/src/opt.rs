@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
-#[derive(Debug, StructOpt)]
+#[derive(Debug, StructOpt, PartialEq)]
 #[structopt(
     name = "relf",
     version = env!("CARGO_PKG_VERSION"),
@@ -26,5 +26,40 @@ pub struct Opt {
 impl Opt {
     pub fn from_args() -> Opt {
         <Opt as StructOpt>::from_args()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_opts() {
+        assert_eq!(
+            Opt {
+                debug: false,
+                verbose: false,
+                filename: std::path::PathBuf::from(r"./samples/handcrafted")
+            },
+            Opt::from_clap(&Opt::clap().get_matches_from(&["relf", "./samples/handcrafted"]))
+        );
+
+        assert_eq!(
+            Opt {
+                debug: false,
+                verbose: true,
+                filename: std::path::PathBuf::from(r"./samples/handcrafted")
+            },
+            Opt::from_clap(&Opt::clap().get_matches_from(&["relf", "-v", "./samples/handcrafted"]))
+        );
+
+        assert_eq!(
+            Opt {
+                debug: true,
+                verbose: false,
+                filename: std::path::PathBuf::from(r"./samples/handcrafted")
+            },
+            Opt::from_clap(&Opt::clap().get_matches_from(&["relf", "-d", "./samples/handcrafted"]))
+        );
     }
 }

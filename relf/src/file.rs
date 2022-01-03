@@ -59,18 +59,7 @@ pub fn parse_file(filename: &Path) -> Result<elf::ElfFile, error::Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    /*
-    #[test]
-    fn test_print_field() {
-        let data: Vec<u8> = vec![
-            0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
-            0x06, 0x07, 0x03, 0x3E,
-        ];
-        let expected = String::from("[127, 69, 76, 70, 1, 1, 1, 3, 1, 1, 2, 3, 4, 5, 6, 7, 3, 62]");
-        //let result = print_field(f, "KEY", "VALUE", &data);
-        let result = format!("{:?}", data);
-        assert_eq!(expected, result);
-    }*/
+
     #[test]
     fn test_get_file_as_byte_vec() {
         let data: Vec<u8> = vec![
