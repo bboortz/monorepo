@@ -1,3 +1,4 @@
+mod display;
 mod elf;
 pub mod error;
 mod file;
