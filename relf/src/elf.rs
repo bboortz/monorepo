@@ -446,6 +446,7 @@ mod tests {
         let expected = ElfFile {
             file_header: header,
         };
+        println!("{}", &val);
         assert_eq!(expected, val);
 
         let data_out = val.to_bytes().unwrap();
