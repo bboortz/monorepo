@@ -294,7 +294,7 @@ impl fmt::Display for FileHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "** HEADER\n{}\n{}\n{}",
+            "----------------   HEADER   ---\n{}\n{}\n{}",
             self.ident, self.r#type, self.machine,
         )
     }
@@ -313,28 +313,6 @@ impl fmt::Display for ElfFile {
 }
 
 /*
-pub fn parse_header_magic(data: &[u8]) -> Result<HeaderIdentMagic, error::Error> {
-    let (_rest, mut val) = HeaderIdentMagic::from_bytes((data.as_ref(), 0)).unwrap();
-    Ok(val)
-}
-
-pub fn parse_header_class(data: &[u8]) -> Result<HeaderIdentClass, error::Error> {
-    match HeaderIdentClass::from_bytes((data.as_ref(), 0)) {
-        Ok((_rest, val)) => Ok(val),
-        Err(deku_err) => {
-            let error_affected = String::from("unknown");
-            let error_suggestion = String::from("testcase");
-            let error_type = error::ErrorType::Deku(deku_err);
-            let err = error::Error {
-                error_type: error_type,
-                affected: error_affected,
-                suggestion: error_suggestion,
-            };
-            Err(err)
-        }
-    }
-}
-
 pub fn parse_file_header(data: &[u8]) -> Result<FileHeader, error::Error> {
     let (_rest, mut val) = FileHeader::from_bytes((data.as_ref(), 0)).unwrap();
     Ok(val)
