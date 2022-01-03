@@ -275,7 +275,7 @@ pub enum HeaderMachine {
 impl fmt::Display for HeaderMachine {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (data_str, byte): (&str, u8) = match *self {
-            HeaderMachine::None => ("No file type", 0x00),
+            HeaderMachine::None => ("unspecified instruction set", 0x00),
             HeaderMachine::WE32100 => ("AT&T WE 32100", 0x01),
             HeaderMachine::Sparc => ("SUN Sparc", 0x02),
             HeaderMachine::X86 => ("x86", 0x03),
@@ -341,8 +341,8 @@ pub fn parse_file_header(data: &[u8]) -> Result<FileHeader, error::Error> {
 }
 */
 
-pub fn parse_bytes(data: &[u8]) -> Result<ElfFile, error::Error> {
-    match ElfFile::from_bytes((data, 0)) {
+pub fn parse_bytes_header_ident(data: &[u8]) -> Result<FileHeaderIdent, error::Error> {
+    match FileHeaderIdent::from_bytes((data, 0)) {
         Ok((_rest, val)) => Ok(val),
         Err(deku_err) => {
             let error_affected = String::from("unknown");
@@ -354,6 +354,47 @@ pub fn parse_bytes(data: &[u8]) -> Result<ElfFile, error::Error> {
                 suggestion: error_suggestion,
             };
             Err(err)
+        }
+    }
+}
+
+pub fn parse_bytes(data: &[u8]) -> Result<ElfFile, error::Error> {
+    match ElfFile::from_bytes((data, 0)) {
+        Ok((_rest, val)) => Ok(val),
+        Err(_deku_err) => {
+            /*
+            let ident = match parse_bytes_header_ident(data) {
+                Ok(val) => val,
+                Err(err) => {
+                    Err(err)
+                  /*
+                    let error_affected = String::from("unknown");
+                    let error_suggestion = String::from("verify the file format");
+                    let error_type = error::ErrorType::Deku(deku_err);
+                    let err = error::Error {
+                        error_type,
+                        affected: error_affected,
+                        suggestion: error_suggestion,
+                    };
+                    Err(err)
+                  */
+                }
+            };
+            */
+            warn!("Incomplete ELF file. Trying to parse elf header ident ...");
+            let ident = parse_bytes_header_ident(data)?;
+
+            let header_type = HeaderType::None;
+            let header_machine = HeaderMachine::None;
+            let header = FileHeader {
+                ident,
+                r#type: header_type,
+                machine: header_machine,
+            };
+            let elffile = ElfFile {
+                file_header: header,
+            };
+            Ok(elffile)
         }
     }
 }
@@ -409,6 +450,92 @@ mod tests {
 
         let data_out = val.to_bytes().unwrap();
         assert_eq!(data, data_out);
+    }
+
+    #[test]
+    fn test_parse_bytes_header_ident_direct() {
+        let data: Vec<u8> = vec![
+            0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
+            0x06, 0x07,
+        ];
+        let val = parse_bytes_header_ident(&data).unwrap();
+
+        let header_ident_magic = HeaderIdentMagic {
+            ei_mag0: 0x7F,
+            ei_mag1: 0x45,
+            ei_mag2: 0x4C,
+            ei_mag3: 0x46,
+        };
+        let header_ident_class = HeaderIdentClass::Bit32;
+        let header_ident_endian = HeaderIdentEndian::Little;
+        let header_ident_version = HeaderIdentVersion { ei_version: 0x01 };
+        let header_ident_osabi = HeaderIdentOsAbi::Linux;
+        let header_ident_abiversion = HeaderIdentAbiVersion {
+            ei_abiversion: 0x01,
+        };
+        let header_ident_padding = HeaderIdentPadding {
+            ei_pad: vec![0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07],
+        };
+        let ident = FileHeaderIdent {
+            magic: header_ident_magic,
+            class: header_ident_class,
+            endian: header_ident_endian,
+            version: header_ident_version,
+            osabi: header_ident_osabi,
+            abiversion: header_ident_abiversion,
+            padding: header_ident_padding,
+        };
+
+        assert_eq!(ident, val);
+
+        let data_out = val.to_bytes().unwrap();
+        assert_eq!(data, data_out);
+    }
+
+    #[test]
+    fn test_parse_bytes_header_ident_only() {
+        let data: Vec<u8> = vec![
+            0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
+            0x06, 0x07,
+        ];
+        let val = parse_bytes(&data).unwrap();
+
+        let header_ident_magic = HeaderIdentMagic {
+            ei_mag0: 0x7F,
+            ei_mag1: 0x45,
+            ei_mag2: 0x4C,
+            ei_mag3: 0x46,
+        };
+        let header_ident_class = HeaderIdentClass::Bit32;
+        let header_ident_endian = HeaderIdentEndian::Little;
+        let header_ident_version = HeaderIdentVersion { ei_version: 0x01 };
+        let header_ident_osabi = HeaderIdentOsAbi::Linux;
+        let header_ident_abiversion = HeaderIdentAbiVersion {
+            ei_abiversion: 0x01,
+        };
+        let header_ident_padding = HeaderIdentPadding {
+            ei_pad: vec![0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07],
+        };
+        let ident = FileHeaderIdent {
+            magic: header_ident_magic,
+            class: header_ident_class,
+            endian: header_ident_endian,
+            version: header_ident_version,
+            osabi: header_ident_osabi,
+            abiversion: header_ident_abiversion,
+            padding: header_ident_padding,
+        };
+        let header_type = HeaderType::None;
+        let header_machine = HeaderMachine::None;
+        let header = FileHeader {
+            ident: ident,
+            r#type: header_type,
+            machine: header_machine,
+        };
+        let expected = ElfFile {
+            file_header: header,
+        };
+        assert_eq!(expected, val);
     }
 
     #[test]
@@ -579,28 +706,10 @@ mod tests {
             0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
             0x06, 0x07,
         ];
-        let val = parse_bytes(&data);
-
-        match val {
-            Ok(_) => assert!(false, "Need to return an Error!"),
-            Err(e) => {
-                println!("{}", e.error_type);
-                println!("{:?}", e.error_type);
-                match e.error_type {
-                    error::ErrorType::Deku(d) => match d {
-                        deku::error::DekuError::Incomplete(_s) => {
-                            assert!(true);
-                        }
-                        _ => {
-                            assert!(false);
-                        }
-                    },
-                    _ => {
-                        assert!(false);
-                    }
-                }
-            }
-        }
+        let val = parse_bytes(&data).unwrap();
+        let val_type = val.file_header.r#type;
+        let expected = HeaderType::None;
+        assert_eq!(expected, val_type);
     }
 
     #[test]
@@ -609,27 +718,9 @@ mod tests {
             0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x01, 0x01, 0x02, 0x03, 0x04, 0x05,
             0x06, 0x07, 0x03,
         ];
-        let val = parse_bytes(&data);
-
-        match val {
-            Ok(_) => assert!(false, "Need to return an Error!"),
-            Err(e) => {
-                println!("{}", e.error_type);
-                println!("{:?}", e.error_type);
-                match e.error_type {
-                    error::ErrorType::Deku(d) => match d {
-                        deku::error::DekuError::Incomplete(_s) => {
-                            assert!(true);
-                        }
-                        _ => {
-                            assert!(false);
-                        }
-                    },
-                    _ => {
-                        assert!(false);
-                    }
-                }
-            }
-        }
+        let val = parse_bytes(&data).unwrap();
+        let val_type = val.file_header.machine;
+        let expected = HeaderMachine::None;
+        assert_eq!(expected, val_type);
     }
 }
