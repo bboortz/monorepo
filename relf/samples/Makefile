@@ -9,8 +9,11 @@ help:               ## printing out the help
 	@echo
 
 clean:              ## clean up this project
-	rm -f *.o hello small1 small2 small3 small4 small5 small6 small7 small8
+	rm -f *.o entry_point hello small1 small2 small3 small4 small5 small6 small7 small8
 c: clean
+
+entry_point:
+	gcc -o entry_point entry_point.c
 
 hello: hello.o
 	ld hello.o -o hello
@@ -43,5 +46,5 @@ small7:
 small8:
 	nasm -o small8 small8.asm
 
-build: hello small1 small2 small3 small4 small5 small6 small7 small8             ## build the software
+build: entry_point hello small1 small2 small3 small4 small5 small6 small7 small8             ## build the software
 b: build
