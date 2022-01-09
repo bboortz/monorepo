@@ -33,7 +33,7 @@ pub fn get_file_as_byte_vec(filename: &Path) -> Result<Vec<u8>, error::Error> {
     }
 }
 
-pub fn parse_file(filename: &Path) -> Result<elf::ElfFile, error::Error> {
+pub fn parse_file(filename: &Path) -> Result<elf::file::ElfFile, error::Error> {
     let error_affected = filename.to_str().unwrap_or("unknown file").to_string();
     if !filename.exists() {
         let err = error::Error {
@@ -78,7 +78,7 @@ mod tests {
 
         let data: Vec<u8> = vec![
             0x7F, 0x45, 0x4C, 0x46, 0x01, 0x01, 0x01, 0x03, 0x00, 0x10, 0x20, 0x31, 0x32, 0x33,
-            0x20, 0x11, 0x00, 0x00, 0x00, 0x00,
+            0x20, 0x11, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04,
         ];
         let path = std::path::PathBuf::from(r"./samples/handcrafted_ident");
         let val = parse_file(&path).unwrap();
