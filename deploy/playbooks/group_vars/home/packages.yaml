@@ -11,6 +11,7 @@
 # packages to install
 package_install:
   package_list:
+    - iputils
     - bash-completion
     - bzip2
     - curl
