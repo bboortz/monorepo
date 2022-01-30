@@ -26,11 +26,11 @@ elao_cron_files:
         minute:   30 
         hour:     22
         weekday:  0
-      - name:     rsnapshot-delta
-        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
-        minute:   15
-        hour:     21
-        day:      1
+#      - name:     rsnapshot-delta
+#        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
+#        minute:   15
+#        hour:     21
+#        day:      1
   - file: os-update
     user: root
     jobs:
