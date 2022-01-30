@@ -3,7 +3,6 @@ use std::time;
 use crate::error;
 use crate::reqwest_client;
 
-
 const RETRIES: u16 = 3;
 
 #[derive(Debug)]
@@ -28,41 +27,46 @@ pub struct ConnTestReport {
 
 impl ConnTestReport {
     pub fn new(number_tests: u32) -> Self {
-        Self { number_tests, number_errors: 0, number_retries: 0, elapsed_min: std::time::Duration::from_millis(0), elapsed_max: std::time::Duration::from_millis(0), elapsed_mean: std::time::Duration::from_millis(0), total_elapsed: std::time::Duration::from_millis(0)}
+        Self {
+            number_tests,
+            number_errors: 0,
+            number_retries: 0,
+            elapsed_min: std::time::Duration::from_millis(0),
+            elapsed_max: std::time::Duration::from_millis(0),
+            elapsed_mean: std::time::Duration::from_millis(0),
+            total_elapsed: std::time::Duration::from_millis(0),
+        }
     }
 
     pub fn add_result(&mut self, result: &ConnTestResult) {
-      // number_retries
-      self.number_retries += result.retries;
+        // number_retries
+        self.number_retries += result.retries;
 
-      // elapsed_min
-      if self.elapsed_min == std::time::Duration::from_millis(0) {
-          self.elapsed_min += result.total_elapsed;
-      }
-      if result.total_elapsed < self.elapsed_min {
-          self.elapsed_min = result.total_elapsed;
-      }
+        // elapsed_min
+        if self.elapsed_min == std::time::Duration::from_millis(0) {
+            self.elapsed_min += result.total_elapsed;
+        }
+        if result.total_elapsed < self.elapsed_min {
+            self.elapsed_min = result.total_elapsed;
+        }
 
-      // elapsed_max
-      if result.total_elapsed > self.elapsed_max {
-          self.elapsed_max = result.total_elapsed;
-      }
+        // elapsed_max
+        if result.total_elapsed > self.elapsed_max {
+            self.elapsed_max = result.total_elapsed;
+        }
 
-      // total_elapsed
-      self.total_elapsed += result.total_elapsed;
+        // total_elapsed
+        self.total_elapsed += result.total_elapsed;
 
-      // elapsed_mean
-      self.elapsed_mean = self.total_elapsed / self.number_tests;
+        // elapsed_mean
+        self.elapsed_mean = self.total_elapsed / self.number_tests;
     }
 
     pub fn add_error(&mut self, _result: &error::Error) {
-      self.number_errors += 1;
-      self.number_retries += RETRIES;
-
+        self.number_errors += 1;
+        self.number_retries += RETRIES;
     }
 }
-
-
 
 fn run_single_url(url: &str) -> Result<ConnTestResult, error::Error> {
     info!("testing {} ...", url);
@@ -82,7 +86,7 @@ fn run_single_url(url: &str) -> Result<ConnTestResult, error::Error> {
     let c = reqwest_client::ReqwestClient::new();
     let now = time::Instant::now();
 
-    for i in 0..RETRIES{
+    for i in 0..RETRIES {
         match c.test_url_async(url) {
             Ok(mut res) => match res.status {
                 200 => {

@@ -4,10 +4,14 @@ extern crate log;
 use std::thread;
 use std::time::Duration;
 
+use fltk::{app, enums::FrameType, prelude::*, *};
+
 mod conntest;
 mod error;
 mod reqwest_client;
 mod setup;
+#[cfg(target_os = "windows")]
+mod systray;
 
 const TIMEOUT: std::time::Duration = Duration::from_millis(10000);
 

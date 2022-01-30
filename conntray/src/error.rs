@@ -35,7 +35,6 @@ impl std::fmt::Display for ErrorType {
     }
 }
 
-
 #[derive(Debug)]
 pub struct Error {
     pub error_type: ErrorType,
@@ -44,8 +43,7 @@ pub struct Error {
     pub suggestion: String,
 }
 
-impl Error {
-}
+impl Error {}
 
 impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -112,7 +110,6 @@ mod tests {
             }
         }
     }
-
 
     fn raise_err_custom() -> Result<usize, error::Error> {
         let error_string = String::from("Line not found");

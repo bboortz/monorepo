@@ -2,8 +2,8 @@
 use std::time;
 use std::time::Duration;
 
-use crate::error;
 use crate::conntest;
+use crate::error;
 
 const TIMEOUT: Duration = Duration::from_millis(2000);
 
@@ -27,7 +27,10 @@ impl ReqwestClient {
     }
 
     #[tokio::main]
-    pub async fn test_url_async(&self, url: &str) -> Result<conntest::ConnTestResult, error::Error> {
+    pub async fn test_url_async(
+        &self,
+        url: &str,
+    ) -> Result<conntest::ConnTestResult, error::Error> {
         let req = self
             .client
             .get(url)
@@ -39,29 +42,29 @@ impl ReqwestClient {
 
         return match req.send().await {
             Ok(val) => {
-              trace!("<-- {:#?}", val);
-              Ok(conntest::ConnTestResult {
-                url: url.to_string(),
-                status: val.status().as_u16(),
-                elapsed: now.elapsed(),
-                total_elapsed: now.elapsed(),
-                retries: 0,
-              })
-            },
+                trace!("<-- {:#?}", val);
+                Ok(conntest::ConnTestResult {
+                    url: url.to_string(),
+                    status: val.status().as_u16(),
+                    elapsed: now.elapsed(),
+                    total_elapsed: now.elapsed(),
+                    retries: 0,
+                })
+            }
             Err(e) => {
-              /*
-              Ok(conntest::ConnTestResult {
-                url: url.clone(),
-                status: 0,
-                elapsed: now.elapsed(),
-                retries: 0,
-              })
-              */
+                /*
+                Ok(conntest::ConnTestResult {
+                  url: url.clone(),
+                  status: 0,
+                  elapsed: now.elapsed(),
+                  retries: 0,
+                })
+                */
                 let mut error_reason = String::from("HTTP Error");
                 if e.is_timeout() {
-                  error_reason = String::from("Timeout Error");
+                    error_reason = String::from("Timeout Error");
                 } else if e.is_connect() {
-                  error_reason = String::from("Connection Error");
+                    error_reason = String::from("Connection Error");
                 }
                 let error_affected = String::from(url);
                 let error_suggestion = String::from("verify your connection.");
