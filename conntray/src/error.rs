@@ -43,7 +43,9 @@ pub struct Error {
     pub suggestion: String,
 }
 
-impl Error {}
+pub trait ErrorTrait {}
+
+impl ErrorTrait for Error {}
 
 impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
