@@ -1,4 +1,4 @@
-DEPL		?= dev
+export PROFILE ?= dev
 
 
 help:               ## printing out the help
@@ -15,8 +15,7 @@ clean:              ## clean up this project
 	rm -rf ./temp
 
 fmt:                ## format the sources
-	cargo fmt
-	cargo clippy
+	./scripts/fmt.sh
 
 test: fmt           ## test the software
 	./scripts/test.sh
