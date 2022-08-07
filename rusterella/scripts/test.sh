@@ -27,7 +27,8 @@ if [ -n "${CODECOV_TOKEN}" ]; then
   if [ ! -f ./temp/grcov ]; then
     mkdir -p temp
     cd temp
-    curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
+    # curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
+    curl -L https://github.com/mozilla/grcov/releases/download/v0.8.11/grcov-x86_64-unknown-linux-gnu.tar.bz2 | tar jxf -
     cd -
   fi
 
