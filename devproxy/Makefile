@@ -44,3 +44,4 @@ init:               ##
 	rustup component add clippy
 	rustup component add rustfmt
 	rustup component add rust-analysis rust-src
+	rustup component add llvm-tools-preview
