@@ -18,6 +18,6 @@ if [ ! -f ./temp/upx ]; then
 fi
 
 cargo build --profile ${PROFILE}
-strip target/${OUTPUT_PROFILE}/rustolution
-./temp/upx target/${OUTPUT_PROFILE}/rustolution
-du -sh target/${OUTPUT_PROFILE}/rustolution
+strip target/${OUTPUT_PROFILE}/devproxy
+./temp/upx target/${OUTPUT_PROFILE}/devproxy
+du -sh target/${OUTPUT_PROFILE}/devproxy
