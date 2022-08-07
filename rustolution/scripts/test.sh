@@ -13,7 +13,6 @@ CURDIR=${CURFILE%/*}
 if [ -n "${CODECOV_TOKEN}" ]; then
   export LLVM_PROFILE_FILE="target/${OUTPUT_PROFILE}/prof/rustolution-%p-%m.profraw"
   export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Zinstrument-coverage"
-  export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests"
   export RUSTDOCFLAGS="${RUSTFLAGS}"
   PROFILE=test
 fi
