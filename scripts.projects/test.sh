@@ -11,7 +11,7 @@ CURDIR=${CURFILE%/*}
 
 
 if [ -n "${CODECOV_TOKEN}" ]; then
-  export LLVM_PROFILE_FILE="target/${OUTPUT_PROFILE}/prof/rusterella-%p-%m.profraw"
+  export LLVM_PROFILE_FILE="target/${OUTPUT_PROFILE}/prof/${PROJECT_NAME}-%p-%m.profraw"
   export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Cinstrument-coverage "
   export RUSTDOCFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Cinstrument-coverage"
   PROFILE=test
@@ -43,7 +43,7 @@ if [ -n "${CODECOV_TOKEN}" ]; then
 
   bash <(curl -s https://codecov.io/bash) -f target/${OUTPUT_PROFILE}/codecov.json
 
-  # ./temp/grcov target/prof/rusterella.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
+  # ./temp/grcov target/prof/${PROJECT_NAME}.zip -s ./ -t html --llvm --branch --ignore-not-existing --ignore "/*" -o target/coverage -b target/debug
   # ./temp/grcov . -s ./ --binary-path target/debug --llvm --branch --ignore-not-existing --ignore "/*" --token "${CODACY_TOKEN}" -t lcov -o target/codacy.json
   # bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/codacy.json
 fi

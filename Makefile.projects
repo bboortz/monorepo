@@ -2,7 +2,7 @@ export PROFILE ?= dev
 
 help:               ## printing out the help
 	@echo
-	@echo *relf*
+	@echo Makefile: $(PWD)
 	@echo
 	@echo "--- TARGETS ---"
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
