@@ -84,9 +84,25 @@ fn run_single_url(url: &str) -> Result<ConnTestResult, error::Error> {
     };
 
     let c = reqwest_client::ReqwestClient::new();
+    // let mut rt = tokio::runtime::Runtime::new().unwrap();
     let now = time::Instant::now();
 
     for i in 0..RETRIES {
+          tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap()
+        .block_on(async {
+            println!("Hello world");
+        });
+
+        // match rt.block_on(c.test_url_async(url)) {
+        let rt = tokio::runtime::Builder::new_multi_thread()
+        .enable_all()
+        .build()
+        .unwrap();
+    //    rt.spawn( async move { 
+
         match c.test_url_async(url) {
             Ok(mut res) => match res.status {
                 200 => {
@@ -108,7 +124,7 @@ fn run_single_url(url: &str) -> Result<ConnTestResult, error::Error> {
     Err(err)
 }
 
-pub fn run() -> Result<(), error::Error> {
+pub fn run() -> Result<ConnTestReport, error::Error> {
     let url1 = String::from("https://httpbin.org/ip");
     let url2 = String::from("https://ifconfig.co/json");
     let url3 = String::from("https://api.ipify.org?format=json");
@@ -129,7 +145,7 @@ pub fn run() -> Result<(), error::Error> {
             }
         }
     }
-    info!("REPORT: {:#?}", report);
+    debug!("REPORT: {:#?}", report);
 
-    Ok(())
+    Ok(report)
 }

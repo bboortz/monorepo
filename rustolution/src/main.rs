@@ -126,10 +126,10 @@ impl Distribution<Creature> for Standard {
         let size: Size = rng.gen();
         let age = Age { age: 0 };
         Creature {
-            pos: pos,
-            color: color,
-            size: size,
-            age: age,
+            pos,
+            color,
+            size,
+            age,
         }
     }
 }
@@ -143,10 +143,10 @@ impl Living for Creature {
     fn new(pos: Position, color: Color, size: Size) -> Creature {
         let age = Age { age: 0 };
         Creature {
-            pos: pos,
-            color: color,
-            size: size,
-            age: age,
+            pos,
+            color,
+            size,
+            age,
         }
     }
 
@@ -203,8 +203,8 @@ impl Habitable for World {
     fn new(size: Size) -> World {
         let age = Age { age: 0 };
         World {
-            size: size,
-            age: age,
+            size,
+            age,
             creature_vec: Vec::new(),
         }
     }
