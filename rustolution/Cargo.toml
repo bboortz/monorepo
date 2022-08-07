@@ -3,6 +3,19 @@ name = "rustolution"
 version = "0.1.0"
 edition = "2021"
 
+[profile.dev]
+opt-level = 0
+incremental = true
+
+[profile.test]
+opt-level = 0
+incremental = false
+
+[profile.release]
+opt-level = "z"         # Optimize for binary size
+lto = true              # LTO instructs the linker to optimize at the link stage.
+# codegen-units = 1       # Set this to 1 in Cargo.toml to allow for maximum size reduction optimizations:
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
