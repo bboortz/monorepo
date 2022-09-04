@@ -10,7 +10,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./benni.tech/content
+        working-directory: ./benni.tech
 
     steps:
     - name: checkout code

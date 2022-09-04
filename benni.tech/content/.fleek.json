@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "4f6999a7-b0cb-4048-a5f4-773df1522532",
+    "team": "bboortz's Team",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "benni.tech"
+  },
+  "build": {
+    "baseDir": ".",
+    "publicDir": "public",
+    "rootDir": ""
+  }
+}
