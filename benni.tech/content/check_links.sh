@@ -23,11 +23,31 @@ check_link() {
   fi
 }
 
+has_duplicates()
+{
+  {
+    sort | uniq -d | grep . -qc
+  } < "$1"
+}
+
+check_dup() {
+  local f="$1"
+  if has_duplicates <( cat $f | gawk 'match($0, /^* \[(.*)\]\((.*)\)/, a) {print a[2]}') ; then
+    echo "** file $f has duplicated lines."
+    cat $f | gawk 'match($0, /^* \[(.*)\]\((.*)\)/, a) {print a[2]}' | sort | uniq -d
+    exit 1
+  else
+    echo "** file $f has no duplicated line."
+  fi
+}
+
+
+check_dup bookmarks.md
+
 while read f; do
   check_link "$f" &
   sleep 0.1
 done < <( cat bookmarks.md| gawk 'match($0, /^* \[(.*)\]\((.*)\)/, a) {print a[2]}')
-
 
 while true; do
   if [ $(jobs | grep Running | wc -l) -eq 0 ]; then
