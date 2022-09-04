@@ -3,6 +3,26 @@ name: benni.tech CI
 on: [push, pull_request]
 
 jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./benni.tech/content
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+
+    - name: show dir
+      run: ls -la
+
+    - name: check links
+      run: ./check_links.sh
+
+
   build:
 
     runs-on: ubuntu-latest
@@ -18,9 +38,6 @@ jobs:
 
     - name: show dir
       run: ls -la
-
-    - name: check links
-      run: ./check_links.sh
 
     - name: Deploy test site
       id: deploy
