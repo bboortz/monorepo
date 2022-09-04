@@ -13,15 +13,13 @@ showFullContent = true
 ## Bookmarks
 
 
-*Useful Tools*
-
+# Useful Tools
 * [Timer](https://d1f28333hybq4l.cloudfront.net/timer.html)
 * [DNS Checker](https://dnschecker.org)
 * [Fleek](https://fleek.co)
 
 *Linux*
 
-* [FloppyLinux](https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/)
 * [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
 
 *Rust*
@@ -58,5 +56,5 @@ showFullContent = true
 
 *Reverse Engineering*
 * [Reverse Engineering Resources-Beginners to intermediate Guide/Links](https://bbinfosec.medium.com/reverse-engineering-resources-beginners-to-intermediate-guide-links-f64c207505ed)
-* [Linux Buffer Overflow]()ttps://samsclass.info/127/proj/lbuf1.htm)
-* [Vulnerability & Exploit Example]()ttps://www.tenouk.com/Bufferoverflowc/Bufferoverflow6.html)
+* [Linux Buffer Overflow](https://samsclass.info/127/proj/lbuf1.htm)
+* [Vulnerability & Exploit Example](https://www.tenouk.com/Bufferoverflowc/Bufferoverflow6.html)
