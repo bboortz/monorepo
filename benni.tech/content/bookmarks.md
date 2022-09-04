@@ -57,15 +57,12 @@ showFullContent = true
 * [Chuck Norris API](https://api.chucknorris.io/)
 
 ## Ideas
-
 * [Mega Project List](https://github.com/karan/Projects)
 
 ## AWS
-
 * [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure)
 
 ## CTF
-
 * [CTFlearn](https://ctflearn.com)
 * [CTF checklist for beginner](https://fareedfauzi.gitbook.io/ctf-checklist-for-beginner/)
 
@@ -105,23 +102,6 @@ showFullContent = true
 * [Rust Anthology](https://brson.github.io/rust-anthology)
 * [Defining Rust Error Types](https://www.philipdaniels.com/blog/2019/defining-rust-error-types/)
 * [Reading files quickly in Rust](https://boyter.org/posts/reading-files-quickly-in-rust/)
-
-## Ideas
-* [Mega Project List](https://github.com/karan/Projects)
-
-## AWS
-
-* [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure)
-
-## CTF
-
-* [CTFlearn](https://ctflearn.com)
-* [CTF checklist for beginner](https://fareedfauzi.gitbook.io/ctf-checklist-for-beginner/)
-
-## Reverse Engineering
-* [Reverse Engineering Resources-Beginners to intermediate Guide/Links](https://bbinfosec.medium.com/reverse-engineering-resources-beginners-to-intermediate-guide-links-f64c207505ed)
-* [Linux Buffer Overflow]{https://samsclass.info/127/proj/lbuf1.htm}
-* [Vulnerability & Exploit Example]{https://www.tenouk.com/Bufferoverflowc/Bufferoverflow6.html}
 
 
 
