@@ -23,26 +23,26 @@ jobs:
       run: ./check_links.sh
 
 
-  build:
-
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./benni.tech
-
-    steps:
-    - name: checkout code
-      uses: actions/checkout@v2
-
-    - name: show dir
-      run: ls -la
-
-    - name: Deploy site
-      id: deploy
-      uses: fleekhq/action-deploy@v1
-      with:
-        apiKey: ${{ secrets.FLEEK_API_KEY }}
-    - name: Get the output url
-      run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+#  build:
+#
+#    runs-on: ubuntu-latest
+#
+#    defaults:
+#      run:
+#        shell: bash
+#        working-directory: ./benni.tech
+#
+#    steps:
+#    - name: checkout code
+#      uses: actions/checkout@v2
+#
+#    - name: show dir
+#      run: ls -la
+#
+#    - name: Deploy site
+#      id: deploy
+#      uses: fleekhq/action-deploy@v1
+#      with:
+#        apiKey: ${{ secrets.FLEEK_API_KEY }}
+#    - name: Get the output url
+#      run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
