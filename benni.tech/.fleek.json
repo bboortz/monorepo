@@ -1,14 +1,15 @@
 {
   "site": {
-    "id": "4f6999a7-b0cb-4048-a5f4-773df1522532",
-    "team": "bboortz's Team",
+    "id": "208434d6-85b1-4928-9967-435c5614ed3a",
+    "team": "bboortz-team",
     "platform": "ipfs",
-    "source": "ipfs",
-    "name": "benni.tech"
+    "source": "github",
+    "name": "bennitech"
   },
   "build": {
-    "baseDir": ".",
+    "baseDir": "./benni.tech",
     "publicDir": "public",
+    "command": "hugo",
     "rootDir": ""
   }
 }

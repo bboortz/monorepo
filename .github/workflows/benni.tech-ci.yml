@@ -39,7 +39,7 @@ jobs:
     - name: show dir
       run: ls -la
 
-    - name: Deploy test site
+    - name: Deploy site
       id: deploy
       uses: fleekhq/action-deploy@v1
       with:
