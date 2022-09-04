@@ -12,8 +12,8 @@ CURDIR=${CURFILE%/*}
 
 if [ -n "${CODECOV_TOKEN}" ]; then
   export LLVM_PROFILE_FILE="target/${OUTPUT_PROFILE}/prof/rusterella-%p-%m.profraw"
-  export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Zinstrument-coverage "
-  export RUSTDOCFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Zinstrument-coverage"
+  export RUSTFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Cinstrument-coverage "
+  export RUSTDOCFLAGS="-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off -Cpanic=abort -Zpanic_abort_tests -Cinstrument-coverage"
   PROFILE=test
 fi
 
@@ -30,7 +30,7 @@ if [ -n "${CODECOV_TOKEN}" ]; then
   if [ ! -f ./temp/grcov ]; then
     mkdir -p temp
     cd temp
-    curl -L https://github.com/mozilla/grcov/releases/latest/download/grcov-linux-x86_64.tar.bz2 | tar jxf -
+    curl -L https://github.com/mozilla/grcov/releases/download/v0.8.11/grcov-x86_64-unknown-linux-gnu.tar.bz2 | tar jxf -
     cd -
   fi
 

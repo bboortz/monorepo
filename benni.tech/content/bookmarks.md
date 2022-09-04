@@ -17,6 +17,7 @@ showFullContent = true
 * [Timer](https://d1f28333hybq4l.cloudfront.net/timer.html)
 * [DNS Checker](https://dnschecker.org)
 * [Fleek](https://fleek.co)
+* [Http Status](HTTPS://httpstat.us)
 
 *Linux*
 

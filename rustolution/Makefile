@@ -1,9 +1,8 @@
-DEPL		?= dev
-
+export PROFILE ?= dev
 
 help:               ## printing out the help
 	@echo
-	@echo *rusterella*
+	@echo *rustolution*
 	@echo
 	@echo "--- TARGETS ---"
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -13,18 +12,28 @@ help:               ## printing out the help
 clean:              ## clean up this project
 	cargo clean
 	rm -rf ./temp
+c: clean
 
 fmt:                ## format the sources
-	cargo fmt
-	cargo clippy
+	./scripts/fmt.sh
+f: fmt
 
 test: fmt           ## test the software
 	./scripts/test.sh
+t: test
 
-build: clean fmt    ## build the software
+build: test         ## build the software
 	./scripts/build.sh
+b: build
 
-doc: build          ## create the documentation
+release: private PROFILE = release
+release: clean build
+r: release
+
+run: fmt
+	cargo run
+
+doc: release        ## create the documentation
 	cargo doc
 
 
@@ -35,3 +44,4 @@ init:               ##
 	rustup component add clippy
 	rustup component add rustfmt
 	rustup component add rust-analysis rust-src
+	rustup component add llvm-tools-preview
