@@ -1,4 +1,4 @@
-name: links CI
+name: benni.tech CI
 
 on: [push, pull_request]
 
