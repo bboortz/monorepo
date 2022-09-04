@@ -1,0 +1,23 @@
+name: links CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./benni.tech/content
+
+    steps:
+    - name: checkout code
+      uses: actions/checkout@v2
+
+    - name: show dir
+      run: ls -la
+
+    - name: check links
+      run: ./check_links.sh
