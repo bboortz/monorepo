@@ -29,7 +29,6 @@ showFullContent = true
 * [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
 
 ## Rust
-
 * [Rust Documenation](https://doc.rust-lang.org/stable/)
 * [The Rust Programming Language](https://doc.rust-lang.org/book/)
 * [The Rust Referenc](https://doc.rust-lang.org/reference/)
@@ -54,6 +53,7 @@ showFullContent = true
 * [How to Get Started With Rust on Raspberry Pi](https://www.makeuseof.com/tag/getting-started-rust-raspberry-pi/)
 * [Writing an OS in Rust](https://os.phil-opp.com/)
 * [cortex-m-quickstart](https://github.com/rust-embedded/cortex-m-quickstart)
+* [Embedded Rust](https://github.com/rust-embedded/awesome-embedded-rust)
 
 ## emulation
 * [Using QEMU to emulate a Raspberry Pi](https://blog.agchapman.com/using-qemu-to-emulate-a-raspberry-pi/)
