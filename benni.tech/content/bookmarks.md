@@ -29,6 +29,7 @@ showFullContent = true
 * [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
 
 ## Rust
+
 * [Rust Documenation](https://doc.rust-lang.org/stable/)
 * [The Rust Programming Language](https://doc.rust-lang.org/book/)
 * [The Rust Referenc](https://doc.rust-lang.org/reference/)
@@ -81,4 +82,3 @@ showFullContent = true
 ** [Benni @ Github](https://github.com/bboortz)
 ** [Benni @ LinkedIn](https://de.linkedin.com/in/benjamin-boortz-178924173)
 ** [Benni @ Twitter](https://twitter.com/benniBoortz)
-
