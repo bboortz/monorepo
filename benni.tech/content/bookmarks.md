@@ -55,6 +55,9 @@ showFullContent = true
 * [cortex-m-quickstart](https://github.com/rust-embedded/cortex-m-quickstart)
 * [Embedded Rust](https://github.com/rust-embedded/awesome-embedded-rust)
 
+## Hardware
+* [Arm Cortex-M](https://en.m.wikipedia.org/wiki/ARM_Cortex-M)
+
 ## emulation
 * [Using QEMU to emulate a Raspberry Pi](https://blog.agchapman.com/using-qemu-to-emulate-a-raspberry-pi/)
 
