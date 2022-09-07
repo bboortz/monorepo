@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
 
-pub mod mcu;
+pub mod usb;
 
 extern crate panic_halt;
 
@@ -10,13 +10,11 @@ use xiao_m0 as bsp;
 
 use bsp::hal::delay::Delay;
 use bsp::{entry, Led0};
-use bsp::{hal};
+use bsp::{hal, pac};
 use emb::{digital::v2::ToggleableOutputPin, prelude::*};
 use hal::clock::GenericClockController;
 
-fn setup() -> (Delay, Led0) {
-    mcu::setup_mcu()
-      /*
+pub fn setup_mcu() -> (Delay, Led0) {
     // peripherals
     let mut cp = pac::CorePeripherals::take().unwrap();
     let mut dp = pac::Peripherals::take().unwrap();
@@ -49,9 +47,11 @@ fn setup() -> (Delay, Led0) {
     // boot screen
     delay.delay_ms(4000u16);
 
+    /*
+
     cortex_m::interrupt::free(|_| unsafe {
-        crate::usb::USB_BUS.as_mut().map(|_| {
-            crate::usb::USB_SERIAL.as_mut().map(|serial| {
+        usb::USB_BUS.as_mut().map(|_| {
+            usb::USB_SERIAL.as_mut().map(|serial| {
                 // Skip errors so we can continue the program
                 let _ = serial.write(b"**********************************************\r\n");
                 let _ = serial.write(b"* booting device ...\r\n");
@@ -60,47 +60,10 @@ fn setup() -> (Delay, Led0) {
             });
         })
     });
+    */
 
     // returning elements
     let led: Led0 = pins.led0.into_push_pull_output();
     (delay, led)
-      */
-}
-
-// boot screen
-fn boot(delay: &mut Delay, led: &mut Led0) {
-    // 40 sec delay
-    for _ in 0..40 {
-      led.toggle().ok();
-      delay.delay_ms(100u16);
-    }
-
-    cortex_m::interrupt::free(|_| unsafe {
-        crate::mcu::usb::USB_BUS.as_mut().map(|_| {
-            crate::mcu::usb::USB_SERIAL.as_mut().map(|serial| {
-                // Skip errors so we can continue the program
-                let _ = serial.write(b"*****************************************************************\r\n");
-                let _ = serial.write(b"* booting device ...\r\n");
-                let _ = serial.write(b"* software: surfer v0.1\r\n");
-                let _ = serial.write(b"* hardware: Seeed Studio XIAO SAMD21 Cortex M+\r\n");
-                let _ = serial.write(b"*****************************************************************\r\n");
-            });
-        })
-    });
-}
-
-fn run_loop(delay: &mut Delay, led: &mut Led0) {
-    led.toggle().ok();
-    delay.delay_ms(1000u16);
-}
-
-#[entry]
-fn main() -> ! {
-    let (mut delay, mut led) = setup();
-    boot(&mut delay, &mut led);
-
-    loop {
-        run_loop(&mut delay, &mut led);
-    }
 }
 
