@@ -17,9 +17,8 @@ use hal::clock::GenericClockController;
 use pac::{interrupt, CorePeripherals, Peripherals};
 
 // types
-type PA17 = atsamd_hal::gpio::v2::pin::PA17;
-type DevicePin =
-    atsamd_hal::gpio::v2::Pin<PA17, atsamd_hal::gpio::v2::Output<atsamd_hal::gpio::v2::PushPull>>;
+// type PA17 = atsamd_hal::gpio::v2::pin::PA17;
+//type DevicePin = atsamd_hal::gpio::v2::Pin<PA17, atsamd_hal::gpio::v2::Output<atsamd_hal::gpio::v2::PushPull>>;
 
 use hal::usb::UsbBus;
 use usb_device::{bus::UsbBusAllocator, prelude::*};
@@ -31,7 +30,7 @@ static mut USB_BUS: Option<UsbDevice<UsbBus>> = None;
 static mut USB_SERIAL: Option<SerialPort<UsbBus>> = None;
 static mut LED_DATA: Option<Led1> = None;
 
-fn setup() -> (Delay, DevicePin) {
+fn setup() -> (Delay, Led0) {
     // peripherals
     let mut cp = pac::CorePeripherals::take().unwrap();
     let mut dp = pac::Peripherals::take().unwrap();
@@ -95,16 +94,16 @@ fn setup() -> (Delay, DevicePin) {
     });
 
     // returning elements
-    let led: DevicePin = pins.led0.into_push_pull_output();
+    let led: Led0 = pins.led0.into_push_pull_output();
     (delay, led)
 }
 
-fn run_loop(delay: &mut Delay, led: &mut DevicePin) {
+fn run_loop(delay: &mut Delay, led: &mut Led0) {
     led.toggle().ok();
     delay.delay_ms(1000u16);
 }
 
-#[bsp::entry]
+#[entry]
 fn main() -> ! {
     let (mut delay, mut led) = setup();
 
@@ -121,13 +120,11 @@ fn poll_usb() {
                 let mut buf = [0u8; 64];
 
                 if let Ok(count) = serial.read(&mut buf) {
-                    serial.write(b"lala\r\n").unwrap();
                     for (i, c) in buf.iter().enumerate() {
                         if i >= count {
                             break;
                         }
                         serial.write(&[c.clone()]).unwrap();
-                        serial.write(b"\r\n").unwrap();
                         LED_DATA.as_mut().map(|led| led.toggle());
                     }
                 };

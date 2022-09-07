@@ -54,6 +54,7 @@ showFullContent = true
 * [Writing an OS in Rust](https://os.phil-opp.com/)
 * [cortex-m-quickstart](https://github.com/rust-embedded/cortex-m-quickstart)
 * [Embedded Rust](https://github.com/rust-embedded/awesome-embedded-rust)
+* [Embassy](https://github.com/embassy-rs/embassy/)
 
 ## Hardware
 * [Arm Cortex-M](https://en.m.wikipedia.org/wiki/ARM_Cortex-M)
