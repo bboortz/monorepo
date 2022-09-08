@@ -1,15 +1,14 @@
-
 extern crate panic_halt;
 
 use embedded_hal as emb;
 use xiao_m0 as bsp;
 
-use cortex_m::peripheral::NVIC;
-use bsp::Led1;
 use bsp::pins::UsbDm;
 use bsp::pins::UsbDp;
+use bsp::Led1;
 use bsp::{hal, pac};
-use emb::{digital::v2::ToggleableOutputPin};
+use cortex_m::peripheral::NVIC;
+use emb::digital::v2::ToggleableOutputPin;
 use hal::clock::GenericClockController;
 use hal::usb::UsbBus;
 use pac::{interrupt, CorePeripherals};
@@ -22,25 +21,17 @@ pub static mut USB_BUS: Option<UsbDevice<UsbBus>> = None;
 pub static mut USB_SERIAL: Option<SerialPort<UsbBus>> = None;
 static mut LED_DATA: Option<Led1> = None;
 
-
-
 pub fn setup_usb(
-  cp: &mut CorePeripherals,
+    cp: &mut CorePeripherals,
     usb: pac::USB,
     clocks: &mut GenericClockController,
     pm: &mut pac::PM,
     dm: impl Into<UsbDm>,
     dp: impl Into<UsbDp>,
-    led: Led1
-  ) {
+    led: Led1,
+) {
     let bus_allocator = unsafe {
-        USB_ALLOCATOR = Some(bsp::usb_allocator(
-            usb,
-            clocks,
-            pm,
-            dm,
-            dp,
-        ));
+        USB_ALLOCATOR = Some(bsp::usb_allocator(usb, clocks, pm, dm, dp));
         USB_ALLOCATOR.as_ref().unwrap()
     };
     unsafe {
