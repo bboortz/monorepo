@@ -25,7 +25,7 @@ fn setup() -> mcu::Device {
                     b"*****************************************************************\r\n",
                 );
                 let _ = serial.write(b"* booting device ...\r\n");
-                let _ = serial.write(b"* software: surfer v0.1\r\n");
+                let _ = serial.write(b"* software: surfer v0.2\r\n");
                 let _ = serial.write(b"* hardware: Seeed Studio XIAO SAMD21 Cortex M+\r\n");
                 let _ = serial.write(
                     b"*****************************************************************\r\n",
