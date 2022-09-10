@@ -5,11 +5,10 @@ pub mod mcu;
 
 extern crate panic_halt;
 
+use crate::mcu::seeed_studio_xiao_sam21_cortex_m0 as m;
 use crate::mcu::DeviceApi;
 
-fn setup() -> mcu::Device {
-    let mut d = mcu::Device::new();
-
+fn setup(d: &mut dyn DeviceApi) {
     // 40 sec delay
     for _ in 0..40 {
         d.led0_toggle();
@@ -18,33 +17,37 @@ fn setup() -> mcu::Device {
 
     // boot screen
     cortex_m::interrupt::free(|_| unsafe {
-        crate::mcu::usb::USB_BUS.as_mut().map(|_| {
-            crate::mcu::usb::USB_SERIAL.as_mut().map(|serial| {
+        m::usb::USB_BUS.as_mut().map(|_| {
+            m::usb::USB_SERIAL.as_mut().map(|serial| {
                 // Skip errors so we can continue the program
                 let _ = serial.write(
                     b"*****************************************************************\r\n",
                 );
                 let _ = serial.write(b"* booting device ...\r\n");
-                let _ = serial.write(b"* software: surfer v0.2\r\n");
-                let _ = serial.write(b"* hardware: Seeed Studio XIAO SAMD21 Cortex M+\r\n");
+                let _ = serial.write(b"* software: surfer v0.3\r\n");
+                let _ = serial.write(b"* hardware: ");
+                let _ = serial.write(d.hardware().as_bytes());
+                let _ = serial.write(b"\r\n");
                 let _ = serial.write(
                     b"*****************************************************************\r\n",
                 );
+                let _ = serial.flush();
             });
         })
     });
-
-    d
 }
 
-fn run_loop(d: &mut mcu::Device) {
+fn run_loop(d: &mut dyn DeviceApi) {
     d.led0_toggle();
     d.delay(1000u16);
 }
 
 #[mcu::entry]
 fn main() -> ! {
-    let mut d = setup();
+    //let mut d = setup();
+    // let mut u: m::Device = *d;
+    let mut d = m::Device::new();
+    setup(&mut d);
 
     loop {
         run_loop(&mut d);
