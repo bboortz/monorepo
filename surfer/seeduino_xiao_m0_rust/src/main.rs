@@ -1,5 +1,6 @@
 #![no_std]
 #![no_main]
+// #![feature(generic_associated_types)]
 
 pub mod mcu;
 
@@ -8,6 +9,7 @@ extern crate panic_halt;
 use crate::mcu::seeed_studio_xiao_sam21_cortex_m0 as m;
 use crate::mcu::DeviceApi;
 
+// fn setup<'a>(d: &mut dyn DeviceApi<UsbItem<'a> = DeviceUsb>) {
 fn setup(d: &mut dyn DeviceApi) {
     // 40 sec delay
     for _ in 0..40 {
@@ -37,6 +39,7 @@ fn setup(d: &mut dyn DeviceApi) {
     });
 }
 
+// fn run_loop<'a>(d: &mut dyn DeviceApi<UsbItem<'a> = DeviceUsb>) {
 fn run_loop(d: &mut dyn DeviceApi) {
     d.led0_toggle();
     d.delay(1000u16);
