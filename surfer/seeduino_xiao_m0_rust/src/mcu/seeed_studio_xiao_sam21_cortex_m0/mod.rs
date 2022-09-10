@@ -3,6 +3,7 @@ pub mod usb;
 extern crate panic_halt;
 
 use crate::mcu::DeviceApi;
+use usb::DeviceUsb;
 
 use emb::{digital::v2::ToggleableOutputPin, prelude::*};
 use embedded_hal as emb;
@@ -66,6 +67,10 @@ impl DeviceApi for Device {
 
     fn hardware(&self) -> &str {
         "Seeed Studio XIAO SAMD21 Cortex M0+"
+    }
+
+    fn device_usb(&self) -> DeviceUsb {
+        DeviceUsb::new()
     }
 
     fn as_device(&self) -> &Device {

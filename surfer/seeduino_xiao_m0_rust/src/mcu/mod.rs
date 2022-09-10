@@ -1,4 +1,5 @@
 pub mod seeed_studio_xiao_sam21_cortex_m0;
+use seeed_studio_xiao_sam21_cortex_m0::usb::DeviceUsb;
 use seeed_studio_xiao_sam21_cortex_m0::Device;
 
 extern crate panic_halt;
@@ -10,6 +11,7 @@ pub trait DeviceApi {
     fn delay(&mut self, ms: u16);
     fn led0_toggle(&mut self);
     fn hardware(&self) -> &str;
+    fn device_usb(&self) -> DeviceUsb;
     fn as_device(&self) -> &Device;
 }
 
