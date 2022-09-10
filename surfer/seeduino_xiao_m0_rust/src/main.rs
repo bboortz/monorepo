@@ -8,6 +8,10 @@ extern crate panic_halt;
 
 use crate::mcu::seeed_studio_xiao_sam21_cortex_m0 as m;
 use crate::mcu::DeviceApi;
+use crate::mcu::DeviceUsbApi;
+//use heapless::String;
+use m::usb::DeviceUsb;
+use m::Device;
 
 // fn setup<'a>(d: &mut dyn DeviceApi<UsbItem<'a> = DeviceUsb>) {
 fn setup(d: &mut dyn DeviceApi) {
@@ -18,25 +22,15 @@ fn setup(d: &mut dyn DeviceApi) {
     }
 
     // boot screen
-    cortex_m::interrupt::free(|_| unsafe {
-        m::usb::USB_BUS.as_mut().map(|_| {
-            m::usb::USB_SERIAL.as_mut().map(|serial| {
-                // Skip errors so we can continue the program
-                let _ = serial.write(
-                    b"*****************************************************************\r\n",
-                );
-                let _ = serial.write(b"* booting device ...\r\n");
-                let _ = serial.write(b"* software: surfer v0.3\r\n");
-                let _ = serial.write(b"* hardware: ");
-                let _ = serial.write(d.hardware().as_bytes());
-                let _ = serial.write(b"\r\n");
-                let _ = serial.write(
-                    b"*****************************************************************\r\n",
-                );
-                let _ = serial.flush();
-            });
-        })
-    });
+    let mut dusb = DeviceUsb::new();
+    dusb.print("*****************************************************************\r\n");
+    dusb.print("* booting device ...\r\n");
+    dusb.print("* software: surfer v0.4\r\n");
+    dusb.print("* hardware: ");
+    dusb.print(d.hardware());
+    dusb.print("\r\n");
+    dusb.print("*****************************************************************\r\n");
+    dusb.flush();
 }
 
 // fn run_loop<'a>(d: &mut dyn DeviceApi<UsbItem<'a> = DeviceUsb>) {
@@ -49,7 +43,7 @@ fn run_loop(d: &mut dyn DeviceApi) {
 fn main() -> ! {
     //let mut d = setup();
     // let mut u: m::Device = *d;
-    let mut d = m::Device::new();
+    let mut d = Device::new();
     setup(&mut d);
 
     loop {

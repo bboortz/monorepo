@@ -32,3 +32,4 @@ xiao_m0 = { version = "^0", features = ["usb", "unproven"] }
 atsamd-hal = { version = "^0", features = ["usb", "unproven"] }
 usb-device = "^0"
 atsamd21g = "^0"
+

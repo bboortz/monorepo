@@ -1,5 +1,7 @@
 extern crate panic_halt;
 
+use crate::mcu::DeviceUsbApi;
+
 use embedded_hal as emb;
 use xiao_m0 as bsp;
 
@@ -78,4 +80,41 @@ fn poll_usb() {
 #[interrupt]
 fn USB() {
     poll_usb();
+}
+
+///
+///
+///
+
+pub struct DeviceUsb {}
+
+impl DeviceUsb {
+    pub fn new() -> Self {
+        DeviceUsb {}
+    }
+}
+
+impl DeviceUsbApi for DeviceUsb {
+    fn print(&mut self, s: &str) {
+        // boot screen
+        cortex_m::interrupt::free(|_| unsafe {
+            USB_SERIAL.as_mut().map(|serial| {
+                let _ = serial.write(s.as_bytes());
+            });
+        });
+    }
+
+    fn flush(&mut self) {
+        cortex_m::interrupt::free(|_| unsafe {
+            USB_SERIAL.as_mut().map(|serial| {
+                let _ = serial.flush();
+            });
+        });
+    }
+}
+
+impl Default for DeviceUsb {
+    fn default() -> Self {
+        Self::new()
+    }
 }

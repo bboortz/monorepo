@@ -12,3 +12,8 @@ pub trait DeviceApi {
     fn hardware(&self) -> &str;
     fn as_device(&self) -> &Device;
 }
+
+pub trait DeviceUsbApi {
+    fn print(&mut self, s: &str);
+    fn flush(&mut self);
+}
