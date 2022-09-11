@@ -82,10 +82,6 @@ fn USB() {
     poll_usb();
 }
 
-///
-///
-///
-
 pub struct DeviceUsb {}
 
 impl DeviceUsb {

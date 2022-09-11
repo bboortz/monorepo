@@ -76,12 +76,6 @@ impl DeviceApi for Device {
     fn as_device(&self) -> &Device {
         self
     }
-
-    /*
-    fn usb<'a>(&self) -> Option<Self::UsbItem<'a>> {
-        self.dusb
-    }
-    */
 }
 
 impl Default for Device {
