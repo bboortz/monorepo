@@ -1,5 +1,3 @@
-extern crate panic_halt;
-
 use surfer_lib::DeviceUsbApi;
 
 use embedded_hal as emb;
@@ -55,6 +53,45 @@ pub fn setup_usb(
     }
 }
 
+/*
+pub fn setup_usb2<'a>(
+    cp: &'a mut CorePeripherals,
+    usb: pac::USB,
+    clocks: &'a mut GenericClockController,
+    pm: &'a mut pac::PM,
+    dm: impl Into<UsbDm>,
+    dp: impl Into<UsbDp>,
+    led: Led1,
+) -> DeviceUsb2<'a> {
+    let usb_allocator: Option<UsbBusAllocator<UsbBus>> =
+        Some(bsp::usb_allocator(usb, clocks, pm, dm, dp));
+    let bus_allocator = usb_allocator.as_ref();
+    let usb_serial = Some(SerialPort::new(bus_allocator.unwrap()));
+    //    let usb_serial = Some(SerialPort::new(usb_allocator.as_ref().unwrap()));
+    let usb_bus = Some(
+        UsbDeviceBuilder::new(bus_allocator.unwrap(), UsbVidPid(0xdead, 0xbeef))
+            .manufacturer("Hackers University")
+            .product("xiao_usb_echo")
+            .serial_number("42")
+            .device_class(USB_CLASS_CDC)
+            .build(),
+    );
+    let led_data = Some(led.into_mode());
+    let du = DeviceUsb2 {
+        //    usb_serial,
+        usb_bus,
+        led_data,
+    };
+
+    unsafe {
+        cp.NVIC.set_priority(interrupt::USB, 1);
+        NVIC::unmask(interrupt::USB);
+    }
+
+    du
+}
+*/
+
 #[allow(clippy::option_map_unit_fn)]
 fn poll_usb() {
     unsafe {
@@ -87,9 +124,64 @@ fn USB() {
 #[derive(Debug, Copy, Clone)]
 pub struct DeviceUsb {}
 
+pub struct DeviceUsb2<'a> {
+    usb_serial: Option<SerialPort<'a, UsbBus>>,
+    usb_bus: Option<UsbDevice<'a, UsbBus>>,
+    led_data: Option<Led1>,
+}
+
 impl DeviceUsb {
     pub fn new() -> Self {
         DeviceUsb {}
+    }
+}
+
+impl DeviceUsb2<'_> {
+    /*
+      pub fn new() -> Self {
+          DeviceUsb {}
+      }
+    */
+    pub fn new(
+        cp: &mut CorePeripherals,
+        usb: pac::USB,
+        clocks: &mut GenericClockController,
+        pm: &mut pac::PM,
+        dm: impl Into<UsbDm>,
+        dp: impl Into<UsbDp>,
+        led: Led1,
+    ) -> Self {
+        let bus_allocator = unsafe {
+            USB_ALLOCATOR = Some(bsp::usb_allocator(usb, clocks, pm, dm, dp));
+            USB_ALLOCATOR.as_ref().unwrap()
+        };
+        /*
+            let usb_allocator: Option<UsbBusAllocator<UsbBus>> =
+                Some(bsp::usb_allocator(usb, clocks, pm, dm, dp));
+            let bus_allocator = usb_allocator.as_ref();
+        */
+        let usb_serial = Some(SerialPort::new(bus_allocator));
+        //    let usb_serial = Some(SerialPort::new(usb_allocator.as_ref().unwrap()));
+        let usb_bus = Some(
+            UsbDeviceBuilder::new(bus_allocator, UsbVidPid(0xdead, 0xbeef))
+                .manufacturer("Hackers University")
+                .product("xiao_usb_echo")
+                .serial_number("42")
+                .device_class(USB_CLASS_CDC)
+                .build(),
+        );
+        let led_data = Some(led.into_mode());
+
+        unsafe {
+            cp.NVIC.set_priority(interrupt::USB, 1);
+            NVIC::unmask(interrupt::USB);
+        }
+
+        DeviceUsb2 {
+            usb_serial,
+            usb_bus,
+            led_data,
+        }
     }
 }
 
@@ -108,6 +200,27 @@ impl DeviceUsbApi for DeviceUsb {
     fn flush(&mut self) {
         cortex_m::interrupt::free(|_| unsafe {
             USB_SERIAL.as_mut().map(|serial| {
+                let _ = serial.flush();
+            });
+        });
+    }
+}
+
+impl DeviceUsbApi for DeviceUsb2<'_> {
+    #[allow(clippy::option_map_unit_fn)]
+    fn print(&mut self, s: &str) {
+        // boot screen
+        cortex_m::interrupt::free(|_| {
+            self.usb_serial.as_mut().map(|serial| {
+                let _ = serial.write(s.as_bytes());
+            });
+        });
+    }
+
+    #[allow(clippy::option_map_unit_fn)]
+    fn flush(&mut self) {
+        cortex_m::interrupt::free(|_| {
+            self.usb_serial.as_mut().map(|serial| {
                 let _ = serial.flush();
             });
         });

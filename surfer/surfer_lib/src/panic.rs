@@ -2,7 +2,7 @@ use core::alloc::Layout;
 
 #[allow(clippy::empty_loop)]
 #[alloc_error_handler]
-fn oom(_: Layout) -> ! {
+pub fn oom(_: Layout) -> ! {
     loop {}
 }
 

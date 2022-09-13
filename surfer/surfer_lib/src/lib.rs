@@ -15,7 +15,7 @@ pub trait DeviceApi {
     fn led0_toggle(&mut self);
     fn hardware(&self) -> &str;
     fn device_usb(&self) -> Box<dyn DeviceUsbApi>;
-    fn as_device(self) -> Box<dyn DeviceApi>;
+    fn to_device(self) -> Box<dyn DeviceApi>;
 }
 
 pub trait DeviceUsbApi {

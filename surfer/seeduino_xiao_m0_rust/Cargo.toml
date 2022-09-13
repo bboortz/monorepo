@@ -28,15 +28,12 @@ no-std-compat = "^0"
 surfer_lib = { path = "../surfer_lib" }
 cortex-m = "^0"
 alloc-cortex-m = "0.4.2"
-nb = "^1"
-panic-halt = "^0"
 usbd-serial = "^0"
 embedded-hal = "^0"
 xiao_m0 = { version = "^0", features = ["usb", "unproven"] }
-# atsamd-hal = { version = "^0", features = ["usb", "unproven"] }
 usb-device = "^0"
-atsamd21g = "^0"
 
+# atsamd-hal = { version = "^0", features = ["usb", "unproven"] }
 #cortex-m-rt = "^0"
 #no-std-compat = { version = "^0", features = [ "alloc" ] }
 #[target.'cfg(unix)'.build-dependencies]

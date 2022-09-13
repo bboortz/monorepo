@@ -4,7 +4,7 @@
 pub mod mcu;
 
 extern crate no_std_compat as std;
-extern crate panic_halt;
+//extern crate panic_halt;
 
 use surfer_lib::allocator::ALLOCATOR;
 use surfer_lib::DeviceApi;

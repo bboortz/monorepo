@@ -1,9 +1,4 @@
-//pub mod usb;
-
 use alloc::boxed::Box;
-
-extern crate alloc;
-extern crate panic_halt;
 
 use crate::mcu::usb::setup_usb;
 use crate::mcu::usb::DeviceUsb;
@@ -13,13 +8,11 @@ use surfer_lib::DeviceUsbApi;
 use emb::{digital::v2::ToggleableOutputPin, prelude::*};
 use embedded_hal as emb;
 
-pub use bsp::entry;
-use xiao_m0 as bsp;
-
 use bsp::hal::clock::GenericClockController;
 use bsp::hal::delay::Delay;
 use bsp::pac;
 use bsp::Led0;
+use xiao_m0 as bsp;
 
 pub struct Device {
     delay: bsp::hal::delay::Delay,
@@ -84,7 +77,7 @@ impl DeviceApi for Device {
         Box::new(self.device_usb)
     }
 
-    fn as_device(self) -> Box<dyn DeviceApi> {
+    fn to_device(self) -> Box<dyn DeviceApi> {
         Box::new(self)
     }
 }
