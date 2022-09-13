@@ -1,17 +1,30 @@
 #![no_std]
 #![no_main]
-// #![feature(generic_associated_types)]
 
 pub mod mcu;
 
+extern crate no_std_compat as std;
 extern crate panic_halt;
 
-use crate::mcu::seeed_studio_xiao_sam21_cortex_m0 as m;
-use crate::mcu::DeviceApi;
-use crate::mcu::DeviceUsbApi;
-use m::Device;
+use surfer_lib::allocator::ALLOCATOR;
+use surfer_lib::DeviceApi;
+
+use mcu::device::Device;
+use mcu::entry;
+//use crate::mcu::seeed_studio_xiao_sam21_cortex_m0 as m;
+// use surfer_lib::DeviceUsbApi;
+
+extern crate alloc;
 
 fn setup(d: &mut dyn DeviceApi) {
+    // Initialize the allocator BEFORE you use it
+    {
+        use core::mem::MaybeUninit;
+        const HEAP_SIZE: usize = 1024;
+        static mut HEAP: [MaybeUninit<u8>; HEAP_SIZE] = [MaybeUninit::uninit(); HEAP_SIZE];
+        unsafe { ALLOCATOR.init(HEAP.as_ptr() as usize, HEAP_SIZE) }
+    }
+
     // 40 sec delay
     for _ in 0..40 {
         d.led0_toggle();
@@ -35,7 +48,7 @@ fn run_loop(d: &mut dyn DeviceApi) {
     d.delay(1000u16);
 }
 
-#[mcu::entry]
+#[entry]
 fn main() -> ! {
     let mut d = Device::new();
     setup(&mut d);
