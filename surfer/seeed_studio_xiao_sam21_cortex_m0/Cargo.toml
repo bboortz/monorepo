@@ -1,10 +1,10 @@
 [package]
-name = "seeduino_xiao_m0_rust"
+name = "seeed_studio_xiao_sam21_cortex_m0"
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "seeduino_xiao_m0_rust"
+name = "seeed_studio_xiao_sam21_cortex_m0"
 test = false
 bench = false
 
