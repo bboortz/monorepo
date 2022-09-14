@@ -6,7 +6,11 @@ pub mod allocator;
 pub mod panic;
 
 extern crate alloc;
-extern crate panic_halt;
+
+#[cfg(not(feature = "use_semihosting"))]
+use panic_halt as _;
+#[cfg(feature = "use_semihosting")]
+use panic_semihosting as _;
 
 use alloc::boxed::Box;
 
