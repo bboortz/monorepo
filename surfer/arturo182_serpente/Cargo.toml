@@ -1,0 +1,42 @@
+[package]
+name = "arturo182_serpente"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "arturo182_serpente"
+test = false
+bench = false
+
+[profile.dev]
+opt-level = 0
+incremental = true
+
+[profile.test]
+opt-level = 0
+incremental = false
+
+[profile.release]
+codegen-units = 1   # better optimizations
+opt-level = "z"     # Optimize for binary size
+debug = true        # symbols are nice and they don't increase the size on Flash
+lto = true          # better optimizations
+strip = true        # strips symbols and debuginfo from binary
+
+[dependencies]
+no-std-compat = "^0"
+surfer_lib = { path = "../surfer_lib" }
+cortex-m = "^0"
+alloc-cortex-m = "0.4.2"
+usbd-serial = "^0"
+embedded-hal = "^0"
+serpente = { version = "^0", features = ["unproven"] }
+usb-device = "^0"
+
+# atsamd-hal = { version = "^0", features = ["usb", "unproven"] }
+#cortex-m-rt = "^0"
+#no-std-compat = { version = "^0", features = [ "alloc" ] }
+#[target.'cfg(unix)'.build-dependencies]
+#xiao_m0 = { version = "^0", features = ["usb", "unproven"] }
+#atsamd21g = "^0"
+

@@ -7,13 +7,11 @@ extern crate no_std_compat as std;
 //extern crate panic_halt;
 
 use surfer_lib::allocator::ALLOCATOR;
-use surfer_lib::SURFER_VERSION;
 use surfer_lib::DeviceApi;
+use surfer_lib::SURFER_VERSION;
 
 use mcu::device::Device;
 use mcu::entry;
-//use crate::mcu::seeed_studio_xiao_sam21_cortex_m0 as m;
-// use surfer_lib::DeviceUsbApi;
 
 extern crate alloc;
 
