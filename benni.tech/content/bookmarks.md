@@ -27,6 +27,7 @@ showFullContent = true
 
 ## Linux
 * [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
+* [Increase ZFS pool by adding larger disks](https://madaboutbrighton.net/articles/increase-zfs-pool-by-adding-larger-disks)
 
 ## Rust
 * [Rust Documenation](https://doc.rust-lang.org/stable/)
