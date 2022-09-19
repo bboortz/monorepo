@@ -11,3 +11,4 @@ backup:
   files: []
   cp_bin: /bin/cp
   rm_bin: /bin/cp
+  retain_alpha: 2

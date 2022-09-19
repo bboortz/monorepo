@@ -39,6 +39,7 @@ management_user_settings:
       - wheel
       - cloud
       - uucp
+      - docker
     shell: "/usr/bin/zsh"
   - name: mainuser
     uid: 2001

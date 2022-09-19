@@ -23,7 +23,7 @@ deactivate
 
 echo "INFO: installing further ansible plugins ..."
 mkdir -p ~/.ansible/plugins/lookup && cd "$_"
-curl https://raw.githubusercontent.com/viczem/ansible-keepass/master/keepass.py -o ./keepass.py
+curl https://raw.githubusercontent.com/viczem/ansible-keepass/v0.7.0/plugins/lookup/keepass.py -o ./keepass.py
 cd -
 
 

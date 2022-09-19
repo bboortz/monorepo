@@ -2,14 +2,14 @@
 # This is the top-level playbook that defines our entire infrastructure.
 
 
-- hosts: server2.home
-  user: deploy
-  become: True
-  gather_facts: True
+#- hosts: server2.home
+#  user: deploy
+#  become: True
+#  gather_facts: True
 
-  roles:
-    - role: bertvv.samba
-      samba_services: "{{ arch_samba_services }}"
+#  roles:
+#    - role: bertvv.samba
+#      samba_services: "{{ arch_samba_services }}"
 
 
 - hosts: all

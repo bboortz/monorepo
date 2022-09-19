@@ -8,7 +8,7 @@
   tags:
     - skip_ansible_lint
 - name: Debian | Install base packages (raw)
-  raw: "DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install --yes --quiet aptitude python python-apt"
+  raw: "DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install --yes --quiet aptitude python3 python3-apt"
   check_mode: "no"
   tags:
     - skip_ansible_lint

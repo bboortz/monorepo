@@ -13,22 +13,24 @@ elao_cron_files:
     jobs:
       - name:     rsnapshot-alpha
         job:      "rsnapshot -c /etc/rsnapshot.conf alpha"
-        minute:   0
-        hour:     "*"
-      - name:     rsnapshot-beta
-        job:      "rsnapshot -c /etc/rsnapshot.conf beta"
         minute:   45
-        hour:     23
-      - name:     rsnapshot-gamma
-        job:      "rsnapshot -c /etc/rsnapshot.conf gamma"
-        minute:   30 
-        hour:     22
-        weekday:  0
-      - name:     rsnapshot-delta
-        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
-        minute:   15
-        hour:     21
-        day:      1
+        hour:     "23"
+#        minute:   0
+#        hour:     "*"
+#      - name:     rsnapshot-beta
+#        job:      "rsnapshot -c /etc/rsnapshot.conf beta"
+#        minute:   45
+#        hour:     23
+#      - name:     rsnapshot-gamma
+#        job:      "rsnapshot -c /etc/rsnapshot.conf gamma"
+#        minute:   30 
+#        hour:     22
+#        weekday:  0
+#      - name:     rsnapshot-delta
+#        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
+#        minute:   15
+#        hour:     21
+        #        day:      1
   - file: disk-cleanup
     user: root
     jobs:
