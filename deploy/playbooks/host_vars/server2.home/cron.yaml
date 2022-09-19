@@ -63,18 +63,18 @@ elao_cron_files:
     user: mainuser
     jobs:
       - name:     nextcloud-full-scan
-        job:      "docker exec --user=www-data -it nextcloud_app_1 /usr/local/bin/php /var/www/html/console.php files:scan --all"
-        minute:   "20"
+        job:      "docker exec --user=www-data -it nextcloud-app-1 /usr/local/bin/php -f /var/www/html/console.php files:scan --all"
+        minute:   "5"
         hour:     "3"
         weekday:  "1"
-      - name:     nextcloud-can
-        job:      "docker exec --user=www-data -it nextcloud_app_1 /usr/local/bin/php /var/www/html/console.php files:scan --unscanned --all"
-        minute:   "20"
+      - name:     nextcloud-scan
+        job:      "docker exec --user=www-data -it nextcloud-app-1 /usr/local/bin/php -f /var/www/html/console.php files:scan --unscanned --all"
+        minute:   "5"
         hour:     "5"
       - name:     nextcloud-cron-run
-        job:      "docker exec --user=www-data -it nextcloud_app_1 /usr/local/bin/php /var/www/html/cron.php"
-        minute:   "20"
-        hour:     "*/2"
+        job:      "docker exec --user=www-data -it nextcloud-app-1 /usr/local/bin/php -f /var/www/html/cron.php"
+        minute:   "*/6"
+        hour:     "*"
   - file: zfs-scrub
     user: root
     jobs:
