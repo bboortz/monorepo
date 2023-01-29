@@ -28,6 +28,7 @@ showFullContent = true
 ## Linux
 * [Searchable Linux Syscall Table for x86 and x86_64](https://filippo.io/linux-syscall-table/)
 * [Increase ZFS pool by adding larger disks](https://madaboutbrighton.net/articles/increase-zfs-pool-by-adding-larger-disks)
+* [Replace a faulty disk on a Mirrored or RAIDZ virtual device](https://madaboutbrighton.net/articles/replace-disk-in-zfs-pool)
 
 ## Rust
 * [Rust Documenation](https://doc.rust-lang.org/stable/)
