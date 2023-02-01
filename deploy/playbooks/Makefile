@@ -2,10 +2,10 @@
 
 help:                     ## printing out the help
 	@echo
-	@echo MISChaufen Ansible Playbooks
+	@echo My Ansible Playbooks
 	@echo
 	@echo --- TARGETS ---
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+	@grep -F -h "##" $(MAKEFILE_LIST) | grep -F -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 clean:                    ## cleanup all temporary/work data
 	rm -rf .venv
@@ -15,7 +15,7 @@ bootstrap:                ## prepare local environment
 	./helper/local_prepare_nonroot.sh
 
 local.deploy:             ## local deployment using ansible playbooks
-	ansible-playbook -i ./hosts -l local local.site.yml
+	ansible-playbook -i ./hosts -l local site.yml
 
 home.deploy:              ## home deployment using ansible playbooks
 	ansible-playbook -i ./hosts -l home site.yml
