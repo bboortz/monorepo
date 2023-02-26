@@ -3,4 +3,4 @@
 files: []
 cp_bin: /usr/bin/cp
 rm_bin: /usr/bin/rm
-retain_alpha: 6
+retain_alpha: 2
