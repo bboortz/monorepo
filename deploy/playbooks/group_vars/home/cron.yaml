@@ -15,17 +15,16 @@ elao_cron_files:
       - name:     rsnapshot-alpha
         job:      "rsnapshot -c /etc/rsnapshot.conf alpha"
         minute:   0
-        hour:     "*"
         hour:     "*/2"
       - name:     rsnapshot-beta
         job:      "rsnapshot -c /etc/rsnapshot.conf beta"
         minute:   45
         hour:     23
-      - name:     rsnapshot-gamma
-        job:      "rsnapshot -c /etc/rsnapshot.conf gamma"
-        minute:   30 
-        hour:     22
-        weekday:  0
+#      - name:     rsnapshot-gamma
+#        job:      "rsnapshot -c /etc/rsnapshot.conf gamma"
+#        minute:   30 
+#        hour:     22
+#        weekday:  0
 #      - name:     rsnapshot-delta
 #        job:      "rsnapshot -c /etc/rsnapshot.conf delta"
 #        minute:   15
@@ -49,6 +48,10 @@ elao_cron_files:
         job:      "/usr/bin/pacman -Scc --noconfirm"
         minute:   55
         hour:     0
+      - name:     disk-cleanup all packages except the latest 
+        job:      "/usr/bin/paccache -rk1"
+        minute:   20
+        hour:     1
       - name:     docker-prune
         job:      "docker system prune -a -f"
         minute:   55

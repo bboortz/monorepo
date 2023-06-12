@@ -37,6 +37,7 @@ elao_cron_files:
         job:      "/usr/bin/pacman -Syyuwq --noconfirm"
         minute:   10 
         hour:     "*/6"
+
       - name:     os-update
         job:      "/usr/bin/pacman -Syuq --noconfirm"
         minute:   40
@@ -48,6 +49,10 @@ elao_cron_files:
         job:      "/usr/bin/pacman -Scc --noconfirm"
         minute:   55
         hour:     0
+      - name:     disk-cleanup all packages except the latest 
+        job:      "/usr/bin/paccache -rk1"
+        minute:   20
+        hour:     1
       - name:     docker-prune
         job:      "docker system prune -a -f"
         minute:   55
@@ -75,6 +80,10 @@ elao_cron_files:
         job:      "docker exec --user=www-data -t nextcloud-app-1 /usr/local/bin/php -f /var/www/html/cron.php"
         minute:   "*/6"
         hour:     "*"
+      - name:     nextcloud-generate-preview
+        job:      "docker exec --user=www-data -t nextcloud-app-1 /var/www/html/occ preview:generate-all"
+        minute:   "5"
+        hour:     "4"
   - file: zfs-scrub
     user: root
     jobs:

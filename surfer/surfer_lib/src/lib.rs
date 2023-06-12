@@ -14,8 +14,7 @@ use panic_semihosting as _;
 
 use alloc::boxed::Box;
 
-pub static SURFER_VERSION: &str= "0.2";
-
+pub static SURFER_VERSION: &str = "0.2";
 
 pub trait DeviceApi {
     fn delay(&mut self, ms: u16);
