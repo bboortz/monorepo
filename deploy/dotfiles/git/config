@@ -44,7 +44,7 @@
 	l = log --graph --full-history --all --color 
 	lg = log --stat
     d = diff
-[credential]
-	helper = cache --timeout=86400
 [pull]
 	rebase = false
+[credential]
+	helper = cache --timeout=7200
